@@ -132,6 +132,7 @@
 						<phase>generate-sources</phase>
 						<configuration>
 							<sourceRoot>${basedir}/src/main/java</sourceRoot>
+							<encoding>UTF-8</encoding>
 							<wsdlOptions>
 								<wsdlOption>
 									<wsdl>src/main/resources/wsdl/DomibusConnectorGatewayService.wsdl
