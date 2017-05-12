@@ -18,6 +18,7 @@
 				type="tns:AcknowledgementType" />
 			<xsd:element name="DomibusConnectorGatewayServiceFault"
 				type="xsd:string" />
+			<xsd:element name="PendingMessagesRequest" type="xsd:string" nillable="true" />
 			<xsd:element name="DomibusConnectorMessages" type="tns:MessagesType" />
 			<xsd:element name="MessageStatusRequest" type="xsd:string" />
 			<xsd:element name="MessageErrorsRequest" type="xsd:string" />
@@ -107,8 +108,9 @@
 			<xsd:complexType name="MessageContentType">
 				<xsd:sequence>
 					<xsd:element name="contentData" type="base64Binary"
-						xmime:expectedContentTypes="application/octet-stream" minOccurs="1"
-						maxOccurs="1" />
+						xmime:expectedContentTypes="application/octet-stream" />
+					<xsd:element name="contentName" type="xsd:string"
+						minOccurs="0" />
 					<xsd:element name="contentMimeType" type="xsd:string"
 						minOccurs="0" />
 				</xsd:sequence>
@@ -148,8 +150,6 @@
 				<xsd:sequence>
 					<xsd:element minOccurs="0" name="errorCode" type="xsd:string" />
 					<xsd:element minOccurs="0" name="errorDetail" type="xsd:string" />
-					<xsd:element minOccurs="0" name="errorSignalMessageId"
-						type="xsd:string" />
 					<xsd:element minOccurs="0" name="messageInErrorId"
 						type="xsd:string" />
 					<xsd:element minOccurs="0" name="notified" type="xsd:dateTime" />
@@ -170,7 +170,7 @@
 		<wsdl:part name="sendMessageFault" element="tns:DomibusConnectorGatewayServiceFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="requestPendingMessagesRequest">
-		<wsdl:part name="requestPendingMessagesRequest" type="xsd:anyType"></wsdl:part>
+		<wsdl:part name="requestPendingMessagesRequest" element="tns:PendingMessagesRequest"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="requestPendingMessagesResponse">
 		<wsdl:part name="requestPendingMessagesResponse" element="tns:DomibusConnectorMessages"></wsdl:part>
@@ -178,17 +178,17 @@
 	<wsdl:message name="requestPendingMessagesFault">
 		<wsdl:part name="requestPendingMessagesFault" element="tns:DomibusConnectorGatewayServiceFault"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="getMessageStatusRequest">
-		<wsdl:part element="tns:MessageStatusRequest" name="getMessageStatusRequest"></wsdl:part>
+	<wsdl:message name="requestMessageStatusRequest">
+		<wsdl:part element="tns:MessageStatusRequest" name="requestMessageStatusRequest"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="getMessageStatusResponse">
-		<wsdl:part type="xsd:string" name="getMessageStatusResponse"></wsdl:part>
+	<wsdl:message name="requestMessageStatusResponse">
+		<wsdl:part type="xsd:string" name="requestMessageStatusResponse"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="getMessageErrorsRequest">
-		<wsdl:part element="tns:MessageErrorsRequest" name="getMessageErrorsRequest"></wsdl:part>
+	<wsdl:message name="requestMessageErrorsRequest">
+		<wsdl:part element="tns:MessageErrorsRequest" name="requestMessageErrorsRequest"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="getMessageErrorsResponse">
-		<wsdl:part element="tns:MessageErrors" name="getMessageErrorsResponse"></wsdl:part>
+	<wsdl:message name="requestMessageErrorsResponse">
+		<wsdl:part element="tns:MessageErrors" name="requestMessageErrorsResponse"></wsdl:part>
 	</wsdl:message>
 
 	<wsdl:portType name="DomibusConnectorGatewayServiceInterface">
@@ -202,13 +202,13 @@
 			<wsdl:output message="tns:requestPendingMessagesResponse"></wsdl:output>
 			<wsdl:fault name="fault" message="tns:requestPendingMessagesFault"></wsdl:fault>
 		</wsdl:operation>
-		<wsdl:operation name="getMessageStatus">
-			<wsdl:input message="tns:getMessageStatusRequest"></wsdl:input>
-			<wsdl:output message="tns:getMessageStatusResponse"></wsdl:output>
+		<wsdl:operation name="requestMessageStatus">
+			<wsdl:input message="tns:requestMessageStatusRequest"></wsdl:input>
+			<wsdl:output message="tns:requestMessageStatusResponse"></wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="getMessageErrors">
-			<wsdl:input message="tns:getMessageErrorsRequest"></wsdl:input>
-			<wsdl:output message="tns:getMessageErrorsResponse"></wsdl:output>
+		<wsdl:operation name="requestMessageErrors">
+			<wsdl:input message="tns:requestMessageErrorsRequest"></wsdl:input>
+			<wsdl:output message="tns:requestMessageErrorsResponse"></wsdl:output>
 		</wsdl:operation>
 	</wsdl:portType>
 
@@ -240,7 +240,7 @@
 				<soap12:fault use="literal" name="fault" />
 			</wsdl:fault>
 		</wsdl:operation>
-		<wsdl:operation name="getMessageStatus">
+		<wsdl:operation name="requestMessageStatus">
 			<soap12:operation soapAction="" style="document" />
 			<wsdl:input>
 				<soap12:body use="literal" />
@@ -249,7 +249,7 @@
 				<soap12:body use="literal" />
 			</wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="getMessageErrors">
+		<wsdl:operation name="requestMessageErrors">
 			<soap12:operation soapAction="" style="document" />
 			<wsdl:input>
 				<soap12:body use="literal" />
@@ -259,6 +259,8 @@
 			</wsdl:output>
 		</wsdl:operation>
 	</wsdl:binding>
+
+
 
 	<wsdl:service name="DomibusConnectorGatewayServiceWSService">
 		<wsdl:port binding="tns:DomibusConnectorGatewayServiceWSBinding"

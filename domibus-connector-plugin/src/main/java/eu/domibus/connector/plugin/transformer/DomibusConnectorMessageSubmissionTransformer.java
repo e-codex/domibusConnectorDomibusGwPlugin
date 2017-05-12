@@ -67,6 +67,7 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 		Collection<TypedProperty> payloadProperties = new ArrayList<TypedProperty>();
 		payloadProperties.add(new TypedProperty("name", "messageContent"));
 		payloadProperties.add(new TypedProperty("mime-type",messageContent.getContentMimeType()));
+		payloadProperties.add(new TypedProperty("identifier",messageContent.getContentName()));
 		submission.addPayload(contentId, messageContent.getContentData(), payloadProperties);
 	}
 

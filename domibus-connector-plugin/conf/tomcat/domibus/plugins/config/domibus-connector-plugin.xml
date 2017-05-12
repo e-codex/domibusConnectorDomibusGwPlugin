@@ -35,31 +35,28 @@
         -->
     </util:properties>
 
-   <!--  <amq:queue id="notifyBackendWebServiceQueue"
-               physicalName="domibus.notification.webservice"/>
 
-	<bean id="webserviceNotificationListenerService"
-          class="eu.domibus.plugin.NotificationListenerService"
-          c:queue-ref="notifyBackendWebServiceQueue" c:mode="PUSH"
-          p:backendConnector-ref="brisPlugin">
-    </bean> -->
-
-	<!-- <bean id="brisPlugin"
-          class="eu.domibus.plugin.bris.ws.listener.NotificationListener">
-		<constructor-arg value="BRISPlugin"/>
-		<property name="lister" ref="webserviceNotificationListenerService"/>
-	</bean> -->
-
-	<bean
+	<!-- <bean
 		id="domibusConnectorMessageFacade"
         class="eu.domibus.connector.plugin.connector.DomibusConnectorMessageFacade">
 		<constructor-arg value="domibusConnectorWebservice"/>
-	</bean>
+	</bean> -->
 	
 	<bean
 		id="domibusConnectorWebservice"
         class="eu.domibus.connector.plugin.ws.DomibusConnectorWebservice">
+        <constructor-arg value="domibusConnectorWebservice"/>
+        <property name="lister" ref="connectorWebserviceNotificationListenerService"/>
 	</bean>
+	
+	 <amq:queue name="notifyDomibusConnectorWebServiceQueue"
+               physicalName="domibus.notification.webservice"/>
+
+	<bean id="connectorWebserviceNotificationListenerService"
+          class="eu.domibus.plugin.NotificationListenerService"
+          c:queue-ref="notifyDomibusConnectorWebServiceQueue" c:mode="PULL"
+          p:backendConnector-ref="domibusConnectorWebservice">
+    </bean> 
 
 	<jaxws:endpoint
 		id="backendInterfaceEndpoint"
