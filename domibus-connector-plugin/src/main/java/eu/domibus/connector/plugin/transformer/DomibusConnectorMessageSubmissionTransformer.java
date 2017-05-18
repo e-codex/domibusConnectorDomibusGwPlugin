@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -26,6 +28,8 @@ import eu.domibus.plugin.transformer.MessageSubmissionTransformer;
 @Component
 public class DomibusConnectorMessageSubmissionTransformer implements MessageSubmissionTransformer<DomibusConnectorMessage> {
 
+	private static final Log LOGGER = LogFactory.getLog(DomibusConnectorMessageSubmissionTransformer.class);
+	
 	@Override
 	public Submission transformToSubmission(DomibusConnectorMessage connectorMessage) {
 		Submission submission = new Submission();
@@ -48,12 +52,10 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 				String contentId = generateCID();
 
 				Collection<TypedProperty> payloadProperties = new ArrayList<TypedProperty>();
-				payloadProperties.add(new TypedProperty("name", attachment.getAttachmentName()));
-				payloadProperties.add(new TypedProperty("mime-type",attachment.getAttachmentMimeType()));
-				if(attachment.getAttachmentDescription()!=null)
-					payloadProperties.add(new TypedProperty("description",attachment.getAttachmentDescription()));
-				if(attachment.getAttachmentIdentifier()!=null)
-					payloadProperties.add(new TypedProperty("identifier",attachment.getAttachmentIdentifier()));
+				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.NAME_KEY, attachment.getAttachmentName()));
+				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY,attachment.getAttachmentMimeType()));
+				String attachmentDescription = attachment.getAttachmentIdentifier()!=null?attachment.getAttachmentIdentifier():attachment.getAttachmentName();
+				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY,attachmentDescription));
 				
 				submission.addPayload(contentId, attachment.getAttachmentData(), payloadProperties);
 			}
@@ -65,9 +67,9 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 		String contentId = generateCID();
 
 		Collection<TypedProperty> payloadProperties = new ArrayList<TypedProperty>();
-		payloadProperties.add(new TypedProperty("name", "messageContent"));
-		payloadProperties.add(new TypedProperty("mime-type",messageContent.getContentMimeType()));
-		payloadProperties.add(new TypedProperty("identifier",messageContent.getContentName()));
+		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.NAME_KEY, DomibusConnectorMessage.MESSAGE_CONTENT_VALUE));
+		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY,messageContent.getContentMimeType()));
+		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY,messageContent.getContentName()));
 		submission.addPayload(contentId, messageContent.getContentData(), payloadProperties);
 	}
 

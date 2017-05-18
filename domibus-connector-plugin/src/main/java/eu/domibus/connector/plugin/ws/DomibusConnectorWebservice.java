@@ -9,7 +9,11 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import connector.domibus.eu.domibusconnectorgatewayservice._1.AcknowledgementType;
@@ -33,7 +37,7 @@ import eu.domibus.plugin.transformer.MessageSubmissionTransformer;
 
 public class DomibusConnectorWebservice extends AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> implements DomibusConnectorGatewayServiceInterface {
 
-
+	private static final Log LOGGER = LogFactory.getLog(DomibusConnectorWebservice.class);
 
 	public DomibusConnectorWebservice(String name) {
 		super(name);
@@ -41,12 +45,12 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 
 	@Autowired
 	private DomibusConnectorMessageSubmissionTransformer messageSubmissionTransformer;
-	
+
 	@Autowired
 	private DomibusConnectorMessageRetrievalTransformer messageRetrievalTransformer;
-	
+
 	private static final ObjectFactory of = new ObjectFactory();
-	
+
 
 	@Override
 	public AcknowledgementType sendMessage(MessageType sendMessageRequest) throws SendMessageFault {
@@ -71,24 +75,40 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public MessagesType requestPendingMessages(String requestPendingMessagesRequest)
 			throws RequestPendingMessagesFault {
 		Collection<String> pendingMessages = listPendingMessages();
-		
+
 		if(!CollectionUtils.isEmpty(pendingMessages)){
+			LOGGER.debug("Received "+pendingMessages.size()+" messages from Queue.");
 			MessagesType messages = of.createMessagesType();
 			for(String messageId: pendingMessages){
+				LOGGER.debug("Download message "+messageId+" from Queue.");
 				DomibusConnectorMessage message = new DomibusConnectorMessage(of.createMessageType());
 				try {
 					downloadMessage(messageId, message);
 				} catch (MessageNotFoundException e) {
-					e.printStackTrace();
+					LOGGER.error("Message with ID "+messageId+" not found!", e);
+					continue;
 				}
-				messages.getMessages().add(message.getConnectorMessage());
+
+				if(isMessageValid(message)){
+
+					LOGGER.debug("Successfully downloaded message "+messageId+" from Queue.");
+
+					messages.getMessages().add(message.getConnectorMessage());
+				}else{
+					LOGGER.error("Message with ID "+messageId+" is not valid after download!");
+				}
 			}
 			return messages;
 		}
 		return null;
+	}
+
+	private boolean isMessageValid(DomibusConnectorMessage message){
+		return message.getConnectorMessage()!= null && message.getConnectorMessage().getMessageContent()!=null && message.getConnectorMessage().getMessageDetails()!=null;
 	}
 
 	@Override
@@ -109,10 +129,10 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 				entry.setMessageInErrorId(error.getMessageInErrorId());
 				entry.setNotified(dateToXMLGregorianCalendar(error.getNotified()));
 				entry.setTimestamp(dateToXMLGregorianCalendar(error.getTimestamp()));
-				
+
 				messageErrors.getItem().add(entry);
 			}
-			
+
 			return messageErrors;
 		}
 		return null;
@@ -134,7 +154,7 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 	@Override
 	public void messageSendFailed(String arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
