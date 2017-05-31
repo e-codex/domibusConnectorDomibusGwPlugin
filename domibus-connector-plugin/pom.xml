@@ -3,13 +3,29 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.domibus.connector</groupId>
 	<artifactId>domibus-connector-plugin</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>3.5-SNAPSHOT</version>
 
 	<properties>
 		<plugin-api.version>3.2.4</plugin-api.version>
 		<cxf.version>3.1.3</cxf.version>
-		<org.springframework.version>4.0.2.RELEASE</org.springframework.version>
+		<org.springframework.version>4.1.6.RELEASE</org.springframework.version>
 	</properties>
+
+	<scm>
+		<developerConnection>scm:git:https://www.git.e-codex.eu/ecodex.git/domibus-connector-plugin</developerConnection>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<url>https://secure.e-codex.eu/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<url>https://secure.e-codex.eu/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 
 	<repositories>
 		<repository>
@@ -132,6 +148,7 @@
 						<phase>generate-sources</phase>
 						<configuration>
 							<sourceRoot>${basedir}/src/main/java</sourceRoot>
+							<encoding>UTF-8</encoding>
 							<wsdlOptions>
 								<wsdlOption>
 									<wsdl>src/main/resources/wsdl/DomibusConnectorGatewayService.wsdl

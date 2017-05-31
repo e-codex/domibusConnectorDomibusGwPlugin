@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:amq="http://activemq.apache.org/schema/core"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns="http://www.springframework.org/schema/beans"
+	xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+	xmlns:sec="http://cxf.apache.org/configuration/security"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+	http://activemq.apache.org/schema/core
+    http://activemq.apache.org/schema/core/activemq-core.xsd
+    http://cxf.apache.org/transports/http/configuration
+    http://cxf.apache.org/schemas/configuration/http-conf.xsd">
+
+    <!-- General BRIS properties -->
+    <util:properties id="connectorProperties">
+    	
+        <!-- At least one of the two following properties - "delivery.envelope.wsdl" or "delivery.endpoint.url" - has to be provided -->
+        <!-- If both provided, the "delivery.endpoint.url" property overrides the URL received in WSDL -->
+        <!-- <prop key="delivery.envelope.wsdl">http://localhost:8081/bris/gw/delivery?wsdl</prop> -->
+        <!-- <prop key="delivery.endpoint.url">http://localhost:7009/mockDelivery</prop> -->
+
+        <!-- Optional property for alternative TLS configuration file to be used by BRIS Plugin instead of TLS configuration for Domibus -->
+        <!-- If not specified, the TLS configuration of Domibus will apply to BRIS Plugin -->
+        <!-- If specified, BRIS Plugin will search for the configuration file in ${domibus.config.location} folder -->
+        <!--
+        <prop key="bris.tls.conf.file">bris_tls_configuration.xml</prop>
+        -->
+    </util:properties>
+
+
+	<!-- <bean
+		id="domibusConnectorMessageFacade"
+        class="eu.domibus.connector.plugin.connector.DomibusConnectorMessageFacade">
+		<constructor-arg value="domibusConnectorWebservice"/>
+	</bean> -->
+	
+	<bean
+		id="domibusConnectorWebservice"
+        class="eu.domibus.connector.plugin.ws.DomibusConnectorWebservice">
+        <constructor-arg value="domibusConnectorWebservice"/>
+        <property name="lister" ref="connectorWebserviceNotificationListenerService"/>
+	</bean>
+	
+	 <amq:queue name="notifyDomibusConnectorWebServiceQueue"
+               physicalName="domibus.notification.webservice"/>
+
+	<bean id="connectorWebserviceNotificationListenerService"
+          class="eu.domibus.plugin.NotificationListenerService"
+          c:queue-ref="notifyDomibusConnectorWebServiceQueue" c:mode="PULL"
+          p:backendConnector-ref="domibusConnectorWebservice">
+    </bean> 
+
+	<jaxws:endpoint
+		id="backendInterfaceEndpoint"
+        implementor="#domibusConnectorWebservice"
+        address="/domibusConnectorWebservice">
+   	</jaxws:endpoint>
+
+	<!-- In case the connection between gateway and the back-office system happens over a http proxy the configuration below needs to be uncommented -->
+	<!-- and updated with the correct values. It is important to use correct namespace of the target Delivery service as it contains the version number -->
+	<!-- Usage of proxy user and password is optional and can be commented out if not used -->
+
+	<!--
+	<http-conf:conduit name="{http://eu.domibus.plugin/bris/wsdl/endpoint/delivery/envelope/1.0}DeliveryEnvelopeBinding.http-conduit">
+        <http-conf:client ProxyServer="127.0.0.1" ProxyServerPort="7015"/>
+        <http-conf:proxyAuthorization>
+             <sec:UserName>proxy_user</sec:UserName>
+             <sec:Password>proxy_pass</sec:Password>
+        </http-conf:proxyAuthorization>
+    </http-conf:conduit>
+	-->
+
+</beans>
