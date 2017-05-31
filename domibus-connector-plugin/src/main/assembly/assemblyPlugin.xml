@@ -1,0 +1,27 @@
+<assembly>
+	<id>Plugin</id>
+	<formats>
+		<format>zip</format>
+		<format>dir</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<fileSets>
+		<!-- ==================== Copying JAR files ================= -->
+		<fileSet>
+			<directory>${project.basedir}/target/
+			</directory>
+			<outputDirectory>domibus-connector-plugin/lib
+			</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+		</fileSet>
+		<!-- ==================== Copying conf files ================= -->
+		<fileSet>
+			<directory>${project.basedir}/conf/
+			</directory>
+			<outputDirectory>domibus-connector-plugin/config
+			</outputDirectory>
+		</fileSet>
+	</fileSets>
+</assembly>
