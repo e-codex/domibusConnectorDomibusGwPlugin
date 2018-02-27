@@ -16,17 +16,14 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import connector.domibus.eu.domibusconnectorgatewayservice._1.AgreementRefType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageAttachmentType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageCollaborationInfoType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageContentType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageDetailsType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessagePartyInfoType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessagePropertiesType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessagePropertyType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.ObjectFactory;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.PartyType;
+import eu.domibus.connector.domain.transition.DomibusConnectorActionType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageAttachmentType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageContentType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageDetailsType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
+import eu.domibus.connector.domain.transition.DomibusConnectorPartyType;
+import eu.domibus.connector.domain.transition.DomibusConnectorServiceType;
+import eu.domibus.connector.domain.transition.ObjectFactory;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
 import eu.domibus.plugin.Submission;
 import eu.domibus.plugin.Submission.Party;
@@ -44,18 +41,18 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 		if(submission.getMessageId()!=null)
 			LOGGER.debug("Strarting transformation of Submission object to message with ID "+ submission.getMessageId());
 
-		MessageType message = connectorMessage.getConnectorMessage();
+		DomibusConnectorMessageType message = connectorMessage.getConnectorMessage();
 
 		transformMessageDetails(submission, message);
 
 		transformPayloads(submission, message);
 		
-		if(message.getMessageDetails().getMessageId()!=null)
+		if(message.getMessageDetails().get!=null)
 			LOGGER.debug("Successfully transformed Submission object to message with ID "+ submission.getMessageId());
 		
 		if(LOGGER.isDebugEnabled()){
 			try {
-				String headerString = printXML(new ObjectFactory().createDomibusConnectorMessage(message), MessageType.class);
+				String headerString = printXML(message, DomibusConnectorMessageType.class);
 				LOGGER.debug(headerString);
 			} catch (JAXBException e1) {
 				LOGGER.error(e1.getMessage());
@@ -67,7 +64,7 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 		return connectorMessage;
 	}
 
-	private void transformPayloads(Submission submission, MessageType message) {
+	private void transformPayloads(Submission submission, DomibusConnectorMessageType message) {
 		Set<Payload> payloads = submission.getPayloads();
 		if(!payloads.isEmpty()){
 			Iterator<Payload> iterator = payloads.iterator();
@@ -88,18 +85,16 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 
 				}
 				if((payloadName!=null && payloadName.equals(DomibusConnectorMessage.MESSAGE_CONTENT_VALUE)) || payload.isInBody()){
-					MessageContentType mContent = new MessageContentType();
-					mContent.setContentMimeType(payloadMimeType);
-					mContent.setContentData(payload.getPayloadDatahandler());
-					mContent.setContentName(payloadDescription);
+					DomibusConnectorMessageContentType mContent = new DomibusConnectorMessageContentType();
+					mContent.setXmlContent(payload.getPayloadDatahandler());
 					message.setMessageContent(mContent);
 				}else{
-					MessageAttachmentType mAttachment = new MessageAttachmentType();
-					mAttachment.setAttachmentData(payload.getPayloadDatahandler());
-					mAttachment.setAttachmentName(payloadName);
-					mAttachment.setAttachmentMimeType(payloadMimeType);
-					mAttachment.setAttachmentDescription(payloadDescription);
-					mAttachment.setAttachmentIdentifier(payloadDescription);
+					DomibusConnectorMessageAttachmentType mAttachment = new DomibusConnectorMessageAttachmentType();
+					mAttachment.setAttachment(payload.getPayloadDatahandler());
+					mAttachment.setName(payloadName);
+					mAttachment.setMimeType(payloadMimeType);
+					mAttachment.setDescription(payloadDescription);
+					mAttachment.setIdentifier(payloadDescription);
 					message.getMessageAttachments().add(mAttachment);
 				}
 
@@ -107,55 +102,57 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 		}
 	}
 
-	private void transformMessageDetails(Submission submission, MessageType message) {
-		MessageDetailsType messageDetails = new MessageDetailsType();
+	private void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {
+		DomibusConnectorMessageDetailsType messageDetails = new DomibusConnectorMessageDetailsType();
 		messageDetails.setMessageId(submission.getMessageId());
 		messageDetails.setRefToMessageId(submission.getRefToMessageId());
+		messageDetails.setConversationId(submission.getConversationId());
 
-		MessageCollaborationInfoType collaborationInfo = new MessageCollaborationInfoType();
-		collaborationInfo.setAction(submission.getAction());
-		collaborationInfo.setConversationId(submission.getConversationId());
-		collaborationInfo.setServiceId(submission.getService());
-		collaborationInfo.setServiceType(submission.getServiceType());
-		if(submission.getAgreementRef()!=null){
-
-			AgreementRefType agreementRef = new AgreementRefType();
-			agreementRef.setType(submission.getAgreementRefType());
-			agreementRef.setValue(submission.getAgreementRef());
-			collaborationInfo.setAgreementRef(agreementRef );
-		}
-		messageDetails.setCollaborationInfo(collaborationInfo );
-
-		MessagePartyInfoType partyInfo = new MessagePartyInfoType();
+		DomibusConnectorActionType action = new DomibusConnectorActionType();
+		action.setAction(submission.getAction());
+		messageDetails.setAction(action);
+		
+		DomibusConnectorServiceType service = new DomibusConnectorServiceType();
+		service.setServiceType(submission.getServiceType());
+		service.setService(submission.getService());
+		messageDetails.setService(service);
+		
+		//RiederB: No agreement Ref in current e-CODEX projects, so no agreement Ref to Connector
+		
+//		if(submission.getAgreementRef()!=null){
+//
+//			AgreementRefType agreementRef = new AgreementRefType();
+//			agreementRef.setType(submission.getAgreementRefType());
+//			agreementRef.setValue(submission.getAgreementRef());
+//			collaborationInfo.setAgreementRef(agreementRef );
+//		}
+		
 		Iterator<Party> fromIt = submission.getFromParties().iterator();
 		Party fromNext = fromIt.next();
-		PartyType from = new PartyType();
+		DomibusConnectorPartyType from = new DomibusConnectorPartyType();
 		from.setPartyId(fromNext.getPartyId());
 		from.setPartyIdType(fromNext.getPartyIdType());
 		from.setRole(submission.getFromRole());
-		partyInfo.setFrom(from );
+		messageDetails.setFromParty(from);
+		
 		Iterator<Party> toIt = submission.getToParties().iterator();
 		Party toNext = toIt.next();
-		PartyType to = new PartyType();
+		DomibusConnectorPartyType to = new DomibusConnectorPartyType();
 		to.setPartyId(toNext.getPartyId());
 		to.setPartyIdType(toNext.getPartyIdType());
 		to.setRole(submission.getToRole());
-		partyInfo.setTo(to );
-		messageDetails.setPartyInfo(partyInfo );
-
-		MessagePropertiesType messageProperties = new MessagePropertiesType();
+		messageDetails.setToParty(to );
+		
 		if(!CollectionUtils.isEmpty(submission.getMessageProperties())){
 			for(TypedProperty property:submission.getMessageProperties()){
-
-				MessagePropertyType messageProperty = new MessagePropertyType();
-				messageProperty.setName(property.getKey());
-				messageProperty.setType(property.getType());
-				messageProperty.setValue(property.getValue());
-				messageProperties.getMessageProperties().add(messageProperty );
+				switch(property.getKey()) {
+				case DomibusConnectorMessage.FINAL_RECIPIENT_PROPERTY_NAME:messageDetails.setFinalRecipient(property.getValue());break;
+				case DomibusConnectorMessage.ORIGINAL_SENDER_PROPERTY_NAME:messageDetails.setOriginalSender(property.getValue());break;
+				default: LOGGER.error("Unknown ebms3 header message property: "+property.getKey());
+				}
 			}
 		}
-		messageDetails.setMessageProperties(messageProperties );
-
+		
 		message.setMessageDetails(messageDetails );
 	}
 

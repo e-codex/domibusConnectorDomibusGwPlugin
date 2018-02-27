@@ -7,19 +7,15 @@ import java.util.UUID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.cxf.common.util.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import connector.domibus.eu.domibusconnectorgatewayservice._1.AgreementRefType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageAttachmentType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageCollaborationInfoType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageContentType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageDetailsType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessagePartyInfoType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessagePropertiesType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessagePropertyType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.PartyType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageAttachmentType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageContentType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageDetailsType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
+import eu.domibus.connector.domain.transition.DomibusConnectorPartyType;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
 import eu.domibus.plugin.Submission;
 import eu.domibus.plugin.Submission.TypedProperty;
@@ -34,7 +30,7 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 	public Submission transformToSubmission(DomibusConnectorMessage connectorMessage) {
 		Submission submission = new Submission();
 
-		MessageType message = connectorMessage.getConnectorMessage();
+		DomibusConnectorMessageType message = connectorMessage.getConnectorMessage();
 
 		transformMessageDetails(submission, message);
 
@@ -45,38 +41,38 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 		return submission;
 	}
 
-	private void transformMessageAttachments(Submission submission, MessageType message) {
-		List<MessageAttachmentType> messageAttachments = message.getMessageAttachments();
+	private void transformMessageAttachments(Submission submission, DomibusConnectorMessageType message) {
+		List<DomibusConnectorMessageAttachmentType> messageAttachments = message.getMessageAttachments();
 		if(!CollectionUtils.isEmpty(messageAttachments)){
-			for(MessageAttachmentType attachment: messageAttachments){
+			for(DomibusConnectorMessageAttachmentType attachment: messageAttachments){
 				String contentId = generateCID();
 
 				Collection<TypedProperty> payloadProperties = new ArrayList<TypedProperty>();
-				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.NAME_KEY, attachment.getAttachmentName()));
-				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY,attachment.getAttachmentMimeType()));
-				String attachmentDescription = attachment.getAttachmentIdentifier()!=null?attachment.getAttachmentIdentifier():attachment.getAttachmentName();
+				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.NAME_KEY, attachment.getName()));
+				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY,attachment.getMimeType()));
+				String attachmentDescription = attachment.getIdentifier()!=null?attachment.getIdentifier():attachment.getName();
 				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY,attachmentDescription));
 				
-				submission.addPayload(contentId, attachment.getAttachmentData(), payloadProperties);
+				submission.addPayload(contentId, attachment.getAttachment(), payloadProperties);
 			}
 		}
 	}
 
-	private void transformMessageContent(Submission submission, MessageType message) {
-		MessageContentType messageContent = message.getMessageContent();
+	private void transformMessageContent(Submission submission, DomibusConnectorMessageType message) {
+		DomibusConnectorMessageContentType messageContent = message.getMessageContent();
 		String contentId = generateCID();
 
 		Collection<TypedProperty> payloadProperties = new ArrayList<TypedProperty>();
 		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.NAME_KEY, DomibusConnectorMessage.MESSAGE_CONTENT_VALUE));
-		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY,messageContent.getContentMimeType()));
-		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY,messageContent.getContentName()));
-		submission.addPayload(contentId, messageContent.getContentData(), payloadProperties);
+		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY,DomibusConnectorMessage.XML_MIME_TYPE));
+		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY,DomibusConnectorMessage.MESSAGE_CONTENT_VALUE));
+		submission.addPayload(contentId, messageContent.getXmlContent(), payloadProperties);
 	}
 
-	private void transformMessageDetails(Submission submission, MessageType message) {
-		MessageDetailsType messageDetails = message.getMessageDetails();
+	private void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {
+		DomibusConnectorMessageDetailsType messageDetails = message.getMessageDetails();
 
-		submission.setMessageId(messageDetails.getMessageId());
+//		submission.setMessageId(messageDetails.getMessageId());
 		submission.setRefToMessageId(messageDetails.getRefToMessageId());
 
 		transformParties(submission, messageDetails);
@@ -86,43 +82,38 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 		transformMessageProperties(submission, messageDetails);
 	}
 
-	private void transformMessageProperties(Submission submission, MessageDetailsType messageDetails) {
-		MessagePropertiesType messageProperties = messageDetails.getMessageProperties();
-		if(!CollectionUtils.isEmpty(messageProperties.getMessageProperties())){
-			for(MessagePropertyType property:messageProperties.getMessageProperties()){
-				if(property.getType()!=null){
-					submission.addMessageProperty(property.getName(), property.getValue(), property.getType());
-				}else{
-					submission.addMessageProperty(property.getName(), property.getValue());
-				}
-			}
+	private void transformMessageProperties(Submission submission, DomibusConnectorMessageDetailsType messageDetails) {
+		submission.addMessageProperty(DomibusConnectorMessage.FINAL_RECIPIENT_PROPERTY_NAME, messageDetails.getFinalRecipient());
+		submission.addMessageProperty(DomibusConnectorMessage.ORIGINAL_SENDER_PROPERTY_NAME, messageDetails.getOriginalSender());
+		if(!StringUtils.isEmpty(messageDetails.getRefToMessageId())) {
+			submission.addMessageProperty(DomibusConnectorMessage.ORIGINAL_MESSAGE_ID, messageDetails.getRefToMessageId());
 		}
 	}
 
-	private void transformCollaborationInfo(Submission submission, MessageDetailsType messageDetails) {
-		MessageCollaborationInfoType collaborationInfo = messageDetails.getCollaborationInfo();
+	private void transformCollaborationInfo(Submission submission, DomibusConnectorMessageDetailsType messageDetails) {
 
-		submission.setAction(collaborationInfo.getAction());
-		submission.setService(collaborationInfo.getServiceId());
-		submission.setServiceType(collaborationInfo.getServiceType());
-		submission.setConversationId(collaborationInfo.getConversationId());
+		submission.setAction(messageDetails.getAction().getAction());
+		submission.setService(messageDetails.getService().getService());
+		submission.setServiceType(messageDetails.getService().getServiceType());
+		submission.setConversationId(messageDetails.getConversationId());
+		
+		//RiederB: No agreement Ref in current e-CODEX projects, so no agreement Ref from Connector
 
-		AgreementRefType agreementRef = collaborationInfo.getAgreementRef();
-		if(agreementRef!=null){
-			submission.setAgreementRef(agreementRef.getValue());
-			submission.setAgreementRefType(agreementRef.getType());
-		}
+//		AgreementRefType agreementRef = collaborationInfo.getAgreementRef();
+//		if(agreementRef!=null){
+//			submission.setAgreementRef(agreementRef.getValue());
+//			submission.setAgreementRefType(agreementRef.getType());
+//		}
 	}
 
-	private void transformParties(Submission submission, MessageDetailsType messageDetails) {
-		MessagePartyInfoType partyInfo = messageDetails.getPartyInfo();
-
-		PartyType from = partyInfo.getFrom();
+	private void transformParties(Submission submission, DomibusConnectorMessageDetailsType messageDetails) {
+		
+		DomibusConnectorPartyType from = messageDetails.getFromParty();
 
 		submission.addFromParty(from.getPartyId(), from.getPartyIdType());
 		submission.setFromRole(from.getRole());
 
-		PartyType to = partyInfo.getTo();
+		DomibusConnectorPartyType to = messageDetails.getToParty();
 
 		submission.addToParty(to.getPartyId(), to.getPartyIdType());
 		submission.setToRole(to.getRole());
