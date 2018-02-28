@@ -1,9 +1,21 @@
 package eu.domibus.connector.plugin.transformer;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.mail.util.ByteArrayDataSource;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,16 +40,28 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 	
 	@Override
 	public Submission transformToSubmission(DomibusConnectorMessage connectorMessage) {
-		Submission submission = new Submission();
+		
+		if(connectorMessage.getConnectorMessage()==null) {
+			LOGGER.error("DomibusConnectorMessage is null");
+			return null;
+		}
+		
 
 		DomibusConnectorMessageType message = connectorMessage.getConnectorMessage();
+		
+		LOGGER.debug("Strarting transformation of DomibusConnectorMessage object to Submission object");
+
+		
+		Submission submission = new Submission();
 
 		transformMessageDetails(submission, message);
 
 		transformMessageContent(submission, message);
 
 		transformMessageAttachments(submission, message);
-
+		
+		LOGGER.debug("Successfully transformed DomibusConnectorMessage object to Submission object");
+		
 		return submission;
 	}
 
@@ -66,8 +90,33 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.NAME_KEY, DomibusConnectorMessage.MESSAGE_CONTENT_VALUE));
 		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY,DomibusConnectorMessage.XML_MIME_TYPE));
 		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY,DomibusConnectorMessage.MESSAGE_CONTENT_VALUE));
-		submission.addPayload(contentId, messageContent.getXmlContent(), payloadProperties);
+		byte[] xmContent = convertXmlSourceToByteArray(messageContent.getXmlContent());
+		DataSource ds = new ByteArrayDataSource(xmContent, "application/octet-stream");
+		
+		DataHandler dataHandler = new DataHandler(ds);
+		submission.addPayload(contentId, dataHandler, payloadProperties);
 	}
+	
+	/**
+     * takes a source element and converts with 
+     * Transformer to an byte[] backed by ByteArrayOutputStream
+     * @param xmlInput - the Source
+     * @throws RuntimeException - in case of any error! //TODO: improve exceptions
+     * @return the byte[]
+     */
+    static byte[] convertXmlSourceToByteArray(Source xmlInput) {
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");    
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            StreamResult xmlOutput = new StreamResult(new OutputStreamWriter(output));
+            transformer.transform(xmlInput, xmlOutput);            
+            return output.toByteArray();
+        } catch (IllegalArgumentException | TransformerException e) {
+            throw new RuntimeException("Exception occured during transforming xml into byte[]", e);
+        }
+    }
 
 	private void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {
 		DomibusConnectorMessageDetailsType messageDetails = message.getMessageDetails();
@@ -125,5 +174,6 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 
 		return cid;
 	}
+	
 
 }

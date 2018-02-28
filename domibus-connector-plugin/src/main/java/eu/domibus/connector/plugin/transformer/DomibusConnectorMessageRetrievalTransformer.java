@@ -7,9 +7,10 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,7 +24,6 @@ import eu.domibus.connector.domain.transition.DomibusConnectorMessageDetailsType
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
 import eu.domibus.connector.domain.transition.DomibusConnectorPartyType;
 import eu.domibus.connector.domain.transition.DomibusConnectorServiceType;
-import eu.domibus.connector.domain.transition.ObjectFactory;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
 import eu.domibus.plugin.Submission;
 import eu.domibus.plugin.Submission.Party;
@@ -39,7 +39,7 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 	@Override
 	public DomibusConnectorMessage transformFromSubmission(Submission submission, DomibusConnectorMessage connectorMessage) {
 		if(submission.getMessageId()!=null)
-			LOGGER.debug("Strarting transformation of Submission object to message with ID "+ submission.getMessageId());
+			LOGGER.debug("Strarting transformation of Submission object to DomibusConnectorMessage with ebmsMessageId "+ submission.getMessageId());
 
 		DomibusConnectorMessageType message = connectorMessage.getConnectorMessage();
 
@@ -47,8 +47,8 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 
 		transformPayloads(submission, message);
 		
-		if(message.getMessageDetails().get!=null)
-			LOGGER.debug("Successfully transformed Submission object to message with ID "+ submission.getMessageId());
+		if(message.getMessageDetails().getEbmsMessageId()!=null)
+			LOGGER.debug("Successfully transformed Submission object to DomibusConnectorMessage with ebmsMessageId "+ message.getMessageDetails().getEbmsMessageId());
 		
 		if(LOGGER.isDebugEnabled()){
 			try {
@@ -86,7 +86,13 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 				}
 				if((payloadName!=null && payloadName.equals(DomibusConnectorMessage.MESSAGE_CONTENT_VALUE)) || payload.isInBody()){
 					DomibusConnectorMessageContentType mContent = new DomibusConnectorMessageContentType();
-					mContent.setXmlContent(payload.getPayloadDatahandler());
+					Source source = null;
+					try {
+						source = new StreamSource(payload.getPayloadDatahandler().getInputStream());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					mContent.setXmlContent(source);
 					message.setMessageContent(mContent);
 				}else{
 					DomibusConnectorMessageAttachmentType mAttachment = new DomibusConnectorMessageAttachmentType();
@@ -104,7 +110,7 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 
 	private void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {
 		DomibusConnectorMessageDetailsType messageDetails = new DomibusConnectorMessageDetailsType();
-		messageDetails.setMessageId(submission.getMessageId());
+		messageDetails.setEbmsMessageId(submission.getMessageId());
 		messageDetails.setRefToMessageId(submission.getRefToMessageId());
 		messageDetails.setConversationId(submission.getConversationId());
 

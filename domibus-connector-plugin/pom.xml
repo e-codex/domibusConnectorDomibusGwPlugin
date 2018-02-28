@@ -43,8 +43,11 @@
 			<version>${plugin-api.version}</version>
 
 		</dependency>
-		<!-- <dependency> <groupId>eu.europa.ec.digit.bris.domibus-plugin</groupId> 
-			<artifactId>domibus-bris-jaxb</artifactId> <version>1.0.5</version> </dependency> -->
+		<dependency>
+			<groupId>eu.domibus.connector</groupId>
+			<artifactId>domibusConnectorAPI</artifactId>
+			<version>4.0-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -138,7 +141,7 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-codegen-plugin</artifactId>
 				<version>${cxf.version}</version>
@@ -150,10 +153,10 @@
 							<sourceRoot>${basedir}/src/main/java</sourceRoot>
 							<encoding>UTF-8</encoding>
 							<wsdlOptions>
-								<!-- <wsdlOption>
+								<wsdlOption>
 									<wsdl>src/main/resources/wsdl/DomibusConnectorGatewayService.wsdl
 									</wsdl>
-								</wsdlOption> -->
+								</wsdlOption>
 								<wsdlOption>
                                     <wsdl>src/main/resources/wsdl/DomibusConnectorDeliveryService.wsdl
                                     </wsdl>
@@ -170,7 +173,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.4</version>

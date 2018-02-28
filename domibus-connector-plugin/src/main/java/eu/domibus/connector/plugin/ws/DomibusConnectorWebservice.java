@@ -12,14 +12,14 @@ import eu.domibus.connector.domain.transition.ObjectFactory;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
 import eu.domibus.connector.plugin.transformer.DomibusConnectorMessageRetrievalTransformer;
 import eu.domibus.connector.plugin.transformer.DomibusConnectorMessageSubmissionTransformer;
-import eu.domibus.connector.ws.delivery.service.DomibusConnectorDeliveryWS;
-import eu.domibus.connector.ws.submission.service.DomibusConnectorSubmissionWS;
+import eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService;
+import eu.domibus.connector.ws.gateway.submission.webservice.DomibusConnectorGatewaySubmissionWebService;
 import eu.domibus.messaging.MessageNotFoundException;
 import eu.domibus.plugin.AbstractBackendConnector;
 import eu.domibus.plugin.transformer.MessageRetrievalTransformer;
 import eu.domibus.plugin.transformer.MessageSubmissionTransformer;
 
-public class DomibusConnectorWebservice extends AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> implements DomibusConnectorSubmissionWS {
+public class DomibusConnectorWebservice extends AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> implements DomibusConnectorGatewaySubmissionWebService {
 
 	private static final Log LOGGER = LogFactory.getLog(DomibusConnectorWebservice.class);
 
@@ -34,7 +34,7 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 	private DomibusConnectorMessageRetrievalTransformer messageRetrievalTransformer;
 	
 	@Autowired
-	private DomibusConnectorDeliveryWS deliveryClient;
+	private DomibusConnectorGatewayDeliveryWebService deliveryClient;
 
 	private static final ObjectFactory of = new ObjectFactory();
 
