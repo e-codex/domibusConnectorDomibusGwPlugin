@@ -15,17 +15,16 @@
 		<developerConnection>scm:git:https://www.git.e-codex.eu/ecodex.git/domibus-connector-plugin</developerConnection>
 	</scm>
 
-	<distributionManagement>
+	    <distributionManagement>
 		<repository>
-			<id>nexus-releases</id>
-			<url>https://secure.e-codex.eu/nexus/content/repositories/releases/</url>
+		    <id>${releases-repo.id}</id>
+		    <url>${releases-repo.url}</url>
 		</repository>
 		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<url>https://secure.e-codex.eu/nexus/content/repositories/snapshots/</url>
+		    <id>${snapshots-repo.id}</id>
+		    <url>${snapshots-repo.url}</url>
 		</snapshotRepository>
-	</distributionManagement>
-
+	    </distributionManagement>	
 
 	<repositories>
 		<repository>
