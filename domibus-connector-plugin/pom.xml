@@ -38,17 +38,19 @@
 	</repositories>
 
 	<dependencies>
-		<dependency>
-			<groupId>eu.domibus</groupId>
-			<artifactId>domibus-plugin-api</artifactId>
-			<version>${plugin-api.version}</version>
-
-		</dependency>
-		<dependency>
+        <dependency>
 			<groupId>eu.domibus.connector</groupId>
 			<artifactId>domibusConnectorAPI</artifactId>
 			<version>${domibus.connector.version}</version>
 		</dependency>
+        
+        <!-- make sure the following libraries do not have any conflicts with the libs used in domibus GW -->
+		<dependency>
+			<groupId>eu.domibus</groupId>
+			<artifactId>domibus-plugin-api</artifactId>
+			<version>${plugin-api.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -122,6 +124,26 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>eu.domibus.connector:domibusConnectorAPI</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.4</version>
