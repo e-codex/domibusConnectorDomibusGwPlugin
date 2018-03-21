@@ -49,7 +49,7 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 
 		DomibusConnectorMessageType message = connectorMessage.getConnectorMessage();
 		
-		LOGGER.debug("Strarting transformation of DomibusConnectorMessage object to Submission object");
+		LOGGER.debug(String.format("Starting transformation of DomibusConnectorMessage [%s] object to Submission object", connectorMessage));
 
 		
 		Submission submission = new Submission();

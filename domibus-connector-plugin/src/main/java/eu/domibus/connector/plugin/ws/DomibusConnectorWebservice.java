@@ -45,6 +45,7 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 		String messageID = null;
 		DomibsConnectorAcknowledgementType ack = new DomibsConnectorAcknowledgementType();
 		try {
+			LOGGER.debug("#submitMessage: call submit of parent class");
 			messageID = submit(new DomibusConnectorMessage(submitMessageRequest));
 		} catch (Exception e) {
 			ack.setResult(false);
@@ -97,6 +98,12 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 	@Override
 	public MessageSubmissionTransformer<DomibusConnectorMessage> getMessageSubmissionTransformer() {
 		return this.messageSubmissionTransformer;
+	}
+
+	@Override
+	public void messageSendSuccess(String messageId) {
+		//just ignore...
+		LOGGER.debug(String.format("Message with ID {%s} successfully Sent", messageId));
 	}
 
 	@Override
