@@ -1,5 +1,6 @@
 package eu.domibus.connector.plugin.ws;
 
+import eu.domibus.common.MessageReceiveFailureEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,14 +62,16 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 	}
 	
 	@Override
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	@Transactional //(propagation=Propagation.REQUIRES_NEW)
 	public void deliverMessage(final String messageId) {
 		LOGGER.debug("Download message "+messageId+" from Queue.");
 		DomibusConnectorMessage message = new DomibusConnectorMessage(of.createDomibusConnectorMessageType());
 		try {
 			downloadMessage(messageId, message);
 		} catch (MessageNotFoundException e) {
-			LOGGER.error("Message with ID "+messageId+" not found!", e);
+		    String error = String.format("Message with ID %s not found!", messageId);
+			LOGGER.error(error, e);
+			throw new RuntimeException(error, e);
 		}
 
 		if(isMessageValid(message)){
@@ -79,10 +82,13 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 			if(ack.isResult()) {
 				LOGGER.info("Successfully delivered message "+messageId+" to domibusConnector.");
 			}else {
-				LOGGER.error("Message with ID "+messageId+" not delivered successfully to domibusConnector: "+ack.getResultMessage());
+			    String error = "Message with ID "+messageId+" not delivered successfully to domibusConnector: "+ack.getResultMessage();
+				LOGGER.error(error);
+				throw new RuntimeException(error);
 			}
 		}else{
 			LOGGER.error("Message with ID "+messageId+" is not valid after download!");
+            throw new RuntimeException("Message is not valid after download!");
 		}
 	}
 
@@ -107,9 +113,16 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 	}
 
 	@Override
-	public void messageSendFailed(String arg0) {
-		// TODO Auto-generated method stub
-		
+	public void messageSendFailed(String messageId) {
+		LOGGER.error(String.format("Send message with messageId [%s] failed", messageId));
 	}
+
+    public void messageReceiveFailed(MessageReceiveFailureEvent receiveFailureEvent) {
+        LOGGER.error(String.format("Message receiveFailed: messageId: [%s] on endpoint [%s] with ErrorResult [%s]",
+                receiveFailureEvent.getMessageId(),
+                receiveFailureEvent.getEndpoint(),
+                receiveFailureEvent.getErrorResult()
+                ));
+    }
 
 }

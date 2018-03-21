@@ -39,7 +39,7 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 	@Override
 	public DomibusConnectorMessage transformFromSubmission(Submission submission, DomibusConnectorMessage connectorMessage) {
 		if(submission.getMessageId()!=null)
-			LOGGER.debug("Strarting transformation of Submission object to DomibusConnectorMessage with ebmsMessageId "+ submission.getMessageId());
+			LOGGER.debug("Starting transformation of Submission object to DomibusConnectorMessage with ebmsMessageId "+ submission.getMessageId());
 
 		DomibusConnectorMessageType message = connectorMessage.getConnectorMessage();
 
