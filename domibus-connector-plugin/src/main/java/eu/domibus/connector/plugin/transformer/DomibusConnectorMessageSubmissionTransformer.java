@@ -59,13 +59,15 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 		transformMessageContent(submission, message);
 
 		transformMessageAttachments(submission, message);
+
+		transformMessageConfirmations(submission, message);
 		
 		LOGGER.debug("Successfully transformed DomibusConnectorMessage object to Submission object");
 		
 		return submission;
 	}
 
-	private void transformMessageAttachments(Submission submission, DomibusConnectorMessageType message) {
+	void transformMessageAttachments(Submission submission, DomibusConnectorMessageType message) {
 		List<DomibusConnectorMessageAttachmentType> messageAttachments = message.getMessageAttachments();
 		if(!CollectionUtils.isEmpty(messageAttachments)){
 			for(DomibusConnectorMessageAttachmentType attachment: messageAttachments){
@@ -82,7 +84,7 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 		}
 	}
 
-	private void transformMessageContent(Submission submission, DomibusConnectorMessageType message) {
+	void transformMessageContent(Submission submission, DomibusConnectorMessageType message) {
 		DomibusConnectorMessageContentType messageContent = message.getMessageContent();
 		String contentId = generateCID();
 
@@ -90,10 +92,10 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.NAME_KEY, DomibusConnectorMessage.MESSAGE_CONTENT_VALUE));
 		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY,DomibusConnectorMessage.XML_MIME_TYPE));
 		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY,DomibusConnectorMessage.MESSAGE_CONTENT_VALUE));
-		byte[] xmContent = convertXmlSourceToByteArray(messageContent.getXmlContent());
-		DataSource ds = new ByteArrayDataSource(xmContent, "application/octet-stream");
-		
-		DataHandler dataHandler = new DataHandler(ds);
+
+
+		DataHandler dataHandler = convertXmlSourceToDataHandler(messageContent.getXmlContent());
+
 		submission.addPayload(contentId, dataHandler, payloadProperties);
 	}
 	
@@ -118,7 +120,14 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
         }
     }
 
-	private void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {
+	private DataHandler convertXmlSourceToDataHandler(Source xml) {
+		byte[] xmContent = convertXmlSourceToByteArray(xml);
+		DataSource ds = new ByteArrayDataSource(xmContent, "application/octet-stream");
+		DataHandler dataHandler = new DataHandler(ds);
+		return dataHandler;
+	}
+
+	void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {
 		DomibusConnectorMessageDetailsType messageDetails = message.getMessageDetails();
 
 //		submission.setMessageId(messageDetails.getMessageId());
@@ -131,7 +140,26 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 		transformMessageProperties(submission, messageDetails);
 	}
 
-	private void transformMessageProperties(Submission submission, DomibusConnectorMessageDetailsType messageDetails) {
+	void transformMessageConfirmations(Submission submission, DomibusConnectorMessageType message) {
+    	//TODO: correct mapping for confirmation?
+		message.getMessageConfirmations()
+			.stream()
+			.forEach( (confirmation) -> {
+				String contentId = generateCID();
+				contentId = "CONFIRMATION_" + contentId;
+				Collection<TypedProperty> payloadProperties = new ArrayList<TypedProperty>();
+				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.NAME_KEY, confirmation.getConfirmationType().value()));
+				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY, DomibusConnectorMessage.XML_MIME_TYPE));
+				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY, confirmation.getConfirmationType().value()));
+				DataHandler dh = convertXmlSourceToDataHandler(confirmation.getConfirmation());
+				submission.addPayload(contentId, dh, payloadProperties);
+			}
+			);
+	}
+
+
+
+	void transformMessageProperties(Submission submission, DomibusConnectorMessageDetailsType messageDetails) {
 		submission.addMessageProperty(DomibusConnectorMessage.FINAL_RECIPIENT_PROPERTY_NAME, messageDetails.getFinalRecipient());
 		submission.addMessageProperty(DomibusConnectorMessage.ORIGINAL_SENDER_PROPERTY_NAME, messageDetails.getOriginalSender());
 		if(!StringUtils.isEmpty(messageDetails.getRefToMessageId())) {
@@ -139,7 +167,7 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 		}
 	}
 
-	private void transformCollaborationInfo(Submission submission, DomibusConnectorMessageDetailsType messageDetails) {
+	void transformCollaborationInfo(Submission submission, DomibusConnectorMessageDetailsType messageDetails) {
 
 		submission.setAction(messageDetails.getAction().getAction());
 		submission.setService(messageDetails.getService().getService());
@@ -155,7 +183,7 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 //		}
 	}
 
-	private void transformParties(Submission submission, DomibusConnectorMessageDetailsType messageDetails) {
+	void transformParties(Submission submission, DomibusConnectorMessageDetailsType messageDetails) {
 		
 		DomibusConnectorPartyType from = messageDetails.getFromParty();
 
@@ -169,9 +197,7 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 	}
 
 	private String generateCID() {
-
 		String cid = "cid:payload_" + UUID.randomUUID().toString();
-
 		return cid;
 	}
 	

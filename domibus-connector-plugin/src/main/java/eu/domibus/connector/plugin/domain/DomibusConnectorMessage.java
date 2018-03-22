@@ -17,7 +17,8 @@ public class DomibusConnectorMessage {
 	public static final String APPLICATION_MIME_TYPE = "application/octet-stream";
 	public static final String CONTENT_PDF_NAME = "ContentPDF";
 	public static final String CONTENT_XML_NAME = "ContentXML";
-	
+
+
 	private DomibusConnectorMessageType connectorMessage = null;
 	
 

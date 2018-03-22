@@ -2,15 +2,11 @@ package eu.domibus.connector.plugin.transformer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,8 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import eu.domibus.connector.domain.transition.DomibusConnectorActionType;
-import eu.domibus.connector.domain.transition.DomibusConnectorMessageAttachmentType;
-import eu.domibus.connector.domain.transition.DomibusConnectorMessageContentType;
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageDetailsType;
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
 import eu.domibus.connector.domain.transition.DomibusConnectorPartyType;
@@ -38,7 +32,7 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 
 	@Override
 	public DomibusConnectorMessage transformFromSubmission(Submission submission, DomibusConnectorMessage connectorMessage) {
-		if(submission.getMessageId()!=null)
+		if (submission.getMessageId() != null)
 			LOGGER.debug("Starting transformation of Submission object to DomibusConnectorMessage with ebmsMessageId "+ submission.getMessageId());
 
 		DomibusConnectorMessageType message = connectorMessage.getConnectorMessage();
@@ -64,48 +58,64 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 		return connectorMessage;
 	}
 
+	List<SubmissionPayloadToDomibusMessageTransformer> payloadTransformers = Arrays.asList(new SubmissionPayloadToDomibusMessageTransformer[]{
+			new TransformPayloadToMessageContent(),
+			new TransformPayloadToConfirmation(),
+			new TransformPayloadToAttachment()
+	});
+
 	private void transformPayloads(Submission submission, DomibusConnectorMessageType message) {
 		Set<Payload> payloads = submission.getPayloads();
-		if(!payloads.isEmpty()){
-			Iterator<Payload> iterator = payloads.iterator();
-			while(iterator.hasNext()){
-				Payload payload = iterator.next();
-				String payloadName = null;
-				String payloadMimeType = null;
-				String payloadDescription = null;
-				Collection<TypedProperty> properties = payload.getPayloadProperties();
-				Iterator<TypedProperty> pIt = properties.iterator();
-				while(pIt.hasNext()){
-					TypedProperty prop = pIt.next();
-					switch(prop.getKey()){
-					case DomibusConnectorMessage.NAME_KEY: payloadName = prop.getValue();break;
-					case DomibusConnectorMessage.MIME_TYPE_KEY: payloadMimeType = prop.getValue();break;
-					case DomibusConnectorMessage.DESCRIPTION_KEY: payloadDescription = prop.getValue();break;
-					}
+		payloads.stream()
+				.map( payload ->  new SubmissionPayloadToDomibusMessageTransformer.PayloadWrapper(payload))
+				.forEach( wrappedPayload -> {
+					payloadTransformers.stream()
+							//get the first transformer which can transform the payload
+							.filter(transformer -> transformer.canTransform(wrappedPayload)).findFirst()
+							.get()
+							.transformSubmissionToAttachment(wrappedPayload, message);
+				});
 
-				}
-				if((payloadName!=null && payloadName.equals(DomibusConnectorMessage.MESSAGE_CONTENT_VALUE)) || payload.isInBody()){
-					DomibusConnectorMessageContentType mContent = new DomibusConnectorMessageContentType();
-					Source source = null;
-					try {
-						source = new StreamSource(payload.getPayloadDatahandler().getInputStream());
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					mContent.setXmlContent(source);
-					message.setMessageContent(mContent);
-				}else{
-					DomibusConnectorMessageAttachmentType mAttachment = new DomibusConnectorMessageAttachmentType();
-					mAttachment.setAttachment(payload.getPayloadDatahandler());
-					mAttachment.setName(payloadName);
-					mAttachment.setMimeType(payloadMimeType);
-					mAttachment.setDescription(payloadDescription);
-					mAttachment.setIdentifier(payloadDescription);
-					message.getMessageAttachments().add(mAttachment);
-				}
-
-			}
-		}
+//		if(!payloads.isEmpty()){
+//			Iterator<Payload> iterator = payloads.iterator();
+//			while(iterator.hasNext()){
+//				Payload payload = iterator.next();
+//				String payloadName = null;
+//				String payloadMimeType = null;
+//				String payloadDescription = null;
+//				Collection<TypedProperty> properties = payload.getPayloadProperties();
+//				Iterator<TypedProperty> pIt = properties.iterator();
+//				while(pIt.hasNext()){
+//					TypedProperty prop = pIt.next();
+//					switch(prop.getKey()){
+//					case DomibusConnectorMessage.NAME_KEY: payloadName = prop.getValue();break;
+//					case DomibusConnectorMessage.MIME_TYPE_KEY: payloadMimeType = prop.getValue();break;
+//					case DomibusConnectorMessage.DESCRIPTION_KEY: payloadDescription = prop.getValue();break;
+//					}
+//
+//				}
+//				if((payloadName!=null && payloadName.equals(DomibusConnectorMessage.MESSAGE_CONTENT_VALUE)) || payload.isInBody()){
+//					DomibusConnectorMessageContentType mContent = new DomibusConnectorMessageContentType();
+//					Source source = null;
+//					try {
+//						source = new StreamSource(payload.getPayloadDatahandler().getInputStream());
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
+//					mContent.setXmlContent(source);
+//					message.setMessageContent(mContent);
+//				}else{
+//					DomibusConnectorMessageAttachmentType mAttachment = new DomibusConnectorMessageAttachmentType();
+//					mAttachment.setAttachment(payload.getPayloadDatahandler());
+//					mAttachment.setName(payloadName);
+//					mAttachment.setMimeType(payloadMimeType);
+//					mAttachment.setDescription(payloadDescription);
+//					mAttachment.setIdentifier(payloadDescription);
+//					message.getMessageAttachments().add(mAttachment);
+//				}
+//
+//			}
+//		}
 	}
 
 	private void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {
