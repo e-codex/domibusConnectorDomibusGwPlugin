@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.util.*;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,14 +46,14 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 		if(message.getMessageDetails().getEbmsMessageId()!=null)
 			LOGGER.debug("Successfully transformed Submission object to DomibusConnectorMessage with ebmsMessageId "+ message.getMessageDetails().getEbmsMessageId());
 		
-		if(LOGGER.isDebugEnabled()){
+		if(LOGGER.isTraceEnabled()){
 			try {
-				String headerString = printXML(message, DomibusConnectorMessageType.class);
-				LOGGER.debug(headerString);
+				String headerString = printXML(message);
+				LOGGER.trace(headerString);
 			} catch (JAXBException e1) {
-				LOGGER.error(e1.getMessage());
-			} catch (IOException e1) {
-				LOGGER.error(e1.getMessage());
+				LOGGER.error("JAXB exception occured while printXML", e1);
+			} catch (IOException ioe) {
+				LOGGER.error("IOException occured while printXML", ioe);
 			}
 		}
 		
@@ -164,6 +166,7 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 				switch(property.getKey()) {
 				case DomibusConnectorMessage.FINAL_RECIPIENT_PROPERTY_NAME:messageDetails.setFinalRecipient(property.getValue());break;
 				case DomibusConnectorMessage.ORIGINAL_SENDER_PROPERTY_NAME:messageDetails.setOriginalSender(property.getValue());break;
+                    case DomibusConnectorMessage.ORIGINAL_MESSAGE_ID: messageDetails.setRefToMessageId(property.getValue());break;
 				default: LOGGER.error("Unknown ebms3 header message property: "+property.getKey());
 				}
 			}
@@ -172,9 +175,9 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 		message.setMessageDetails(messageDetails );
 	}
 
-	private String printXML(final Object object, final Class<?>... initializationClasses) throws JAXBException,
+	private String printXML(final DomibusConnectorMessageType object) throws JAXBException,
 		IOException {
-			JAXBContext ctx = JAXBContext.newInstance(initializationClasses);
+			JAXBContext ctx = JAXBContext.newInstance(DomibusConnectorMessage.class);
 	
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	
@@ -182,7 +185,9 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 	
 			marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			marshaller.marshal(object, byteArrayOutputStream);
+
+            JAXBElement<DomibusConnectorMessageType> domibusConnectorMessageJAXBElement = new JAXBElement<DomibusConnectorMessageType>(new QName("uri", "local"), DomibusConnectorMessageType.class,  object);
+            marshaller.marshal(domibusConnectorMessageJAXBElement, byteArrayOutputStream);
 	
 			byte[] buffer = byteArrayOutputStream.toByteArray();
 	

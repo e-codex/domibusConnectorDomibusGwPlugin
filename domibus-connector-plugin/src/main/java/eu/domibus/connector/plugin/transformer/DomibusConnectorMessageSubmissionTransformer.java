@@ -146,7 +146,7 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 			.stream()
 			.forEach( (confirmation) -> {
 				String contentId = generateCID();
-				contentId = "CONFIRMATION_" + contentId;
+//				contentId = "CONFIRMATION_" + contentId;
 				Collection<TypedProperty> payloadProperties = new ArrayList<TypedProperty>();
 				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.NAME_KEY, confirmation.getConfirmationType().value()));
 				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY, DomibusConnectorMessage.XML_MIME_TYPE));
