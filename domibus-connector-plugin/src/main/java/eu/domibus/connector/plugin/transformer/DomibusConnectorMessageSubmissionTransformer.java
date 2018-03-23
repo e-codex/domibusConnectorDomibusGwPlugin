@@ -86,17 +86,22 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 
 	void transformMessageContent(Submission submission, DomibusConnectorMessageType message) {
 		DomibusConnectorMessageContentType messageContent = message.getMessageContent();
-		String contentId = generateCID();
 
-		Collection<TypedProperty> payloadProperties = new ArrayList<TypedProperty>();
-		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.NAME_KEY, DomibusConnectorMessage.MESSAGE_CONTENT_VALUE));
-		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY,DomibusConnectorMessage.XML_MIME_TYPE));
-		payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY,DomibusConnectorMessage.MESSAGE_CONTENT_VALUE));
+		if (messageContent == null && message.getMessageConfirmations().size() > 0) {
+			LOGGER.debug("#transformMessageContent: message Content is null and contains at least one confirmation: Message is a confirmation message!");
+		} else {
+            LOGGER.debug("#transformMessageContent: message is a business message!");
+            String contentId = generateCID();
 
+            Collection<TypedProperty> payloadProperties = new ArrayList<TypedProperty>();
+            payloadProperties.add(new TypedProperty(DomibusConnectorMessage.NAME_KEY, DomibusConnectorMessage.MESSAGE_CONTENT_VALUE));
+            payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY, DomibusConnectorMessage.XML_MIME_TYPE));
+            payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY, DomibusConnectorMessage.MESSAGE_CONTENT_VALUE));
 
-		DataHandler dataHandler = convertXmlSourceToDataHandler(messageContent.getXmlContent());
+            DataHandler dataHandler = convertXmlSourceToDataHandler(messageContent.getXmlContent());
 
-		submission.addPayload(contentId, dataHandler, payloadProperties);
+            submission.addPayload(contentId, dataHandler, payloadProperties);
+        }
 	}
 	
 	/**
