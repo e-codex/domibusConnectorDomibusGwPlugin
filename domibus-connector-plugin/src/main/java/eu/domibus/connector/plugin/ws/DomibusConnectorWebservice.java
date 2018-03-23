@@ -51,13 +51,17 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 		} catch (Exception e) {
 			ack.setResult(false);
 			ack.setResultMessage(e.getMessage());
-			e.printStackTrace();
+			LOGGER.error("#submitMessage: Error occured while calling submit, setting submit result to false", e);
 		}
 
-		if(messageID != null){
+        LOGGER.info(String.format("#submitMessage: messageID is [%s]", messageID));
+		if (messageID != null) {
+            LOGGER.debug(String.format("#submitMessage: Message successfully submitted"));
 			ack.setMessageId(messageID);
 			ack.setResult(true);
-		}
+		} else {
+		    LOGGER.error("#submitMessage: submit message failed, returning ack with result false");
+        }
 		return ack;
 	}
 	
