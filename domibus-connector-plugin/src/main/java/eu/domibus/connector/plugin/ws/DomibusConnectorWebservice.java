@@ -80,24 +80,42 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 
 		if(isMessageValid(message)){
 
-			LOGGER.debug("Successfully downloaded message "+messageId+" from Queue.");
+			LOGGER.debug("Successfully downloaded message " + messageId + " from Queue.");
 
 			DomibsConnectorAcknowledgementType ack = deliveryClient.deliverMessage(message.getConnectorMessage());
 			if(ack.isResult()) {
-				LOGGER.info("Successfully delivered message "+messageId+" to domibusConnector.");
+				LOGGER.info("Successfully delivered message " + messageId + " to domibusConnector.");
 			}else {
-			    String error = "Message with ID "+messageId+" not delivered successfully to domibusConnector: "+ack.getResultMessage();
+			    String error = "Message with ID " + messageId + " not delivered successfully to domibusConnector: "+ack.getResultMessage();
 				LOGGER.error(error);
 				throw new RuntimeException(error);
 			}
 		}else{
-			LOGGER.error("Message with ID "+messageId+" is not valid after download!");
-            throw new RuntimeException("Message is not valid after download!");
+			LOGGER.error("Message with ID " + messageId + " is not valid after download!");
+            throw new RuntimeException("Message with id " + messageId + " is not valid after download!");
 		}
 	}
 
-	private boolean isMessageValid(DomibusConnectorMessage message){
-		return message.getConnectorMessage()!= null && message.getConnectorMessage().getMessageContent()!=null && message.getConnectorMessage().getMessageDetails()!=null;
+	private boolean isMessageValid(DomibusConnectorMessage message) {
+		DomibusConnectorMessageType msg = message.getConnectorMessage();
+		if (msg == null) {
+			LOGGER.error("Message is null!");
+			return false;
+		}
+		if (msg.getMessageDetails() == null) {
+			LOGGER.error("Message contains no Message Details!");
+			return false;
+		}
+		if (msg.getMessageContent() != null) {
+			LOGGER.info("Message is a business message");
+			return true;
+		}
+		if (msg.getMessageContent() == null && msg.getMessageConfirmations().size() > 0) {
+			LOGGER.info("Message is a confirmation message!");
+			return true;
+		}
+		LOGGER.error("Message has neither a content or a confirmation - message is empty!");
+		return false;
 	}
 
 	@Override
