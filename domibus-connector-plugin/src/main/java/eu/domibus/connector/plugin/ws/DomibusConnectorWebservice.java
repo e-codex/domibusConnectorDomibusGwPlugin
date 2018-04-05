@@ -61,6 +61,7 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 			ack.setResult(true);
 		} else {
 		    LOGGER.error("#submitMessage: submit message failed, returning ack with result false");
+		    ack.setResult(false);
         }
 		return ack;
 	}
