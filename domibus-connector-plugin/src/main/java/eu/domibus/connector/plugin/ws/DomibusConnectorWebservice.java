@@ -1,41 +1,26 @@
 package eu.domibus.connector.plugin.ws;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-
+import eu.domibus.common.MessageReceiveFailureEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import connector.domibus.eu.domibusconnectorgatewayservice._1.AcknowledgementType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageErrorLogEntriesType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageErrorLogEntryType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessageType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.MessagesType;
-import connector.domibus.eu.domibusconnectorgatewayservice._1.ObjectFactory;
-import connector.domibus.eu.domibusconnectorgatewayservice._1_0.DomibusConnectorGatewayServiceInterface;
-import connector.domibus.eu.domibusconnectorgatewayservice._1_0.RequestPendingMessagesFault;
-import connector.domibus.eu.domibusconnectorgatewayservice._1_0.SendMessageFault;
-import eu.domibus.common.ErrorResult;
-import eu.domibus.common.MessageStatus;
+import eu.domibus.connector.domain.transition.DomibsConnectorAcknowledgementType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
+import eu.domibus.connector.domain.transition.ObjectFactory;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
 import eu.domibus.connector.plugin.transformer.DomibusConnectorMessageRetrievalTransformer;
 import eu.domibus.connector.plugin.transformer.DomibusConnectorMessageSubmissionTransformer;
+import eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService;
+import eu.domibus.connector.ws.gateway.submission.webservice.DomibusConnectorGatewaySubmissionWebService;
 import eu.domibus.messaging.MessageNotFoundException;
 import eu.domibus.plugin.AbstractBackendConnector;
 import eu.domibus.plugin.transformer.MessageRetrievalTransformer;
 import eu.domibus.plugin.transformer.MessageSubmissionTransformer;
 
-public class DomibusConnectorWebservice extends AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> implements DomibusConnectorGatewayServiceInterface {
+public class DomibusConnectorWebservice extends AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> implements DomibusConnectorGatewaySubmissionWebService {
 
 	private static final Log LOGGER = LogFactory.getLog(DomibusConnectorWebservice.class);
 
@@ -48,113 +33,90 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 
 	@Autowired
 	private DomibusConnectorMessageRetrievalTransformer messageRetrievalTransformer;
+	
+	@Autowired
+	private DomibusConnectorGatewayDeliveryWebService deliveryClient;
 
 	private static final ObjectFactory of = new ObjectFactory();
 
 
 	@Override
-	public AcknowledgementType sendMessage(MessageType sendMessageRequest) throws SendMessageFault {
+	public DomibsConnectorAcknowledgementType submitMessage(final DomibusConnectorMessageType submitMessageRequest) {
 
 		String messageID = null;
+		DomibsConnectorAcknowledgementType ack = new DomibsConnectorAcknowledgementType();
 		try {
-			messageID = submit(new DomibusConnectorMessage(sendMessageRequest));
+			LOGGER.debug("#submitMessage: call submit of parent class");
+			messageID = submit(new DomibusConnectorMessage(submitMessageRequest));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ack.setResult(false);
+			ack.setResultMessage(e.getMessage());
+			LOGGER.error("#submitMessage: Error occured while calling submit, setting submit result to false", e);
 		}
 
-		AcknowledgementType ack = new AcknowledgementType();
-		if(messageID != null){
+        LOGGER.info(String.format("#submitMessage: messageID is [%s]", messageID));
+		if (messageID != null) {
+            LOGGER.debug(String.format("#submitMessage: Message successfully submitted"));
 			ack.setMessageId(messageID);
-			ack.setSuccess(true);
-		}else{
-			ack.setSuccess(false);
-		}
+			ack.setResult(true);
+		} else {
+		    LOGGER.error("#submitMessage: submit message failed, returning ack with result false");
+		    ack.setResult(false);
+        }
 		return ack;
 	}
-
-
+	
 	@Override
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
-	public MessagesType requestPendingMessages(String requestPendingMessagesRequest)
-			throws RequestPendingMessagesFault {
-		Collection<String> pendingMessages = listPendingMessages();
-
-		if(!CollectionUtils.isEmpty(pendingMessages)){
-			LOGGER.debug("Received "+pendingMessages.size()+" messages from Queue.");
-			MessagesType messages = of.createMessagesType();
-			for(String messageId: pendingMessages){
-				LOGGER.debug("Download message "+messageId+" from Queue.");
-				DomibusConnectorMessage message = new DomibusConnectorMessage(of.createMessageType());
-				try {
-					downloadMessage(messageId, message);
-				} catch (MessageNotFoundException e) {
-					LOGGER.error("Message with ID "+messageId+" not found!", e);
-					continue;
-				}
-
-				if(isMessageValid(message)){
-
-					LOGGER.debug("Successfully downloaded message "+messageId+" from Queue.");
-
-					messages.getMessages().add(message.getConnectorMessage());
-				}else{
-					LOGGER.error("Message with ID "+messageId+" is not valid after download!");
-				}
-			}
-			return messages;
-		}
-		return null;
-	}
-
-	private boolean isMessageValid(DomibusConnectorMessage message){
-		return message.getConnectorMessage()!= null && message.getConnectorMessage().getMessageContent()!=null && message.getConnectorMessage().getMessageDetails()!=null;
-	}
-
-	@Override
-	public String requestMessageStatus(String requestMessageStatusRequest) {
-		MessageStatus status = getMessageStatus(requestMessageStatusRequest);
-		return status.name();
-	}
-
-	@Override
-	public MessageErrorLogEntriesType requestMessageErrors(String requestMessageErrorsRequest) {
-		List<ErrorResult> errorsForMessage = getErrorsForMessage(requestMessageErrorsRequest);
-		if(!CollectionUtils.isEmpty(errorsForMessage)){
-			MessageErrorLogEntriesType messageErrors = of.createMessageErrorLogEntriesType();
-			for(ErrorResult error: errorsForMessage){
-				MessageErrorLogEntryType entry = of.createMessageErrorLogEntryType();
-				entry.setErrorCode(error.getErrorCode().getErrorCodeName());
-				entry.setErrorDetail(error.getErrorDetail());
-				entry.setMessageInErrorId(error.getMessageInErrorId());
-				entry.setNotified(dateToXMLGregorianCalendar(error.getNotified()));
-				entry.setTimestamp(dateToXMLGregorianCalendar(error.getTimestamp()));
-
-				messageErrors.getItem().add(entry);
-			}
-
-			return messageErrors;
-		}
-		return null;
-	}
-
-
-	private XMLGregorianCalendar dateToXMLGregorianCalendar(Date date) {
-		GregorianCalendar c = new GregorianCalendar();
-		c.setTime(date);
-		XMLGregorianCalendar date2 = null;
+	@Transactional //(propagation=Propagation.REQUIRES_NEW)
+	public void deliverMessage(final String messageId) {
+		LOGGER.debug("Download message "+messageId+" from Queue.");
+		DomibusConnectorMessage message = new DomibusConnectorMessage(of.createDomibusConnectorMessageType());
 		try {
-			date2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
-		} catch (DatatypeConfigurationException e) {
-			e.printStackTrace();
+			downloadMessage(messageId, message);
+		} catch (MessageNotFoundException e) {
+		    String error = String.format("Message with ID %s not found!", messageId);
+			LOGGER.error(error, e);
+			throw new RuntimeException(error, e);
 		}
-		return date2;
+
+		if(isMessageValid(message)){
+
+			LOGGER.debug("Successfully downloaded message " + messageId + " from Queue.");
+
+			DomibsConnectorAcknowledgementType ack = deliveryClient.deliverMessage(message.getConnectorMessage());
+			if(ack.isResult()) {
+				LOGGER.info("Successfully delivered message " + messageId + " to domibusConnector.");
+			}else {
+			    String error = "Message with ID " + messageId + " not delivered successfully to domibusConnector: "+ack.getResultMessage();
+				LOGGER.error(error);
+				throw new RuntimeException(error);
+			}
+		}else{
+			LOGGER.error("Message with ID " + messageId + " is not valid after download!");
+            throw new RuntimeException("Message with id " + messageId + " is not valid after download!");
+		}
 	}
 
-	@Override
-	public void messageSendFailed(String arg0) {
-		// TODO Auto-generated method stub
-
+	private boolean isMessageValid(DomibusConnectorMessage message) {
+		DomibusConnectorMessageType msg = message.getConnectorMessage();
+		if (msg == null) {
+			LOGGER.error("Message is null!");
+			return false;
+		}
+		if (msg.getMessageDetails() == null) {
+			LOGGER.error("Message contains no Message Details!");
+			return false;
+		}
+		if (msg.getMessageContent() != null) {
+			LOGGER.info("Message is a business message");
+			return true;
+		}
+		if (msg.getMessageContent() == null && msg.getMessageConfirmations().size() > 0) {
+			LOGGER.info("Message is a confirmation message!");
+			return true;
+		}
+		LOGGER.error("Message has neither a content or a confirmation - message is empty!");
+		return false;
 	}
 
 	@Override
@@ -167,6 +129,23 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 		return this.messageSubmissionTransformer;
 	}
 
+	@Override
+	public void messageSendSuccess(String messageId) {
+		//just ignore...
+		LOGGER.debug(String.format("Message with ID {%s} successfully Sent", messageId));
+	}
 
+	@Override
+	public void messageSendFailed(String messageId) {
+		LOGGER.error(String.format("Send message with messageId [%s] failed", messageId));
+	}
+
+    public void messageReceiveFailed(MessageReceiveFailureEvent receiveFailureEvent) {
+        LOGGER.error(String.format("Message receiveFailed: messageId: [%s] on endpoint [%s] with ErrorResult [%s]",
+                receiveFailureEvent.getMessageId(),
+                receiveFailureEvent.getEndpoint(),
+                receiveFailureEvent.getErrorResult()
+                ));
+    }
 
 }

@@ -19,63 +19,35 @@
     http://cxf.apache.org/transports/http/configuration
     http://cxf.apache.org/schemas/configuration/http-conf.xsd">
 
-    <!-- General BRIS properties -->
+    <!-- General Connector properties -->
     <util:properties id="connectorProperties">
-    	
-        <!-- At least one of the two following properties - "delivery.envelope.wsdl" or "delivery.endpoint.url" - has to be provided -->
-        <!-- If both provided, the "delivery.endpoint.url" property overrides the URL received in WSDL -->
-        <!-- <prop key="delivery.envelope.wsdl">http://localhost:8081/bris/gw/delivery?wsdl</prop> -->
-        <!-- <prop key="delivery.endpoint.url">http://localhost:7009/mockDelivery</prop> -->
-
-        <!-- Optional property for alternative TLS configuration file to be used by BRIS Plugin instead of TLS configuration for Domibus -->
-        <!-- If not specified, the TLS configuration of Domibus will apply to BRIS Plugin -->
-        <!-- If specified, BRIS Plugin will search for the configuration file in ${domibus.config.location} folder -->
-        <!--
-        <prop key="bris.tls.conf.file">bris_tls_configuration.xml</prop>
-        -->
+    	<prop key="connector.delivery.service.endpoint.address">http://localhost:7009/mockDelivery</prop>
+      
     </util:properties>
-
-
-	<!-- <bean
-		id="domibusConnectorMessageFacade"
-        class="eu.domibus.connector.plugin.connector.DomibusConnectorMessageFacade">
-		<constructor-arg value="domibusConnectorWebservice"/>
-	</bean> -->
 	
 	<bean
 		id="domibusConnectorWebservice"
         class="eu.domibus.connector.plugin.ws.DomibusConnectorWebservice">
         <constructor-arg value="domibusConnectorWebservice"/>
-        <property name="lister" ref="connectorWebserviceNotificationListenerService"/>
-	</bean>
+        <property name="lister" ref="connectorDeliveryWebserviceNotificationListenerService"/>
+   </bean>
 	
-	 <amq:queue name="notifyDomibusConnectorWebServiceQueue"
+	 <amq:queue name="notifyDomibusConnectorDeliveryWebServiceQueue"
                physicalName="domibus.notification.webservice"/>
 
-	<bean id="connectorWebserviceNotificationListenerService"
+	<bean id="connectorDeliveryWebserviceNotificationListenerService"
           class="eu.domibus.plugin.NotificationListenerService"
-          c:queue-ref="notifyDomibusConnectorWebServiceQueue" c:mode="PULL"
+          c:queue-ref="notifyDomibusConnectorDeliveryWebServiceQueue" c:mode="PUSH"
           p:backendConnector-ref="domibusConnectorWebservice">
     </bean> 
 
 	<jaxws:endpoint
-		id="backendInterfaceEndpoint"
+		id="connectorSubmissionInterfaceEndpoint"
         implementor="#domibusConnectorWebservice"
-        address="/domibusConnectorWebservice">
+        address="/domibusConnectorSubmissionWebservice">
    	</jaxws:endpoint>
-
-	<!-- In case the connection between gateway and the back-office system happens over a http proxy the configuration below needs to be uncommented -->
-	<!-- and updated with the correct values. It is important to use correct namespace of the target Delivery service as it contains the version number -->
-	<!-- Usage of proxy user and password is optional and can be commented out if not used -->
-
-	<!--
-	<http-conf:conduit name="{http://eu.domibus.plugin/bris/wsdl/endpoint/delivery/envelope/1.0}DeliveryEnvelopeBinding.http-conduit">
-        <http-conf:client ProxyServer="127.0.0.1" ProxyServerPort="7015"/>
-        <http-conf:proxyAuthorization>
-             <sec:UserName>proxy_user</sec:UserName>
-             <sec:Password>proxy_pass</sec:Password>
-        </http-conf:proxyAuthorization>
-    </http-conf:conduit>
-	-->
+   	
+   	<jaxws:client id="connectorDeliveryClient" serviceClass="eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService"
+		address="${connector.delivery.service.endpoint.address}" />
 
 </beans>
