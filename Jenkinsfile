@@ -20,6 +20,7 @@
 
 				stage ("Checkout") {
 					def commonJob
+					def MAVEN_PROJECT_DIR 
 					node {
 						//sh 'git config credential.helper cache'
 
@@ -43,10 +44,10 @@
 							git([url: "https://secure.e-codex.eu/gitblit/r/~spindlers/connector-jenkins-jobs.git", credentialsId: 'IT-NRW GIT Repo'])
 						}
 					
-						def MAVEN_PROJECT_DIR = pwd() + "/domibus-connector-plugin"
+						MAVEN_PROJECT_DIR = pwd() + "/domibus-connector-plugin"
 					  	commonJob = load("pipeline_sources/common-job")
 					  }
-						commonJob.execute(MAVEN_PROJECT_DIR)
+					  commonJob.execute(MAVEN_PROJECT_DIR)
 
 
 					
