@@ -46,8 +46,9 @@
 					
 						MAVEN_PROJECT_DIR = pwd() + "/domibus-connector-plugin"
 					  	commonJob = load("pipeline_sources/common-job")
-					  }
-					  commonJob.execute(MAVEN_PROJECT_DIR)
+
+						  commonJob.execute(MAVEN_PROJECT_DIR)
+				}
 
 
 					
