@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.domibus.connector</groupId>
   <artifactId>domibus-connector-plugin</artifactId>
-  <version>4.0.0-alpha2-SNAPSHOT</version>
+  <version>4.0.0-beta1-SNAPSHOT</version>
   <scm>
     <developerConnection>scm:git:https://www.git.e-codex.eu/ecodex.git/domibus-connector-plugin</developerConnection>
   </scm>
