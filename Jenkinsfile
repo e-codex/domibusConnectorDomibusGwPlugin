@@ -19,6 +19,7 @@
 	withEnv(MY_ENV) {
 
 				stage ("Checkout") {
+					def commonJob
 					node {
 						//sh 'git config credential.helper cache'
 
@@ -41,9 +42,10 @@
 						dir('pipeline_sources') { // switch to subdir
 							git([url: "https://secure.e-codex.eu/gitblit/r/~spindlers/connector-jenkins-jobs.git", credentialsId: 'IT-NRW GIT Repo'])
 						}
-					}
+					
 						def MAVEN_PROJECT_DIR = pwd() + "/domibus-connector-plugin"
-					  def commonJob = load("pipeline_sources/common-job")
+					  	commonJob = load("pipeline_sources/common-job")
+					  }
 						commonJob.execute(MAVEN_PROJECT_DIR)
 
 
