@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.domibus.connector</groupId>
 	<artifactId>domibus-connector-plugin</artifactId>
-	<version>4.0.1</version>
+	<version>4.1.1-SNAPSHOT</version>
 
 	<properties>
 		<plugin-api.version>3.2.5</plugin-api.version>
