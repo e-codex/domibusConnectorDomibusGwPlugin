@@ -48,7 +48,11 @@
         xmlns:s="http://connector.domibus.eu/ws/gateway/submission/webservice">
    	</jaxws:endpoint>
    	
-   	<jaxws:client id="connectorDeliveryClient" serviceClass="eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService"
-		address="${connector.delivery.service.endpoint.address}" />
+   	<jaxws:client id="connectorDeliveryClient" 
+   		serviceClass="eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService"
+		address="${connector.delivery.service.endpoint.address}"
+		serviceName="s:DomibusConnectorGatewayDeliveryWebService"  
+        wsdlLocation="wsdl/DomibusConnectorGatewayDeliveryWebService.wsdl"
+        xmlns:s="http://connector.domibus.eu/ws/gateway/delivery/webservice" />
 
 </beans>
