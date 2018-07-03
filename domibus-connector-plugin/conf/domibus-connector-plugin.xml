@@ -19,12 +19,10 @@
     http://cxf.apache.org/transports/http/configuration
     http://cxf.apache.org/schemas/configuration/http-conf.xsd">
 
-    <!-- General Connector properties -->
-    <util:properties id="connectorProperties">
-    	<prop key="connector.delivery.service.endpoint.address">http://localhost:7009/mockDelivery</prop>
-      
-    </util:properties>
-	
+    <!-- ATTENTION! To set the connection between this plugin and your domibusConnector installation it is important
+    to set the following property in the "domibus.properties":
+    connector.delivery.service.endpoint.address=http://"YOUR INSTALLATION" -->
+    
 	<bean
 		id="domibusConnectorWebservice"
         class="eu.domibus.connector.plugin.ws.DomibusConnectorWebservice">
@@ -44,7 +42,10 @@
 	<jaxws:endpoint
 		id="connectorSubmissionInterfaceEndpoint"
         implementor="#domibusConnectorWebservice"
-        address="/domibusConnectorSubmissionWebservice">
+        address="/domibusConnectorSubmissionWebservice"
+        serviceName="s:DomibusConnectorGatewaySubmissionWebService"  
+        wsdlLocation="wsdl/DomibusConnectorGatewaySubmissionWebService.wsdl"
+        xmlns:s="http://connector.domibus.eu/ws/gateway/submission/webservice">
    	</jaxws:endpoint>
    	
    	<jaxws:client id="connectorDeliveryClient" serviceClass="eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService"
