@@ -2,11 +2,11 @@ package eu.domibus.connector.plugin.transformer;
 
 import eu.domibus.connector.domain.transition.*;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
+import eu.domibus.logging.DomibusLogger;
+import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.plugin.Submission;
 import eu.domibus.plugin.Submission.TypedProperty;
 import eu.domibus.plugin.transformer.MessageSubmissionTransformer;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.common.util.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -26,7 +26,7 @@ import java.util.UUID;
 @Component
 public class DomibusConnectorMessageSubmissionTransformer implements MessageSubmissionTransformer<DomibusConnectorMessage> {
 
-	private static final Log LOGGER = LogFactory.getLog(DomibusConnectorMessageSubmissionTransformer.class);
+	private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DomibusConnectorMessageSubmissionTransformer.class);
 	
 	@Override
 	public Submission transformToSubmission(DomibusConnectorMessage connectorMessage) {

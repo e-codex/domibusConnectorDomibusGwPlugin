@@ -9,18 +9,19 @@ import eu.domibus.connector.plugin.transformer.DomibusConnectorMessageRetrievalT
 import eu.domibus.connector.plugin.transformer.DomibusConnectorMessageSubmissionTransformer;
 import eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService;
 import eu.domibus.connector.ws.gateway.submission.webservice.DomibusConnectorGatewaySubmissionWebService;
+import eu.domibus.logging.DomibusLogger;
+import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.messaging.MessageNotFoundException;
 import eu.domibus.plugin.AbstractBackendConnector;
 import eu.domibus.plugin.transformer.MessageRetrievalTransformer;
 import eu.domibus.plugin.transformer.MessageSubmissionTransformer;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 public class DomibusConnectorWebservice extends AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> implements DomibusConnectorGatewaySubmissionWebService {
 
-	private static final Log LOGGER = LogFactory.getLog(DomibusConnectorWebservice.class);
+	private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DomibusConnectorWebservice.class);
+
 
 	public DomibusConnectorWebservice(String name) {
 		super(name);
@@ -65,7 +66,7 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 	}
 	
 	@Override
-	@Transactional //(propagation=Propagation.REQUIRES_NEW)
+	@Transactional
 	public void deliverMessage(final String messageId) {
 		LOGGER.debug("Download message "+messageId+" from Queue.");
 		DomibusConnectorMessage message = new DomibusConnectorMessage(of.createDomibusConnectorMessageType());

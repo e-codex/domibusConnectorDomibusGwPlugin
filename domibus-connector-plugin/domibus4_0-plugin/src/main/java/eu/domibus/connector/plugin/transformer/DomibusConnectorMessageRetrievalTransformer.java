@@ -9,9 +9,6 @@ import eu.domibus.plugin.Submission.Party;
 import eu.domibus.plugin.Submission.Payload;
 import eu.domibus.plugin.Submission.TypedProperty;
 import eu.domibus.plugin.transformer.MessageRetrievalTransformer;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -29,8 +26,6 @@ import java.util.Set;
 
 @Component
 public class DomibusConnectorMessageRetrievalTransformer implements MessageRetrievalTransformer<DomibusConnectorMessage> {
-	
-//	private static final Log LOGGER = LogFactory.getLog(DomibusConnectorMessageRetrievalTransformer.class);
 
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DomibusConnectorMessageRetrievalTransformer.class);
 
