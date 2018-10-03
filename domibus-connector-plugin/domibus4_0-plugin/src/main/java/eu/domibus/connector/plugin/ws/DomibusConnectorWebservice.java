@@ -18,6 +18,7 @@ import eu.domibus.plugin.transformer.MessageSubmissionTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+
 public class DomibusConnectorWebservice extends AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> implements DomibusConnectorGatewaySubmissionWebService {
 
 	private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DomibusConnectorWebservice.class);

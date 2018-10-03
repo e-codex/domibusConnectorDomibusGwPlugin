@@ -57,6 +57,23 @@
         serviceName="s:DomibusConnectorGatewaySubmissionWebService"  
         wsdlLocation="wsdl/DomibusConnectorGatewaySubmissionWebService.wsdl"
         xmlns:s="http://connector.domibus.eu/ws/gateway/submission/webservice">
+
+        <jaxws:properties>
+            <entry key="security.signature.properties" value-ref="encryptProperties" />
+            <!--<entry key="security.signature.user" value="gw" />-->
+            <entry key="security.encryption.properties" value-ref="encryptProperties" />
+            <entry key="security.encryption.username" value="useReqSigCert" />
+            <entry key="mtom-enabled" value="true" />
+            <entry key="security.store.bytes.in.attachment" value="true" />
+            <entry key="security.enable.streaming" value="true" />
+        </jaxws:properties>
+
+        <jaxws:features>
+            <p:policies>
+                <wsp:PolicyReference URI="classpath:/wsdl/backend.policy.xml"/>
+            </p:policies>
+        </jaxws:features>
+
    	</jaxws:endpoint>
    	
    	<jaxws:client id="connectorDeliveryClient" 
@@ -83,5 +100,22 @@
 		</jaxws:features>
 
 	</jaxws:client>
+
+	<bean id="encryptProperties"
+		  class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="properties">
+			<props>
+				<prop key="org.apache.wss4j.crypto.provider">org.apache.wss4j.common.crypto.Merlin</prop>
+				<prop key="org.apache.wss4j.crypto.merlin.keystore.type">jks</prop>
+				<prop key="org.apache.wss4j.crypto.merlin.keystore.password">${connector.delivery.key-store.password}</prop>
+				<prop key="org.apache.wss4j.crypto.merlin.keystore.file">${connector.delivery.key-store.file}</prop>
+				<prop key="org.apache.wss4j.crypto.merlin.keystore.alias">${connector.delivery.private-key.alias}</prop>
+				<prop key="org.apache.wss4j.crypto.merlin.keystore.private.password">${connector.delivery.private-key.password}</prop>
+				<prop key="org.apache.wss4j.crypto.merlin.truststore.type">jks</prop>
+				<prop key="org.apache.wss4j.crypto.merlin.truststore.password">${connector.delivery.trust-store.password}</prop>
+				<prop key="org.apache.wss4j.crypto.merlin.truststore.file">${connector.delivery.trust-store.file}</prop>
+			</props>
+		</property>
+	</bean>
 
 </beans>

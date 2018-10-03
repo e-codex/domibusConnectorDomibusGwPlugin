@@ -7,13 +7,10 @@ import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.plugin.Submission;
 import eu.domibus.plugin.Submission.TypedProperty;
 import eu.domibus.plugin.transformer.MessageSubmissionTransformer;
-import org.apache.cxf.common.util.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.mail.util.ByteArrayDataSource;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
@@ -117,8 +114,8 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 
 	private DataHandler convertXmlSourceToDataHandler(Source xml) {
 		byte[] xmContent = convertXmlSourceToByteArray(xml);
-		DataSource ds = new ByteArrayDataSource(xmContent, "application/octet-stream");
-		DataHandler dataHandler = new DataHandler(ds);
+//		DataSource ds = new ByteArrayDataSource(xmContent, "application/octet-stream");
+		DataHandler dataHandler = new DataHandler(xml, "application/xml");
 		return dataHandler;
 	}
 
@@ -157,7 +154,7 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 	void transformMessageProperties(Submission submission, DomibusConnectorMessageDetailsType messageDetails) {
 		submission.addMessageProperty(DomibusConnectorMessage.FINAL_RECIPIENT_PROPERTY_NAME, messageDetails.getFinalRecipient());
 		submission.addMessageProperty(DomibusConnectorMessage.ORIGINAL_SENDER_PROPERTY_NAME, messageDetails.getOriginalSender());
-		if(!StringUtils.isEmpty(messageDetails.getRefToMessageId())) {
+		if((messageDetails.getRefToMessageId() != null && messageDetails.getRefToMessageId().length() > 0)) {
 			submission.addMessageProperty(DomibusConnectorMessage.ORIGINAL_MESSAGE_ID, messageDetails.getRefToMessageId());
 		}
 	}
