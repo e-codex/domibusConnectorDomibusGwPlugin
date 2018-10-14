@@ -16,6 +16,7 @@
     <properties>
         <plugin-api.version>4.0</plugin-api.version>
         <org.springframework.version>4.3.17.RELEASE</org.springframework.version>
+        <domibus.connector.version>4.1.0-alpha2-SNAPSHOT</domibus.connector.version>
     </properties>
 
     <dependencies>
@@ -115,5 +116,30 @@
         -->
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>eu.domibus.connector:domibusConnectorAPI</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
