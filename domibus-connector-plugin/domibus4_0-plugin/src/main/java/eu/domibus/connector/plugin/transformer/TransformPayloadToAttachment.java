@@ -2,9 +2,12 @@ package eu.domibus.connector.plugin.transformer;
 
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageAttachmentType;
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
+import eu.domibus.logging.DomibusLogger;
+import eu.domibus.logging.DomibusLoggerFactory;
 
 public class TransformPayloadToAttachment implements SubmissionPayloadToDomibusMessageTransformer {
 
+    private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(TransformPayloadToAttachment.class);
 
     @Override
     public boolean canTransform(PayloadWrapper payloadWrapper) {
@@ -20,6 +23,7 @@ public class TransformPayloadToAttachment implements SubmissionPayloadToDomibusM
         mAttachment.setDescription(payload.getPayloadDescription());
         mAttachment.setIdentifier(payload.getPayloadDescription());
         messageType.getMessageAttachments().add(mAttachment);
+        LOGGER.debug("Successfully transformed payload [{}] to ecodex message attachment [{}]", payload.getPayloadName(), mAttachment);
         return messageType;
     }
 

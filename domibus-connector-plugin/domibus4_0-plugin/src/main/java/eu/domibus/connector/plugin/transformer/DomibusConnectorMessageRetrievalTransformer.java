@@ -29,7 +29,6 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DomibusConnectorMessageRetrievalTransformer.class);
 
-
 	@Override
 	public DomibusConnectorMessage transformFromSubmission(Submission submission, DomibusConnectorMessage connectorMessage) {
 		if (submission.getMessageId() != null)
@@ -76,46 +75,6 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 							.transformSubmissionToAttachment(wrappedPayload, message);
 				});
 
-//		if(!payloads.isEmpty()){
-//			Iterator<Payload> iterator = payloads.iterator();
-//			while(iterator.hasNext()){
-//				Payload payload = iterator.next();
-//				String payloadName = null;
-//				String payloadMimeType = null;
-//				String payloadDescription = null;
-//				Collection<TypedProperty> properties = payload.getPayloadProperties();
-//				Iterator<TypedProperty> pIt = properties.iterator();
-//				while(pIt.hasNext()){
-//					TypedProperty prop = pIt.next();
-//					switch(prop.getKey()){
-//					case DomibusConnectorMessage.NAME_KEY: payloadName = prop.getValue();break;
-//					case DomibusConnectorMessage.MIME_TYPE_KEY: payloadMimeType = prop.getValue();break;
-//					case DomibusConnectorMessage.DESCRIPTION_KEY: payloadDescription = prop.getValue();break;
-//					}
-//
-//				}
-//				if((payloadName!=null && payloadName.equals(DomibusConnectorMessage.MESSAGE_CONTENT_VALUE)) || payload.isInBody()){
-//					DomibusConnectorMessageContentType mContent = new DomibusConnectorMessageContentType();
-//					Source source = null;
-//					try {
-//						source = new StreamSource(payload.getPayloadDatahandler().getInputStream());
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//					}
-//					mContent.setXmlContent(source);
-//					message.setMessageContent(mContent);
-//				}else{
-//					DomibusConnectorMessageAttachmentType mAttachment = new DomibusConnectorMessageAttachmentType();
-//					mAttachment.setAttachment(payload.getPayloadDatahandler());
-//					mAttachment.setName(payloadName);
-//					mAttachment.setMimeType(payloadMimeType);
-//					mAttachment.setDescription(payloadDescription);
-//					mAttachment.setIdentifier(payloadDescription);
-//					message.getMessageAttachments().add(mAttachment);
-//				}
-//
-//			}
-//		}
 	}
 
 	private void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {

@@ -47,6 +47,9 @@ public class TransformPayloadToMessageContent implements SubmissionPayloadToDomi
         }
         mContent.setXmlContent(source);
         messageType.setMessageContent(mContent);
+
+        LOGGER.debug("Successfully transformed payload [{}] to message content", payloadWrapper.getPayloadName(), mContent);
+
         return messageType;
     }
 

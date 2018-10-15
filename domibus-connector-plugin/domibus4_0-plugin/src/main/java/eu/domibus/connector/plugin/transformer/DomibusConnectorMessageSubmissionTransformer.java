@@ -15,10 +15,13 @@ import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
+import static eu.domibus.connector.plugin.domain.DomibusConnectorMessage.XML_MIME_TYPE;
 
 @Component
 public class DomibusConnectorMessageSubmissionTransformer implements MessageSubmissionTransformer<DomibusConnectorMessage> {
@@ -65,7 +68,7 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY,attachment.getMimeType()));
 				String attachmentDescription = attachment.getIdentifier()!=null?attachment.getIdentifier():attachment.getName();
 				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY,attachmentDescription));
-				
+				LOGGER.debug("Adding attachment [{}] as payload with payloadProperties", attachment, payloadProperties);
 				submission.addPayload(contentId, attachment.getAttachment(), payloadProperties);
 			}
 		}
@@ -105,30 +108,26 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");    
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             StreamResult xmlOutput = new StreamResult(new OutputStreamWriter(output));
-            transformer.transform(xmlInput, xmlOutput);            
-            return output.toByteArray();
+            transformer.transform(xmlInput, xmlOutput);
+            byte[] outputArray = output.toByteArray();
+            LOGGER.trace("convertXmlSourceToByteArray: [{}]", new String(outputArray), "UTF-8");
+            return outputArray;
         } catch (IllegalArgumentException | TransformerException e) {
             throw new RuntimeException("Exception occured during transforming xml into byte[]", e);
         }
     }
 
-	private DataHandler convertXmlSourceToDataHandler(Source xml) {
-		byte[] xmContent = convertXmlSourceToByteArray(xml);
-//		DataSource ds = new ByteArrayDataSource(xmContent, "application/octet-stream");
-		DataHandler dataHandler = new DataHandler(xml, "application/xml");
+	private DataHandler convertXmlSourceToDataHandler(Source xmlSource) {
+//		byte[] xmlContent = convertXmlSourceToByteArray(xmlSource);
+		DataHandler dataHandler = new DataHandler(xmlSource, DomibusConnectorMessage.XML_MIME_TYPE);
 		return dataHandler;
 	}
 
 	void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {
 		DomibusConnectorMessageDetailsType messageDetails = message.getMessageDetails();
-
-//		submission.setMessageId(messageDetails.getMessageId());
 		submission.setRefToMessageId(messageDetails.getRefToMessageId());
-
 		transformParties(submission, messageDetails);
-
 		transformCollaborationInfo(submission, messageDetails);
-
 		transformMessageProperties(submission, messageDetails);
 	}
 
@@ -141,14 +140,14 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 //				contentId = "CONFIRMATION_" + contentId;
 				Collection<TypedProperty> payloadProperties = new ArrayList<TypedProperty>();
 				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.NAME_KEY, confirmation.getConfirmationType().value()));
-				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY, DomibusConnectorMessage.XML_MIME_TYPE));
+				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY, XML_MIME_TYPE));
 				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY, confirmation.getConfirmationType().value()));
 				DataHandler dh = convertXmlSourceToDataHandler(confirmation.getConfirmation());
+				LOGGER.debug("Adding Confirmation [{}] as payload with properties [{}]", confirmation, payloadProperties);
 				submission.addPayload(contentId, dh, payloadProperties);
 			}
 			);
 	}
-
 
 
 	void transformMessageProperties(Submission submission, DomibusConnectorMessageDetailsType messageDetails) {

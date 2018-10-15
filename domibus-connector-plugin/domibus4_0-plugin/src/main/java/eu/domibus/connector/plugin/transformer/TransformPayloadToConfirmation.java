@@ -43,7 +43,7 @@ public class TransformPayloadToConfirmation implements SubmissionPayloadToDomibu
             DataHandler payloadDataHandler = payloadWrapper.getPayloadDataHandler();
             InputStream inputStream = payloadDataHandler.getInputStream();
             confirmation.setConfirmation(new StreamSource(inputStream));
-
+            LOGGER.debug("Successfully transformed payload [{}] to confirmation [{}]", payloadWrapper.getPayloadName(), confirmation);
             messageType.getMessageConfirmations().add(confirmation);
             return messageType;
         } catch (IOException ioe) {

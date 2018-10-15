@@ -15,6 +15,7 @@ public class DomibusConnectorMessage {
 	public static final String ORIGINAL_MESSAGE_ID = "originalMessageId";
 	public static final String XML_MIME_TYPE = "text/xml";
 	public static final String APPLICATION_MIME_TYPE = "application/octet-stream";
+	public static final String ASIC_S_MIMETYPE = "application/vnd.etsi.asic-s+zip";
 	public static final String CONTENT_PDF_NAME = "ContentPDF";
 	public static final String CONTENT_XML_NAME = "ContentXML";
 
