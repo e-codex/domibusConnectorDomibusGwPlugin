@@ -43,16 +43,16 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 		if(message.getMessageDetails().getEbmsMessageId()!=null)
 			LOGGER.debug("Successfully transformed Submission object to DomibusConnectorMessage with ebmsMessageId "+ message.getMessageDetails().getEbmsMessageId());
 		
-		if(LOGGER.isTraceEnabled()){
-			try {
-				String headerString = printXML(message);
-				LOGGER.trace(headerString);
-			} catch (JAXBException e1) {
-				LOGGER.error("JAXB exception occured while printXML", e1);
-			} catch (IOException ioe) {
-				LOGGER.error("IOException occured while printXML", ioe);
-			}
-		}
+//		if(LOGGER.isTraceEnabled()){
+//			try {
+//				String headerString = printXML(message);
+//				LOGGER.trace(headerString);
+//			} catch (JAXBException e1) {
+//				LOGGER.error("JAXB exception occured while printXML", e1);
+//			} catch (IOException ioe) {
+//				LOGGER.error("IOException occured while printXML", ioe);
+//			}
+//		}
 		
 		return connectorMessage;
 	}
@@ -128,30 +128,30 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 				}
 			}
 		}
-		
 		message.setMessageDetails(messageDetails );
 	}
 
-	private String printXML(final DomibusConnectorMessageType object) throws JAXBException,
-		IOException {
-			JAXBContext ctx = JAXBContext.newInstance(DomibusConnectorMessage.class);
-	
-			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-	
-			Marshaller marshaller = ctx.createMarshaller();
-	
-			marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-            JAXBElement<DomibusConnectorMessageType> domibusConnectorMessageJAXBElement = new JAXBElement<DomibusConnectorMessageType>(new QName("uri", "local"), DomibusConnectorMessageType.class,  object);
-            marshaller.marshal(domibusConnectorMessageJAXBElement, byteArrayOutputStream);
-	
-			byte[] buffer = byteArrayOutputStream.toByteArray();
-	
-			byteArrayOutputStream.flush();
-			byteArrayOutputStream.close();
-	
-			return new String(buffer, "UTF-8");
-		}
+//does not work, cannot consume object twice! -> instead user buffer or copy first...
+//	private String printXML(final DomibusConnectorMessageType object) throws JAXBException,
+//		IOException {
+//			JAXBContext ctx = JAXBContext.newInstance(DomibusConnectorMessage.class);
+//
+//			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//
+//			Marshaller marshaller = ctx.createMarshaller();
+//
+//			marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+//			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//
+//            JAXBElement<DomibusConnectorMessageType> domibusConnectorMessageJAXBElement = new JAXBElement<DomibusConnectorMessageType>(new QName("uri", "local"), DomibusConnectorMessageType.class,  object);
+//            marshaller.marshal(domibusConnectorMessageJAXBElement, byteArrayOutputStream);
+//
+//			byte[] buffer = byteArrayOutputStream.toByteArray();
+//
+//			byteArrayOutputStream.flush();
+//			byteArrayOutputStream.close();
+//
+//			return new String(buffer, "UTF-8");
+//		}
 
 }
