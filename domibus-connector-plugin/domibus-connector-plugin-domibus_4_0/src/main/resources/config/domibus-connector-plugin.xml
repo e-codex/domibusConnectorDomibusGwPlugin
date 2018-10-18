@@ -1,38 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans
+	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:amq="http://activemq.apache.org/schema/core"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
     xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:c="http://www.springframework.org/schema/c"
-    xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:wsp="http://www.w3.org/ns/ws-policy"
-    xmlns="http://www.springframework.org/schema/beans"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:policy="http://cxf.apache.org/policy"
 	xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
 	xmlns:sec="http://cxf.apache.org/configuration/security"
+	xmlns:soap="http://cxf.apache.org/bindings/soap"
+	
     xsi:schemaLocation="
+    	http://cxf.apache.org/policy http://cxf.apache.org/schemas/policy.xsd
+    	http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
         http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
-
-    " >
-<!--
-    http://cxf.apache.org/jaxws
-    http://cxf.apache.org/schemas/jaxws
-    http://cxf.apache.org/configuration/security
-    -->
-
-    <!---->
-	<!--http://activemq.apache.org/schema/core-->
-    <!--http://activemq.apache.org/schema/core/activemq-core.xsd-->
-
-    <!--http://cxf.apache.org/transports/http/configuration-->
-    <!--http://cxf.apache.org/schemas/configuration/http-conf.xsd">-->
-
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd" >
+	
+	
     <!-- ATTENTION! To set the connection between this plugin and your domibusConnector installation it is important
-    to set the following property in the "domibus.properties":
-    connector.delivery.service.endpoint.address=http://"YOUR INSTALLATION" -->
+    to also configure the "domibus-connector-plugin.properties" and have it in the domibus.config.location -->
     
 	<bean
 		id="domibusConnectorWebservice"
@@ -50,42 +42,56 @@
           p:backendConnector-ref="domibusConnectorWebservice">
     </bean> 
 
-	<jaxws:endpoint
+	<jaxws:endpoint		
 		id="connectorSubmissionInterfaceEndpoint"
         implementor="#domibusConnectorWebservice"
         address="/domibusConnectorSubmissionWebservice"
-        serviceName="s:DomibusConnectorGatewaySubmissionWebService"  
-        wsdlLocation="wsdl/DomibusConnectorGatewaySubmissionWebService.wsdl"
-        xmlns:s="http://connector.domibus.eu/ws/gateway/submission/webservice">
-
+            endpointName="s:DomibusConnectorGatewaySubmissionWebService"
+            serviceName="s:DomibusConnectorGatewaySubmissionWSService"
+            xmlns:s="http://connector.domibus.eu/ws/gateway/submission/webservice"
+		    wsdlLocation="wsdl/DomibusConnectorGatewaySubmissionWebService.wsdl"
+		>
+		
         <jaxws:properties>
             <entry key="security.signature.properties" value-ref="encryptProperties" />
-            <!--<entry key="security.signature.user" value="gw" />-->
+            <!-- <entry key="security.signature.user" value="gw" /> -->
             <entry key="security.encryption.properties" value-ref="encryptProperties" />
             <entry key="security.encryption.username" value="useReqSigCert" />
             <entry key="mtom-enabled" value="true" />
             <entry key="security.store.bytes.in.attachment" value="true" />
             <entry key="security.enable.streaming" value="true" />
         </jaxws:properties>
+        
 
         <jaxws:features>
-            <p:policies>
+        
+            <policy:policies>
                 <wsp:PolicyReference URI="classpath:/wsdl/backend.policy.xml"/>
-            </p:policies>
+            </policy:policies>
+            
         </jaxws:features>
+		                            
+        
+		
+		 <jaxws:binding>
+            <soap:soapBinding version="1.2" mtomEnabled="true"/>
+        </jaxws:binding>
+        
 
    	</jaxws:endpoint>
+   	
+   	
    	
    	<jaxws:client id="connectorDeliveryClient" 
    		serviceClass="eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService"
 		address="${connector.delivery.service.endpoint.address}"
 		serviceName="s:DomibusConnectorGatewayDeliveryWebService"  
-        wsdlLocation="wsdl/DomibusConnectorGatewayDeliveryWebService.wsdl"
+        wsdlLocation="wsdl/DomibusConnectorGatewayDeliveryWebService.wsdl"      
         xmlns:s="http://connector.domibus.eu/ws/gateway/delivery/webservice" >
 
 		<jaxws:properties>
 			<entry key="security.signature.properties" value-ref="encryptProperties" />
-			<!--<entry key="security.signature.user" value="gw" />-->
+			<!-- <entry key="security.signature.user" value="gw" /> -->
 			<entry key="security.encryption.properties" value-ref="encryptProperties" />
 			<entry key="security.encryption.username" value="connector" />
 			<entry key="mtom-enabled" value="true" />
@@ -94,11 +100,16 @@
 		</jaxws:properties>
 
 		<jaxws:features>
-			<p:policies>
+			<policy:policies>
 				<wsp:PolicyReference URI="classpath:/wsdl/backend.policy.xml"/>
-			</p:policies>
+			</policy:policies>
 		</jaxws:features>
-
+		
+		
+		 <jaxws:binding>
+            <soap:soapBinding version="1.2" mtomEnabled="true"/>
+        </jaxws:binding>
+        
 	</jaxws:client>
 
 	<bean id="encryptProperties"
