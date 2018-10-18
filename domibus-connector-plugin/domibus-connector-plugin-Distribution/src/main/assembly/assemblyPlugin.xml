@@ -1,0 +1,45 @@
+<assembly>
+	<id>Plugin</id>
+	<formats>
+		<format>zip</format>
+		<format>dir</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<!-- <fileSets>
+		==================== Copying conf files =================
+		<fileSet>
+			<directory>${project.basedir}/conf/
+			</directory>
+			<outputDirectory>/config
+			</outputDirectory>
+		</fileSet>
+	</fileSets> -->
+	<files>
+		<!-- ==================== Copying JAR files ================= -->
+		<file>
+			<source>${project.basedir}/../domibus_4_0-connector-plugin/target/domibus_4_0-connector-plugin-${project.version}.jar
+			</source>
+			<outputDirectory>/domibus-v4_0/lib</outputDirectory>
+			<destName>domibus-connector-plugin.jar</destName>
+		</file>
+		<file>
+			<source>${project.basedir}/../domibus_3_x-connector-plugin/target/domibus_3_x-connector-plugin-${project.version}.jar
+			</source>
+			<outputDirectory>/domibus-v3_x/lib</outputDirectory>
+			<destName>domibus-connector-plugin.jar</destName>
+		</file>
+		<!-- ==================== Copying CONF files ================= -->
+		<file>
+			<source>${project.basedir}/domibus_4_0-connector-plugin/src/main/conf/domibus-connector-plugin.xml</source>
+			<outputDirectory>/domibus-v4_0/conf
+			</outputDirectory>
+			<destName>domibus-connector-plugin.xml</destName>
+		</file>
+		<file>
+			<source>${project.basedir}/domibus_3_x-connector-plugin/conf/domibus-connector-plugin.xml</source>
+			<outputDirectory>/domibus-v3_x/conf
+			</outputDirectory>
+			<destName>domibus-connector-plugin.xml</destName>
+		</file>
+	</files>
+</assembly>
