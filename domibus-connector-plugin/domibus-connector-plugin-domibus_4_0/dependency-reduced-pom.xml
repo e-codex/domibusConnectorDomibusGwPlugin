@@ -6,14 +6,12 @@
     <version>4.1.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>eu.domibus.connector</groupId>
   <artifactId>domibus-connector-plugin-domibus_4_0</artifactId>
   <description>Plugin to attach the connector to the domibus 4.0 AS4 Gateway</description>
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.1.0</version>
         <executions>
           <execution>
             <phase>package</phase>
