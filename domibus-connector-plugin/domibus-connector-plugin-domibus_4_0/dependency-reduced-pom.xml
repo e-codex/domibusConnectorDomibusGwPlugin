@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <artifactId>domibus-connector-plugin-parent</artifactId>
+    <artifactId>domibus-connector-plugin</artifactId>
     <groupId>eu.domibus.connector</groupId>
     <version>4.1.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.domibus.connector</groupId>
-  <artifactId>domibus_4_0-connector-plugin</artifactId>
+  <artifactId>domibus-connector-plugin-domibus_4_0</artifactId>
   <description>Plugin to attach the connector to the domibus 4.0 AS4 Gateway</description>
   <build>
     <plugins>
