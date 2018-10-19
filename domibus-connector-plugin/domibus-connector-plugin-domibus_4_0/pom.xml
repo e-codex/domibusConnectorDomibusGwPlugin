@@ -15,7 +15,6 @@
     <properties>
         <plugin-api.version>4.0</plugin-api.version>
         <org.springframework.version>4.3.17.RELEASE</org.springframework.version>
-        <domibus.connector.version>4.1.0-alpha2-SNAPSHOT</domibus.connector.version>
     </properties>
 
     <dependencies>

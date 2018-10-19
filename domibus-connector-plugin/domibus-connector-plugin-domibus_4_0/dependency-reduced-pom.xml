@@ -3,7 +3,7 @@
   <parent>
     <artifactId>domibus-connector-plugin</artifactId>
     <groupId>eu.domibus.connector.plugin</groupId>
-    <version>4.1.0-beta-SNAPSHOT</version>
+    <version>4.1.0-beta0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>domibus-connector-plugin-domibus_4_0</artifactId>
@@ -65,7 +65,6 @@
   </dependencies>
   <properties>
     <org.springframework.version>4.3.17.RELEASE</org.springframework.version>
-    <domibus.connector.version>4.1.0-alpha2-SNAPSHOT</domibus.connector.version>
     <plugin-api.version>4.0</plugin-api.version>
   </properties>
 </project>
