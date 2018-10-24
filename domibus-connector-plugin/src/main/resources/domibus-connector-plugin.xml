@@ -93,7 +93,7 @@
 			<entry key="security.signature.properties" value-ref="encryptProperties" />
 			<!-- <entry key="security.signature.user" value="gw" /> -->
 			<entry key="security.encryption.properties" value-ref="encryptProperties" />
-			<entry key="security.encryption.username" value="connector" />
+			<entry key="security.encryption.username" value="${connector.delivery.encrypt-alias}" />
 			<entry key="mtom-enabled" value="true" />
 			<entry key="security.store.bytes.in.attachment" value="true" />
 			<entry key="security.enable.streaming" value="true" />
