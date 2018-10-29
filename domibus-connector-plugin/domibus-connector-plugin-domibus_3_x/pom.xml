@@ -3,7 +3,7 @@
 	<parent>
         <artifactId>domibus-connector-plugin</artifactId>
         <groupId>eu.domibus.connector.plugin</groupId>
-        <version>4.1.0-beta0-SNAPSHOT</version>
+        <version>4.1.0-beta1</version>
     </parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>domibus-connector-plugin-domibus_3_x</artifactId>
