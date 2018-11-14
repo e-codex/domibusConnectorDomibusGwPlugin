@@ -53,6 +53,12 @@
 			</outputDirectory>
 			<destName>domibus-connector-plugin.properties</destName>
 		</file>
-		
+		<!-- ==================== Copying DOC files ================= -->
+		<file>
+			<source>${project.basedir}/../src/main/resources/domibus-connector-plugin_InstallationGuide.pdf</source>
+			<outputDirectory>/documentation
+			</outputDirectory>
+			<destName>domibus-connector-plugin_InstallationGuide.pdf</destName>
+		</file>
 	</files>
 </assembly>
