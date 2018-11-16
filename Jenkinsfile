@@ -19,6 +19,7 @@
 	withEnv(MY_ENV) {
 
 				stage ("Checkout") {
+					cleanWs()
 					def commonJob
 					def MAVEN_PROJECT_DIR 
 					node {
