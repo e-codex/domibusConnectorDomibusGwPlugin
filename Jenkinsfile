@@ -19,10 +19,11 @@
 	withEnv(MY_ENV) {
 
 				stage ("Checkout") {
-					cleanWs()
+					
 					def commonJob
 					def MAVEN_PROJECT_DIR 
 					node {
+						cleanWs()
 						//sh 'git config credential.helper cache'
 
 						//TODO: set git username password
