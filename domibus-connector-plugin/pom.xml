@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 	<properties>
 		<cxf.version>3.1.3</cxf.version>
-		<domibus.connector.version>4.1.0-RC1</domibus.connector.version>
+		<domibus.connector.version>4.1.0-RELEASE</domibus.connector.version>
 	</properties>
 	<description>Parent project for all domibus gw plugins</description>
 
@@ -42,49 +42,6 @@
 			<url>https://ec.europa.eu/cefdigital/artifact/content/groups/public/</url>
 		</repository>
 	</repositories>
-
-	<!--<dependencies>-->
-        <!--<dependency>-->
-			<!--<groupId>eu.domibus.connector</groupId>-->
-			<!--<artifactId>domibusConnectorAPI</artifactId>-->
-			<!--<version>${domibus.connector.version}</version>-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.apache.logging.log4j</groupId>-->
-                    <!--<artifactId>log4j-api</artifactId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.apache.logging.log4j</groupId>-->
-                    <!--<artifactId>log4j-core</artifactId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.slf4j</groupId>-->
-                    <!--<artifactId>slf4j-api</artifactId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.apache.logging.log4j</groupId>-->
-                    <!--<artifactId>log4j-slf4j-impl</artifactId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.slf4j</groupId>-->
-                    <!--<artifactId>jul-to-slf4j</artifactId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.slf4j</groupId>-->
-                    <!--<artifactId>jcl-over-slf4j</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
-        <!--</dependency>-->
-		<!--<dependency>-->
-			<!--<groupId>eu.domibus.connector</groupId>-->
-			<!--<artifactId>domibusConnectorAPI</artifactId>-->
-			<!--<version>${domibus.connector.version}</version>-->
-			<!--<classifier>tests</classifier>-->
-			<!--<scope>test</scope>-->
-		<!--</dependency>-->
-
-	<!--</dependencies>-->
-
     <build>
         <pluginManagement>
             <plugins>
