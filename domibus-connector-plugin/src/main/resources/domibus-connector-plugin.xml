@@ -25,108 +25,112 @@
 	
     <!-- ATTENTION! To set the connection between this plugin and your domibusConnector installation it is important
     to also configure the "domibus-connector-plugin.properties" and have it in the domibus.config.location -->
-    
-	<bean
-		id="domibusConnectorWebservice"
-        class="eu.domibus.connector.plugin.ws.DomibusConnectorWebservice">
-        <constructor-arg value="domibusConnectorWebservice"/>
-        <property name="lister" ref="connectorDeliveryWebserviceNotificationListenerService"/>
-   </bean>
-	
-	 <amq:queue name="notifyDomibusConnectorDeliveryWebServiceQueue"
-               physicalName="domibus.notification.webservice"/>
 
-	<bean id="connectorDeliveryWebserviceNotificationListenerService"
-          class="eu.domibus.plugin.NotificationListenerService"
-          c:queue-ref="notifyDomibusConnectorDeliveryWebServiceQueue" c:mode="PUSH"
-          p:backendConnector-ref="domibusConnectorWebservice">
-    </bean> 
+	<bean id="domibusConnectorPluginInitializer"
+		  class="eu.domibus.connector.plugin.config.PluginInitializer" />
 
-	<jaxws:endpoint		
-		id="connectorSubmissionInterfaceEndpoint"
-        implementor="#domibusConnectorWebservice"
-        address="/domibusConnectorSubmissionWebservice"
-            endpointName="s:DomibusConnectorGatewaySubmissionWebService"
-            serviceName="s:DomibusConnectorGatewaySubmissionWSService"
-            xmlns:s="http://connector.domibus.eu/ws/gateway/submission/webservice"
-		    wsdlLocation="wsdl/DomibusConnectorGatewaySubmissionWebService.wsdl"
-		>
-		
-        <jaxws:properties>
-            <entry key="security.signature.properties" value-ref="encryptProperties" />
-            <!-- <entry key="security.signature.user" value="gw" /> -->
-            <entry key="security.encryption.properties" value-ref="encryptProperties" />
-            <entry key="security.encryption.username" value="useReqSigCert" />
-            <entry key="mtom-enabled" value="true" />
-            <entry key="security.store.bytes.in.attachment" value="true" />
-            <entry key="security.enable.streaming" value="true" />
-        </jaxws:properties>
-        
 
-        <jaxws:features>
-        
-            <policy:policies>
-                <wsp:PolicyReference URI="classpath:/wsdl/backend.policy.xml"/>
-            </policy:policies>
-            
-        </jaxws:features>
-		                            
-        
-		
-		 <jaxws:binding>
-            <soap:soapBinding version="1.2" mtomEnabled="true"/>
-        </jaxws:binding>
-        
+	<!--<bean-->
+		<!--id="domibusConnectorWebservice"-->
+        <!--class="eu.domibus.connector.plugin.ws.DomibusConnectorWebservice">-->
+        <!--<constructor-arg value="domibusConnectorWebservice"/>-->
+        <!--<property name="lister" ref="connectorDeliveryWebserviceNotificationListenerService"/>-->
+   <!--</bean>-->
+	<!---->
+	 <!--<amq:queue name="notifyDomibusConnectorDeliveryWebServiceQueue"-->
+               <!--physicalName="domibus.notification.webservice"/>-->
 
-   	</jaxws:endpoint>
-   	
-   	
-   	
-   	<jaxws:client id="connectorDeliveryClient" 
-   		serviceClass="eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService"
-		address="${connector.delivery.service.endpoint.address}"
-		serviceName="s:DomibusConnectorGatewayDeliveryWebService"  
-        wsdlLocation="wsdl/DomibusConnectorGatewayDeliveryWebService.wsdl"      
-        xmlns:s="http://connector.domibus.eu/ws/gateway/delivery/webservice" >
+	<!--<bean id="connectorDeliveryWebserviceNotificationListenerService"-->
+          <!--class="eu.domibus.plugin.NotificationListenerService"-->
+          <!--c:queue-ref="notifyDomibusConnectorDeliveryWebServiceQueue" c:mode="PUSH"-->
+          <!--p:backendConnector-ref="domibusConnectorWebservice">-->
+    <!--</bean> -->
 
-		<jaxws:properties>
-			<entry key="security.signature.properties" value-ref="encryptProperties" />
-			<!-- <entry key="security.signature.user" value="gw" /> -->
-			<entry key="security.encryption.properties" value-ref="encryptProperties" />
-			<entry key="security.encryption.username" value="${connector.delivery.encrypt-alias}" />
-			<entry key="mtom-enabled" value="true" />
-			<entry key="security.store.bytes.in.attachment" value="true" />
-			<entry key="security.enable.streaming" value="true" />
-		</jaxws:properties>
+	<!--<jaxws:endpoint		-->
+		<!--id="connectorSubmissionInterfaceEndpoint"-->
+        <!--implementor="#domibusConnectorWebservice"-->
+        <!--address="/domibusConnectorSubmissionWebservice"-->
+            <!--endpointName="s:DomibusConnectorGatewaySubmissionWebService"-->
+            <!--serviceName="s:DomibusConnectorGatewaySubmissionWSService"-->
+            <!--xmlns:s="http://connector.domibus.eu/ws/gateway/submission/webservice"-->
+		    <!--wsdlLocation="wsdl/DomibusConnectorGatewaySubmissionWebService.wsdl"-->
+		<!--&gt;-->
+		<!---->
+        <!--<jaxws:properties>-->
+            <!--<entry key="security.signature.properties" value-ref="encryptProperties" />-->
+            <!--&lt;!&ndash; <entry key="security.signature.user" value="gw" /> &ndash;&gt;-->
+            <!--<entry key="security.encryption.properties" value-ref="encryptProperties" />-->
+            <!--<entry key="security.encryption.username" value="useReqSigCert" />-->
+            <!--<entry key="mtom-enabled" value="true" />-->
+            <!--<entry key="security.store.bytes.in.attachment" value="true" />-->
+            <!--<entry key="security.enable.streaming" value="true" />-->
+        <!--</jaxws:properties>-->
+        <!---->
 
-		<jaxws:features>
-			<policy:policies>
-				<wsp:PolicyReference URI="classpath:/wsdl/backend.policy.xml"/>
-			</policy:policies>
-		</jaxws:features>
-		
-		
-		 <jaxws:binding>
-            <soap:soapBinding version="1.2" mtomEnabled="true"/>
-        </jaxws:binding>
-        
-	</jaxws:client>
+        <!--<jaxws:features>-->
+        <!---->
+            <!--<policy:policies>-->
+                <!--<wsp:PolicyReference URI="classpath:/wsdl/backend.policy.xml"/>-->
+            <!--</policy:policies>-->
+            <!---->
+        <!--</jaxws:features>-->
+		                            <!---->
+        <!---->
+		<!---->
+		 <!--<jaxws:binding>-->
+            <!--<soap:soapBinding version="1.2" mtomEnabled="true"/>-->
+        <!--</jaxws:binding>-->
+        <!---->
 
-	<bean id="encryptProperties"
-		  class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="properties">
-			<props>
-				<prop key="org.apache.wss4j.crypto.provider">org.apache.wss4j.common.crypto.Merlin</prop>
-				<prop key="org.apache.wss4j.crypto.merlin.keystore.type">jks</prop>
-				<prop key="org.apache.wss4j.crypto.merlin.keystore.password">${connector.delivery.key-store.password}</prop>
-				<prop key="org.apache.wss4j.crypto.merlin.keystore.file">${connector.delivery.key-store.file}</prop>
-				<prop key="org.apache.wss4j.crypto.merlin.keystore.alias">${connector.delivery.private-key.alias}</prop>
-				<prop key="org.apache.wss4j.crypto.merlin.keystore.private.password">${connector.delivery.private-key.password}</prop>
-				<prop key="org.apache.wss4j.crypto.merlin.truststore.type">jks</prop>
-				<prop key="org.apache.wss4j.crypto.merlin.truststore.password">${connector.delivery.trust-store.password}</prop>
-				<prop key="org.apache.wss4j.crypto.merlin.truststore.file">${connector.delivery.trust-store.file}</prop>
-			</props>
-		</property>
-	</bean>
+   	<!--</jaxws:endpoint>-->
+   	<!---->
+   	<!---->
+   	<!---->
+   	<!--<jaxws:client id="connectorDeliveryClient" -->
+   		<!--serviceClass="eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService"-->
+		<!--address="${connector.delivery.service.endpoint.address}"-->
+		<!--serviceName="s:DomibusConnectorGatewayDeliveryWebService"  -->
+        <!--wsdlLocation="wsdl/DomibusConnectorGatewayDeliveryWebService.wsdl"      -->
+        <!--xmlns:s="http://connector.domibus.eu/ws/gateway/delivery/webservice" >-->
+
+		<!--<jaxws:properties>-->
+			<!--<entry key="security.signature.properties" value-ref="encryptProperties" />-->
+			<!--&lt;!&ndash; <entry key="security.signature.user" value="gw" /> &ndash;&gt;-->
+			<!--<entry key="security.encryption.properties" value-ref="encryptProperties" />-->
+			<!--<entry key="security.encryption.username" value="${connector.delivery.encrypt-alias}" />-->
+			<!--<entry key="mtom-enabled" value="true" />-->
+			<!--<entry key="security.store.bytes.in.attachment" value="true" />-->
+			<!--<entry key="security.enable.streaming" value="true" />-->
+		<!--</jaxws:properties>-->
+
+		<!--<jaxws:features>-->
+			<!--<policy:policies>-->
+				<!--<wsp:PolicyReference URI="classpath:/wsdl/backend.policy.xml"/>-->
+			<!--</policy:policies>-->
+		<!--</jaxws:features>-->
+		<!---->
+		<!---->
+		 <!--<jaxws:binding>-->
+            <!--<soap:soapBinding version="1.2" mtomEnabled="true"/>-->
+        <!--</jaxws:binding>-->
+        <!---->
+	<!--</jaxws:client>-->
+
+	<!--<bean id="encryptProperties"-->
+		  <!--class="org.springframework.beans.factory.config.PropertiesFactoryBean">-->
+		<!--<property name="properties">-->
+			<!--<props>-->
+				<!--<prop key="org.apache.wss4j.crypto.provider">org.apache.wss4j.common.crypto.Merlin</prop>-->
+				<!--<prop key="org.apache.wss4j.crypto.merlin.keystore.type">jks</prop>-->
+				<!--<prop key="org.apache.wss4j.crypto.merlin.keystore.password">${connector.delivery.key-store.password}</prop>-->
+				<!--<prop key="org.apache.wss4j.crypto.merlin.keystore.file">${connector.delivery.key-store.file}</prop>-->
+				<!--<prop key="org.apache.wss4j.crypto.merlin.keystore.alias">${connector.delivery.private-key.alias}</prop>-->
+				<!--<prop key="org.apache.wss4j.crypto.merlin.keystore.private.password">${connector.delivery.private-key.password}</prop>-->
+				<!--<prop key="org.apache.wss4j.crypto.merlin.truststore.type">jks</prop>-->
+				<!--<prop key="org.apache.wss4j.crypto.merlin.truststore.password">${connector.delivery.trust-store.password}</prop>-->
+				<!--<prop key="org.apache.wss4j.crypto.merlin.truststore.file">${connector.delivery.trust-store.file}</prop>-->
+			<!--</props>-->
+		<!--</property>-->
+	<!--</bean>-->
 
 </beans>
