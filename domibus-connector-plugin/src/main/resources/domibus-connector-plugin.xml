@@ -29,6 +29,25 @@
 	<bean id="domibusConnectorPluginInitializer"
 		  class="eu.domibus.connector.plugin.config.PluginInitializer" />
 
+	<!-- the notification queue for this backend -->
+	<amq:queue
+			name="notifyDomibusConnectorDeliveryWebServiceQueue"
+			physicalName="domibus.notification.webservice"
+	/>
+
+	<bean id="connectorDeliveryWebserviceNotificationListenerService"
+		  class="eu.domibus.plugin.NotificationListenerService"
+
+		  c:queue-ref="notifyDomibusConnectorDeliveryWebServiceQueue"
+		  c:mode="PUSH" >
+		<property name="backendConnector">
+			<value>#{domibusConnectorPluginInitializer.domibusConnectorWebservice}</value>
+		</property>
+
+
+		  <!--p:backendConnector="#{domibusConnectorPluginInitializer.domibusConnectorWebservice}">-->
+	</bean>
+
 
 	<!--<bean-->
 		<!--id="domibusConnectorWebservice"-->
@@ -37,8 +56,7 @@
         <!--<property name="lister" ref="connectorDeliveryWebserviceNotificationListenerService"/>-->
    <!--</bean>-->
 	<!---->
-	 <!--<amq:queue name="notifyDomibusConnectorDeliveryWebServiceQueue"-->
-               <!--physicalName="domibus.notification.webservice"/>-->
+
 
 	<!--<bean id="connectorDeliveryWebserviceNotificationListenerService"-->
           <!--class="eu.domibus.plugin.NotificationListenerService"-->

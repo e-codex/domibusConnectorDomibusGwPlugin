@@ -3,6 +3,7 @@ package eu.domibus.connector.plugin.config;
 import eu.domibus.connector.plugin.ws.DomibusConnectorWebservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +14,7 @@ public class PluginInitializer {
     public ApplicationContext context;
 
     private DomibusConnectorWebservice domibusConnectorWebservice;
+//    private Object connectorDeliveryWebserviceNotificationListenerService;
 
     @PostConstruct
     public void init() {
@@ -20,7 +22,10 @@ public class PluginInitializer {
                 {"classpath:eu/domibus/connector/plugin/domibus-connector-plugin-child-context.xml"},
                 context);
         this.domibusConnectorWebservice = classPathXmlApplicationContext.getBean("domibusConnectorWebservice", DomibusConnectorWebservice.class);
+//        this.connectorDeliveryWebserviceNotificationListenerService = classPathXmlApplicationContext.getBean("connectorDeliveryWebserviceNotificationListenerService");
+
     }
+
 
     public ApplicationContext getContext() {
         return context;

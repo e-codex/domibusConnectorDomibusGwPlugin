@@ -30,17 +30,20 @@
             id="domibusConnectorWebservice"
             class="eu.domibus.connector.plugin.ws.DomibusConnectorWebservice">
         <constructor-arg value="domibusConnectorWebservice"/>
-        <property name="lister" ref="connectorDeliveryWebserviceNotificationListenerService"/>
+        <!--<property name="lister" ref="connectorDeliveryWebserviceNotificationListenerService"/>-->
     </bean>
 
     <amq:queue name="notifyDomibusConnectorDeliveryWebServiceQueue"
                physicalName="domibus.notification.webservice" />
 
-    <bean id="connectorDeliveryWebserviceNotificationListenerService"
-          class="eu.domibus.plugin.NotificationListenerService"
-          c:queue-ref="notifyDomibusConnectorDeliveryWebServiceQueue" c:mode="PUSH"
-          p:backendConnector-ref="domibusConnectorWebservice">
-    </bean>
+    <!--<bean id="connectorDeliveryWebserviceNotificationListenerService"-->
+          <!--class="eu.domibus.plugin.NotificationListenerService"-->
+
+          <!--c:queue-ref="notifyDomibusConnectorDeliveryWebServiceQueue"-->
+          <!--c:mode="PUSH"-->
+
+          <!--p:backendConnector-ref="domibusConnectorWebservice">-->
+    <!--</bean>-->
 
     <jaxws:endpoint
             id="connectorSubmissionInterfaceEndpoint"
