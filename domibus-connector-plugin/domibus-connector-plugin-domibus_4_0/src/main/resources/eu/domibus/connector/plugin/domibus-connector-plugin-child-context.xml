@@ -33,8 +33,12 @@
         <!--<property name="lister" ref="connectorDeliveryWebserviceNotificationListenerService"/>-->
     </bean>
 
-    <amq:queue name="notifyDomibusConnectorDeliveryWebServiceQueue"
-               physicalName="domibus.notification.webservice" />
+    <!--<amq:queue name="notifyDomibusConnectorDeliveryWebServiceQueue"-->
+               <!--physicalName="domibus.notification.webservice" />-->
+
+
+    <!-- create custom CXF bus for this plugin -->
+    <bean id="connectorCxfBus" class="org.apache.cxf.bus.spring.SpringBus" destroy-method="shutdown" />
 
     <!--<bean id="connectorDeliveryWebserviceNotificationListenerService"-->
           <!--class="eu.domibus.plugin.NotificationListenerService"-->
@@ -51,6 +55,7 @@
             address="/domibusConnectorSubmissionWebservice"
             endpointName="s:DomibusConnectorGatewaySubmissionWebService"
             serviceName="s:DomibusConnectorGatewaySubmissionWSService"
+            bus="connectorCxfBus"
             xmlns:s="http://connector.domibus.eu/ws/gateway/submission/webservice"
             wsdlLocation="wsdl/DomibusConnectorGatewaySubmissionWebService.wsdl"
     >
@@ -89,6 +94,7 @@
                   serviceClass="eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService"
                   address="${connector.delivery.service.endpoint.address}"
                   serviceName="s:DomibusConnectorGatewayDeliveryWebService"
+                  bus="connectorCxfBus"
                   wsdlLocation="wsdl/DomibusConnectorGatewayDeliveryWebService.wsdl"
                   xmlns:s="http://connector.domibus.eu/ws/gateway/delivery/webservice" >
 
