@@ -45,7 +45,6 @@
 
           <!--c:queue-ref="notifyDomibusConnectorDeliveryWebServiceQueue"-->
           <!--c:mode="PUSH"-->
-
           <!--p:backendConnector-ref="domibusConnectorWebservice">-->
     <!--</bean>-->
 
@@ -55,7 +54,7 @@
             address="/domibusConnectorSubmissionWebservice"
             endpointName="s:DomibusConnectorGatewaySubmissionWebService"
             serviceName="s:DomibusConnectorGatewaySubmissionWSService"
-            bus="connectorCxfBus"
+
             xmlns:s="http://connector.domibus.eu/ws/gateway/submission/webservice"
             wsdlLocation="wsdl/DomibusConnectorGatewaySubmissionWebService.wsdl"
     >
