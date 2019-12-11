@@ -5,7 +5,7 @@
     <parent>
         <artifactId>domibus-connector-plugin</artifactId>
         <groupId>eu.domibus.connector.plugin</groupId>
-        <version>4.1.1-RELEASE</version>
+        <version>4.1.0-RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -82,51 +82,10 @@
             <scope>compile</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.3.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>eu.domibus</groupId>
-            <artifactId>domibus-MSH</artifactId>
-            <version>4.0.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-all</artifactId>
-            <version>5.14.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>6.0.53</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.11.1</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.1</version>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
