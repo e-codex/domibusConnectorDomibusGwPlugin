@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.domibus.connector.plugin</groupId>
 	<artifactId>domibus-connector-plugin</artifactId>
-	<version>4.1.3-SNAPSHOT</version>
+	<version>4.1.3-RC1</version>
 	<packaging>pom</packaging>
 	<properties>
 		<cxf.version>3.1.3</cxf.version>
@@ -22,16 +22,16 @@
 		<developerConnection>scm:git:https://www.git.e-codex.eu/ecodex.git/domibus-connector-plugin</developerConnection>
 	</scm>
 
-	<distributionManagement>
-		<repository>
-			<id>${releases-repo.id}</id>
-			<url>${releases-repo.url}</url>
-		</repository>
-		<snapshotRepository>
-			<id>${snapshots-repo.id}</id>
-			<url>${snapshots-repo.url}</url>
-		</snapshotRepository>
-	</distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>${ecodex-releases-repo.id}</id>
+            <url>${ecodex-releases-repo.url}</url>
+        </repository>
+        <snapshotRepository>
+            <id>${ecodex-snapshots-repo.id}</id>
+            <url>${ecodex-snapshots-repo.url}</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 
 	<repositories>
