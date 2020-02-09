@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>domibus-gw-connector-plugin-parent</artifactId>
+        <groupId>eu.domibus.connector.domibus-gw-plugin</groupId>
+        <version>GW4.1_1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>domibus-gw-connector-plugin-ittest</artifactId>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>eu.ecodex.connector.utils</groupId>
+                <artifactId>ecodex-dependencies</artifactId>
+                <version>0.0.11-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>eu.ecodex.labbox</groupId>
+            <artifactId>ecodex-lab-box-manager</artifactId>
+            <version>1.0.5-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

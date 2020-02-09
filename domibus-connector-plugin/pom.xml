@@ -14,6 +14,7 @@
     <modules>
         <module>domibus-gw-connector-plugin</module>
         <module>domibus-connector-plugin-distribution</module>
+        <module>domibus-gw-connector-plugin-ittest</module>
     </modules>
 
 	<scm>
