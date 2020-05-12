@@ -26,6 +26,7 @@ public class TransformPayloadToMessageContent implements SubmissionPayloadToDomi
     @Override
     public boolean canTransform(PayloadWrapper payloadWrapper) {
         return  DomibusConnectorMessage.MESSAGE_CONTENT_VALUE.equals(payloadWrapper.getPayloadName())
+                || DomibusConnectorMessage.MESSAGE_CONTENT_VALUE.equals(payloadWrapper.getPayloadDescription())
                 || payloadWrapper.getPayload().isInBody();
 
     }
@@ -48,7 +49,7 @@ public class TransformPayloadToMessageContent implements SubmissionPayloadToDomi
         mContent.setXmlContent(source);
         messageType.setMessageContent(mContent);
 
-        LOGGER.debug("Successfully transformed payload [{}] to message content", payloadWrapper.getPayloadName(), mContent);
+        LOGGER.debug("Successfully transformed payload name [{}] playloadDescription [{}] to message content", payloadWrapper.getPayloadName(), payloadWrapper.getPayloadDescription(), mContent);
 
         return messageType;
     }

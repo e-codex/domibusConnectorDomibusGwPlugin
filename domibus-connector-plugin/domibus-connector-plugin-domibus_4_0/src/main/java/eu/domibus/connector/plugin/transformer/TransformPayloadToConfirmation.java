@@ -23,8 +23,9 @@ public class TransformPayloadToConfirmation implements SubmissionPayloadToDomibu
 
     @Override
     public boolean canTransform(PayloadWrapper payloadWrapper) {
-        return DomibusConnectorMessage.XML_MIME_TYPE.equals(payloadWrapper.getPayloadMimeType())
-                && typeNames.contains(payloadWrapper.getPayloadDescription());
+//        return DomibusConnectorMessage.XML_MIME_TYPE.equals(payloadWrapper.getPayloadMimeType())
+//                &&
+        return typeNames.contains(payloadWrapper.getPayloadDescription()) || typeNames.contains(payloadWrapper.getPayloadName());
     }
 
     @Override
@@ -43,7 +44,7 @@ public class TransformPayloadToConfirmation implements SubmissionPayloadToDomibu
             DataHandler payloadDataHandler = payloadWrapper.getPayloadDataHandler();
             InputStream inputStream = payloadDataHandler.getInputStream();
             confirmation.setConfirmation(new StreamSource(inputStream));
-            LOGGER.debug("Successfully transformed payload [{}] to confirmation [{}]", payloadWrapper.getPayloadName(), confirmation);
+            LOGGER.debug("Successfully transformed payloadDescription [{}] payloadName [{}] to confirmation [{}]", payloadWrapper.getPayloadDescription(), payloadWrapper.getPayloadName(), confirmation);
             messageType.getMessageConfirmations().add(confirmation);
             return messageType;
         } catch (IOException ioe) {

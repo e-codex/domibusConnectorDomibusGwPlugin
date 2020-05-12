@@ -23,7 +23,7 @@ public class TransformPayloadToAttachment implements SubmissionPayloadToDomibusM
         mAttachment.setDescription(payload.getPayloadDescription());
         mAttachment.setIdentifier(payload.getPayloadDescription());
         messageType.getMessageAttachments().add(mAttachment);
-        LOGGER.debug("Successfully transformed payload [{}] to ecodex message attachment [{}]", payload.getPayloadName(), mAttachment);
+        LOGGER.debug("Successfully transformed payloadName [{}], payloadDescription [{}] to ecodex message attachment [{}]", payload.getPayloadName(), payload.getPayloadDescription(), mAttachment);
         return messageType;
     }
 
