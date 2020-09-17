@@ -3,9 +3,9 @@ package eu.domibus.connector.plugin.transformer;
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageContentType;
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
+import eu.domibus.logging.DomibusLogger;
+import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.plugin.Submission;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -13,7 +13,8 @@ import java.io.IOException;
 
 public class TransformPayloadToMessageContent implements SubmissionPayloadToDomibusMessageTransformer {
 
-    private static final Log LOGGER = LogFactory.getLog(TransformPayloadToMessageContent.class);
+
+    private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(TransformPayloadToMessageContent.class);
 
     /**
      * can transform as message body if payload name equals {@link DomibusConnectorMessage#MESSAGE_CONTENT_VALUE}
@@ -46,6 +47,9 @@ public class TransformPayloadToMessageContent implements SubmissionPayloadToDomi
         }
         mContent.setXmlContent(source);
         messageType.setMessageContent(mContent);
+
+        LOGGER.debug("Successfully transformed payload [{}] to message content", payloadWrapper.getPayloadName(), mContent);
+
         return messageType;
     }
 

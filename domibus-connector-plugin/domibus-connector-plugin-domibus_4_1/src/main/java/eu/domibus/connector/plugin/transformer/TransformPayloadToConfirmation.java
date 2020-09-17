@@ -4,21 +4,20 @@ import eu.domibus.connector.domain.transition.DomibusConnectorConfirmationType;
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageConfirmationType;
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import eu.domibus.logging.DomibusLogger;
+import eu.domibus.logging.DomibusLoggerFactory;
 
 import javax.activation.DataHandler;
 import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TransformPayloadToConfirmation implements SubmissionPayloadToDomibusMessageTransformer {
 
-    private static final Log LOGGER = LogFactory.getLog(TransformPayloadToConfirmation.class);
+    private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(TransformPayloadToConfirmation.class);
 
     private static final Set<String> typeNames =(Arrays.stream(DomibusConnectorConfirmationType.values()).map(t -> t.value()).collect(Collectors.toSet()));
 
@@ -44,7 +43,7 @@ public class TransformPayloadToConfirmation implements SubmissionPayloadToDomibu
             DataHandler payloadDataHandler = payloadWrapper.getPayloadDataHandler();
             InputStream inputStream = payloadDataHandler.getInputStream();
             confirmation.setConfirmation(new StreamSource(inputStream));
-
+            LOGGER.debug("Successfully transformed payload [{}] to confirmation [{}]", payloadWrapper.getPayloadName(), confirmation);
             messageType.getMessageConfirmations().add(confirmation);
             return messageType;
         } catch (IOException ioe) {
