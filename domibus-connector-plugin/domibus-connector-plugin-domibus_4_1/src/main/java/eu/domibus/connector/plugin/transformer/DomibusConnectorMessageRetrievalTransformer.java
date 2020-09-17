@@ -1,36 +1,33 @@
 package eu.domibus.connector.plugin.transformer;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.*;
+import eu.domibus.connector.domain.transition.*;
+import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
+import eu.domibus.logging.DomibusLogger;
+import eu.domibus.logging.DomibusLoggerFactory;
+import eu.domibus.plugin.Submission;
+import eu.domibus.plugin.Submission.Party;
+import eu.domibus.plugin.Submission.Payload;
+import eu.domibus.plugin.Submission.TypedProperty;
+import eu.domibus.plugin.transformer.MessageRetrievalTransformer;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import eu.domibus.connector.domain.transition.DomibusConnectorActionType;
-import eu.domibus.connector.domain.transition.DomibusConnectorMessageDetailsType;
-import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
-import eu.domibus.connector.domain.transition.DomibusConnectorPartyType;
-import eu.domibus.connector.domain.transition.DomibusConnectorServiceType;
-import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
-import eu.domibus.plugin.Submission;
-import eu.domibus.plugin.Submission.Party;
-import eu.domibus.plugin.Submission.Payload;
-import eu.domibus.plugin.Submission.TypedProperty;
-import eu.domibus.plugin.transformer.MessageRetrievalTransformer;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 @Component
 public class DomibusConnectorMessageRetrievalTransformer implements MessageRetrievalTransformer<DomibusConnectorMessage> {
-	
-	private static final Log LOGGER = LogFactory.getLog(DomibusConnectorMessageRetrievalTransformer.class);
+
+    private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DomibusConnectorMessageRetrievalTransformer.class);
 
 	@Override
 	public DomibusConnectorMessage transformFromSubmission(Submission submission, DomibusConnectorMessage connectorMessage) {
@@ -46,16 +43,16 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 		if(message.getMessageDetails().getEbmsMessageId()!=null)
 			LOGGER.debug("Successfully transformed Submission object to DomibusConnectorMessage with ebmsMessageId "+ message.getMessageDetails().getEbmsMessageId());
 		
-		if(LOGGER.isTraceEnabled()){
-			try {
-				String headerString = printXML(message);
-				LOGGER.trace(headerString);
-			} catch (JAXBException e1) {
-				LOGGER.error("JAXB exception occured while printXML", e1);
-			} catch (IOException ioe) {
-				LOGGER.error("IOException occured while printXML", ioe);
-			}
-		}
+//		if(LOGGER.isTraceEnabled()){
+//			try {
+//				String headerString = printXML(message);
+//				LOGGER.trace(headerString);
+//			} catch (JAXBException e1) {
+//				LOGGER.error("JAXB exception occured while printXML", e1);
+//			} catch (IOException ioe) {
+//				LOGGER.error("IOException occured while printXML", ioe);
+//			}
+//		}
 		
 		return connectorMessage;
 	}
@@ -78,46 +75,6 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 							.transformSubmissionToAttachment(wrappedPayload, message);
 				});
 
-//		if(!payloads.isEmpty()){
-//			Iterator<Payload> iterator = payloads.iterator();
-//			while(iterator.hasNext()){
-//				Payload payload = iterator.next();
-//				String payloadName = null;
-//				String payloadMimeType = null;
-//				String payloadDescription = null;
-//				Collection<TypedProperty> properties = payload.getPayloadProperties();
-//				Iterator<TypedProperty> pIt = properties.iterator();
-//				while(pIt.hasNext()){
-//					TypedProperty prop = pIt.next();
-//					switch(prop.getKey()){
-//					case DomibusConnectorMessage.NAME_KEY: payloadName = prop.getValue();break;
-//					case DomibusConnectorMessage.MIME_TYPE_KEY: payloadMimeType = prop.getValue();break;
-//					case DomibusConnectorMessage.DESCRIPTION_KEY: payloadDescription = prop.getValue();break;
-//					}
-//
-//				}
-//				if((payloadName!=null && payloadName.equals(DomibusConnectorMessage.MESSAGE_CONTENT_VALUE)) || payload.isInBody()){
-//					DomibusConnectorMessageContentType mContent = new DomibusConnectorMessageContentType();
-//					Source source = null;
-//					try {
-//						source = new StreamSource(payload.getPayloadDatahandler().getInputStream());
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//					}
-//					mContent.setXmlContent(source);
-//					message.setMessageContent(mContent);
-//				}else{
-//					DomibusConnectorMessageAttachmentType mAttachment = new DomibusConnectorMessageAttachmentType();
-//					mAttachment.setAttachment(payload.getPayloadDatahandler());
-//					mAttachment.setName(payloadName);
-//					mAttachment.setMimeType(payloadMimeType);
-//					mAttachment.setDescription(payloadDescription);
-//					mAttachment.setIdentifier(payloadDescription);
-//					message.getMessageAttachments().add(mAttachment);
-//				}
-//
-//			}
-//		}
 	}
 
 	private void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {
@@ -171,30 +128,30 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 				}
 			}
 		}
-		
 		message.setMessageDetails(messageDetails );
 	}
 
-	private String printXML(final DomibusConnectorMessageType object) throws JAXBException,
-		IOException {
-			JAXBContext ctx = JAXBContext.newInstance(DomibusConnectorMessage.class);
-	
-			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-	
-			Marshaller marshaller = ctx.createMarshaller();
-	
-			marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-            JAXBElement<DomibusConnectorMessageType> domibusConnectorMessageJAXBElement = new JAXBElement<DomibusConnectorMessageType>(new QName("uri", "local"), DomibusConnectorMessageType.class,  object);
-            marshaller.marshal(domibusConnectorMessageJAXBElement, byteArrayOutputStream);
-	
-			byte[] buffer = byteArrayOutputStream.toByteArray();
-	
-			byteArrayOutputStream.flush();
-			byteArrayOutputStream.close();
-	
-			return new String(buffer, "UTF-8");
-		}
+//does not work, cannot consume object twice! -> instead user buffer or copy first...
+//	private String printXML(final DomibusConnectorMessageType object) throws JAXBException,
+//		IOException {
+//			JAXBContext ctx = JAXBContext.newInstance(DomibusConnectorMessage.class);
+//
+//			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//
+//			Marshaller marshaller = ctx.createMarshaller();
+//
+//			marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+//			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//
+//            JAXBElement<DomibusConnectorMessageType> domibusConnectorMessageJAXBElement = new JAXBElement<DomibusConnectorMessageType>(new QName("uri", "local"), DomibusConnectorMessageType.class,  object);
+//            marshaller.marshal(domibusConnectorMessageJAXBElement, byteArrayOutputStream);
+//
+//			byte[] buffer = byteArrayOutputStream.toByteArray();
+//
+//			byteArrayOutputStream.flush();
+//			byteArrayOutputStream.close();
+//
+//			return new String(buffer, "UTF-8");
+//		}
 
 }

@@ -23,9 +23,9 @@
 			<destName>domibus-connector-plugin.jar</destName>
 		</file>
 		<file>
-			<source>${project.basedir}/../domibus-connector-plugin-domibus_3_x/target/domibus-connector-plugin-domibus_3_x-${project.version}.jar
+			<source>${project.basedir}/../domibus-connector-plugin-domibus_4_1/target/domibus-connector-plugin-domibus_4_1-${project.version}.jar
 			</source>
-			<outputDirectory>/domibus-v3_x/conf/plugins/lib</outputDirectory>
+			<outputDirectory>/domibus-v4_1/conf/plugins/lib</outputDirectory>
 			<destName>domibus-connector-plugin.jar</destName>
 		</file>
 		<!-- ==================== Copying CONF files ================= -->
@@ -43,13 +43,13 @@
 		</file>
 		<file>
 			<source>${project.basedir}/../src/main/resources/domibus-connector-plugin.xml</source>
-			<outputDirectory>/domibus-v3_x/conf/plugins/config
+			<outputDirectory>/domibus-v4_1/conf/plugins/config
 			</outputDirectory>
 			<destName>domibus-connector-plugin.xml</destName>
 		</file>
 		<file>
 			<source>${project.basedir}/../src/main/resources/domibus-connector-plugin.properties</source>
-			<outputDirectory>/domibus-v3_x/conf
+			<outputDirectory>/domibus-v4_1/conf
 			</outputDirectory>
 			<destName>domibus-connector-plugin.properties</destName>
 		</file>
