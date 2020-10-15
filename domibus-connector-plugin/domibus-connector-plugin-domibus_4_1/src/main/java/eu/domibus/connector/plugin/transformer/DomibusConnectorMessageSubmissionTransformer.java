@@ -16,6 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -101,24 +102,31 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
      * @throws RuntimeException - in case of any error! //TODO: improve exceptions
      * @return the byte[]
      */
-    static byte[] convertXmlSourceToByteArray(Source xmlInput) {
+	static byte[] convertXmlSourceToByteArray(Source xmlInput) {
         try {
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        	Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");    
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            StreamResult xmlOutput = new StreamResult(new OutputStreamWriter(output));
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+//            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            StreamResult xmlOutput=new StreamResult(new ByteArrayOutputStream());
+//            StreamResult xmlOutput = new StreamResult(new OutputStreamWriter(output));
             transformer.transform(xmlInput, xmlOutput);
-            byte[] outputArray = output.toByteArray();
-            LOGGER.trace("convertXmlSourceToByteArray: [{}]", new String(outputArray), "UTF-8");
-            return outputArray;
-        } catch (IllegalArgumentException | TransformerException e) {
+//            byte[] result = output.toByteArray();
+//            result = new String(result, "UTF-8").getBytes("UTF-8");
+           
+			return xmlOutput.getOutputStream().toString().getBytes("UTF-8");
+        } catch (IllegalArgumentException | TransformerException | UnsupportedEncodingException e) {
             throw new RuntimeException("Exception occured during transforming xml into byte[]", e);
         }
     }
 
 	private DataHandler convertXmlSourceToDataHandler(Source xmlSource) {
 //		byte[] xmlContent = convertXmlSourceToByteArray(xmlSource);
+//		if(LOGGER.isDebugEnabled()) {
+//        	LOGGER.debug("Business content XML before transformed to data handler: {}", new String(xmlContent));
+//        }
+//		DataHandler dataHandler = new DataHandler(new StreamSource(new ByteArrayInputStream(xmlContent)), DomibusConnectorMessage.XML_MIME_TYPE);
 		DataHandler dataHandler = new DataHandler(xmlSource, DomibusConnectorMessage.XML_MIME_TYPE);
 		return dataHandler;
 	}
