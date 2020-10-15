@@ -9,7 +9,12 @@ import eu.domibus.plugin.Submission;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 
 public class TransformPayloadToMessageContent implements SubmissionPayloadToDomibusMessageTransformer {
 
@@ -39,7 +44,20 @@ public class TransformPayloadToMessageContent implements SubmissionPayloadToDomi
         DomibusConnectorMessageContentType mContent = new DomibusConnectorMessageContentType();
         Source source = null;
         try {
-            source = new StreamSource(payloadWrapper.getPayloadDataHandler().getInputStream());
+//        	InputStream initialStream = payloadWrapper.getPayloadDataHandler().getInputStream();
+//        	 
+//            byte[] targetArray = new byte[initialStream.available()];
+//            initialStream.read(targetArray);
+//            
+//            if(LOGGER.isDebugEnabled()) {
+//            	LOGGER.debug("Business content XML before transformed to stream: {}", new String(targetArray));
+//            }
+//        	source = new StreamSource(new ByteArrayInputStream(
+//                    //byte[] is copied because domain model is not immutable
+////                    Arrays.copyOf(targetArray, targetArray.length)
+//        			targetArray
+//        			));
+        	source = new StreamSource(payloadWrapper.getPayloadDataHandler().getInputStream());
         } catch (IOException e) {
             String error = "Cannot load xml content from message! Payload name is: " + DomibusConnectorMessage.MESSAGE_CONTENT_VALUE;
             LOGGER.error(error, e);

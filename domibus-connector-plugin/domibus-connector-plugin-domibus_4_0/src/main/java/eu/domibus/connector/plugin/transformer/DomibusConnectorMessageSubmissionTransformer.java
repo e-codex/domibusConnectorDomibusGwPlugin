@@ -1,27 +1,39 @@
 package eu.domibus.connector.plugin.transformer;
 
-import eu.domibus.connector.domain.transition.*;
+import static eu.domibus.connector.plugin.domain.DomibusConnectorMessage.XML_MIME_TYPE;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
+import javax.activation.DataHandler;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageAttachmentType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageContentType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageDetailsType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
+import eu.domibus.connector.domain.transition.DomibusConnectorPartyType;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.plugin.Submission;
 import eu.domibus.plugin.Submission.TypedProperty;
 import eu.domibus.plugin.transformer.MessageSubmissionTransformer;
-import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import javax.activation.DataHandler;
-import javax.xml.transform.*;
-import javax.xml.transform.stream.StreamResult;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-
-import static eu.domibus.connector.plugin.domain.DomibusConnectorMessage.XML_MIME_TYPE;
 
 @Component
 public class DomibusConnectorMessageSubmissionTransformer implements MessageSubmissionTransformer<DomibusConnectorMessage> {
@@ -103,22 +115,29 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
      */
     static byte[] convertXmlSourceToByteArray(Source xmlInput) {
         try {
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        	Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");    
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            StreamResult xmlOutput = new StreamResult(new OutputStreamWriter(output));
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+//            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            StreamResult xmlOutput=new StreamResult(new ByteArrayOutputStream());
+//            StreamResult xmlOutput = new StreamResult(new OutputStreamWriter(output));
             transformer.transform(xmlInput, xmlOutput);
-            byte[] outputArray = output.toByteArray();
-            LOGGER.trace("convertXmlSourceToByteArray: [{}]", new String(outputArray), "UTF-8");
-            return outputArray;
-        } catch (IllegalArgumentException | TransformerException e) {
+//            byte[] result = output.toByteArray();
+//            result = new String(result, "UTF-8").getBytes("UTF-8");
+           
+			return xmlOutput.getOutputStream().toString().getBytes("UTF-8");
+        } catch (IllegalArgumentException | TransformerException | UnsupportedEncodingException e) {
             throw new RuntimeException("Exception occured during transforming xml into byte[]", e);
         }
     }
 
 	private DataHandler convertXmlSourceToDataHandler(Source xmlSource) {
 //		byte[] xmlContent = convertXmlSourceToByteArray(xmlSource);
+//		if(LOGGER.isDebugEnabled()) {
+//        	LOGGER.debug("Business content XML before transformed to data handler: {}", new String(xmlContent));
+//        }
+//		DataHandler dataHandler = new DataHandler(new StreamSource(new ByteArrayInputStream(xmlContent)), DomibusConnectorMessage.XML_MIME_TYPE);
 		DataHandler dataHandler = new DataHandler(xmlSource, DomibusConnectorMessage.XML_MIME_TYPE);
 		return dataHandler;
 	}
