@@ -106,31 +106,31 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
         }
 	}
 	
-	/**
-     * takes a source element and converts with 
-     * Transformer to an byte[] backed by ByteArrayOutputStream
-     * @param xmlInput - the Source
-     * @throws RuntimeException - in case of any error! //TODO: improve exceptions
-     * @return the byte[]
-     */
-    static byte[] convertXmlSourceToByteArray(Source xmlInput) {
-        try {
-        	Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-//            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            StreamResult xmlOutput=new StreamResult(new ByteArrayOutputStream());
-//            StreamResult xmlOutput = new StreamResult(new OutputStreamWriter(output));
-            transformer.transform(xmlInput, xmlOutput);
-//            byte[] result = output.toByteArray();
-//            result = new String(result, "UTF-8").getBytes("UTF-8");
-           
-			return xmlOutput.getOutputStream().toString().getBytes("UTF-8");
-        } catch (IllegalArgumentException | TransformerException | UnsupportedEncodingException e) {
-            throw new RuntimeException("Exception occured during transforming xml into byte[]", e);
-        }
-    }
+//	/**
+//     * takes a source element and converts with 
+//     * Transformer to an byte[] backed by ByteArrayOutputStream
+//     * @param xmlInput - the Source
+//     * @throws RuntimeException - in case of any error! //TODO: improve exceptions
+//     * @return the byte[]
+//     */
+//    static byte[] convertXmlSourceToByteArray(Source xmlInput) {
+//        try {
+//        	Transformer transformer = TransformerFactory.newInstance().newTransformer();
+//            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+//            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+//            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+////            ByteArrayOutputStream output = new ByteArrayOutputStream();
+//            StreamResult xmlOutput=new StreamResult(new ByteArrayOutputStream());
+////            StreamResult xmlOutput = new StreamResult(new OutputStreamWriter(output));
+//            transformer.transform(xmlInput, xmlOutput);
+////            byte[] result = output.toByteArray();
+////            result = new String(result, "UTF-8").getBytes("UTF-8");
+//           
+//			return xmlOutput.getOutputStream().toString().getBytes("UTF-8");
+//        } catch (IllegalArgumentException | TransformerException | UnsupportedEncodingException e) {
+//            throw new RuntimeException("Exception occured during transforming xml into byte[]", e);
+//        }
+//    }
 
 	private DataHandler convertXmlSourceToDataHandler(Source xmlSource) {
 //		byte[] xmlContent = convertXmlSourceToByteArray(xmlSource);

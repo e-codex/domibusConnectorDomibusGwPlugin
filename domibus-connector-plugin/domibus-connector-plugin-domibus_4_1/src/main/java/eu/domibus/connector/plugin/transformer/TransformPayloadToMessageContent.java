@@ -1,15 +1,14 @@
 package eu.domibus.connector.plugin.transformer;
 
+import javax.xml.transform.Source;
+
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageContentType;
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
+import eu.domibus.connector.domain.transition.tools.ConversionTools;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.plugin.Submission;
-
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import java.io.IOException;
 
 public class TransformPayloadToMessageContent implements SubmissionPayloadToDomibusMessageTransformer {
 
@@ -38,13 +37,18 @@ public class TransformPayloadToMessageContent implements SubmissionPayloadToDomi
         LOGGER.debug(String.format("%s transformer started transforming to message content", TransformPayloadToMessageContent.class));
         DomibusConnectorMessageContentType mContent = new DomibusConnectorMessageContentType();
         Source source = null;
-        try {
-            source = new StreamSource(payloadWrapper.getPayloadDataHandler().getInputStream());
-        } catch (IOException e) {
-            String error = "Cannot load xml content from message! Payload name is: " + DomibusConnectorMessage.MESSAGE_CONTENT_VALUE;
-            LOGGER.error(error, e);
-            throw new RuntimeException(error, e);
-        }
+//        try {
+               byte[] byteArray = ConversionTools.convertDataHandlerToByteArray(payloadWrapper.getPayloadDataHandler());
+            if(LOGGER.isDebugEnabled()) {
+            	LOGGER.debug("Business content XML before transformed to Source: {}", new String(byteArray));
+            }
+            
+			source = ConversionTools.convertByteArrayToStreamSource(byteArray);
+//        } catch (IOException e) {
+//            String error = "Cannot load xml content from message! Payload name is: " + DomibusConnectorMessage.MESSAGE_CONTENT_VALUE;
+//            LOGGER.error(error, e);
+//            throw new RuntimeException(error, e);
+//        }
         mContent.setXmlContent(source);
         messageType.setMessageContent(mContent);
 

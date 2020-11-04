@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>eu.domibus.connector</groupId>
-            <artifactId>domibusConnectorAPI</artifactId>
+            <artifactId>domibusConnectorAPIlib</artifactId>
             <version>${domibus.connector.version}</version>
             <exclusions>
                 <exclusion>
@@ -57,6 +57,11 @@
             <scope>test</scope>
         </dependency>
 
+	<!-- 	<dependency>
+   			 <groupId>org.apache.xbean</groupId>
+   			  <artifactId>xbean-spring</artifactId>
+       		 <version>3.12</version>
+    	</dependency> -->
 
         <!-- make sure the following libraries do not have any conflicts with the libs used in domibus GW -->
         <dependency>

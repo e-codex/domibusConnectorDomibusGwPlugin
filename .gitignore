@@ -28,3 +28,4 @@
 /domibus-connector-plugin/domibus-connector-plugin-domibus_4_0/pom.xml.versionsBackup
 /domibus-connector-plugin/domibus-connector-plugin-domibus_4_1/pom.xml.versionsBackup
 /domibus-connector-plugin/pom.xml.versionsBackup
+*.classpath
