@@ -92,51 +92,15 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 
             byte[] content = ConversionTools.convertXmlSourceToByteArray(messageContent.getXmlContent());
             
-            if(LOGGER.isDebugEnabled()) {
-            	LOGGER.debug("Business content XML to submit: ", new String(content));
-            }
+//            if(LOGGER.isDebugEnabled()) {
+//            	LOGGER.debug("Business content XML to submit: ", new String(content));
+//            }
             
             DataHandler dataHandler = ConversionTools.convertByteArrayToDataHandler(content, DomibusConnectorMessage.XML_MIME_TYPE);
 
             submission.addPayload(contentId, dataHandler, payloadProperties);
         }
 	}
-	
-//	/**
-//     * takes a source element and converts with 
-//     * Transformer to an byte[] backed by ByteArrayOutputStream
-//     * @param xmlInput - the Source
-//     * @throws RuntimeException - in case of any error! //TODO: improve exceptions
-//     * @return the byte[]
-//     */
-//	static byte[] convertXmlSourceToByteArray(Source xmlInput) {
-//        try {
-//        	Transformer transformer = TransformerFactory.newInstance().newTransformer();
-//            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-//            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-////            ByteArrayOutputStream output = new ByteArrayOutputStream();
-//            StreamResult xmlOutput=new StreamResult(new ByteArrayOutputStream());
-////            StreamResult xmlOutput = new StreamResult(new OutputStreamWriter(output));
-//            transformer.transform(xmlInput, xmlOutput);
-////            byte[] result = output.toByteArray();
-////            result = new String(result, "UTF-8").getBytes("UTF-8");
-//           
-//			return xmlOutput.getOutputStream().toString().getBytes("UTF-8");
-//        } catch (IllegalArgumentException | TransformerException | UnsupportedEncodingException e) {
-//            throw new RuntimeException("Exception occured during transforming xml into byte[]", e);
-//        }
-//    }
-
-//	private DataHandler convertXmlSourceToDataHandler(Source xmlSource) {
-////		byte[] xmlContent = convertXmlSourceToByteArray(xmlSource);
-////		if(LOGGER.isDebugEnabled()) {
-////        	LOGGER.debug("Business content XML before transformed to data handler: {}", new String(xmlContent));
-////        }
-////		DataHandler dataHandler = new DataHandler(new StreamSource(new ByteArrayInputStream(xmlContent)), DomibusConnectorMessage.XML_MIME_TYPE);
-//		DataHandler dataHandler = new DataHandler(xmlSource, DomibusConnectorMessage.XML_MIME_TYPE);
-//		return dataHandler;
-//	}
 
 	void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {
 		DomibusConnectorMessageDetailsType messageDetails = message.getMessageDetails();
@@ -158,7 +122,6 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.MIME_TYPE_KEY, XML_MIME_TYPE));
 				payloadProperties.add(new TypedProperty(DomibusConnectorMessage.DESCRIPTION_KEY, confirmation.getConfirmationType().value()));
 				
-//				DataHandler dh = convertXmlSourceToDataHandler(confirmation.getConfirmation());
 				DataHandler dh = ConversionTools.convertXMLSourceToDataHandler(confirmation.getConfirmation());
 				LOGGER.debug("Adding Confirmation [{}] as payload with properties [{}]", confirmation, payloadProperties);
 				submission.addPayload(contentId, dh, payloadProperties);

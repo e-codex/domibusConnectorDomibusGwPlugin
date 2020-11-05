@@ -1,6 +1,18 @@
 package eu.domibus.connector.plugin.transformer;
 
-import eu.domibus.connector.domain.transition.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import eu.domibus.connector.domain.transition.DomibusConnectorActionType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageDetailsType;
+import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
+import eu.domibus.connector.domain.transition.DomibusConnectorPartyType;
+import eu.domibus.connector.domain.transition.DomibusConnectorServiceType;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
@@ -9,20 +21,6 @@ import eu.domibus.plugin.Submission.Party;
 import eu.domibus.plugin.Submission.Payload;
 import eu.domibus.plugin.Submission.TypedProperty;
 import eu.domibus.plugin.transformer.MessageRetrievalTransformer;
-import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 @Component
 public class DomibusConnectorMessageRetrievalTransformer implements MessageRetrievalTransformer<DomibusConnectorMessage> {
