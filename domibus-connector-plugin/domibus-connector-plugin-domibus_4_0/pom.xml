@@ -106,6 +106,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>eu.domibus.connector:domibusConnectorAPI</include>
+                                    <include>eu.domibus.connector:domibusConnectorAPIlib</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
