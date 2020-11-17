@@ -22,6 +22,7 @@
               <artifactSet>
                 <includes>
                   <include>eu.domibus.connector:domibusConnectorAPI</include>
+                  <include>eu.domibus.connector:domibusConnectorAPIlib</include>
                 </includes>
               </artifactSet>
             </configuration>
@@ -34,7 +35,7 @@
     <dependency>
       <groupId>eu.domibus.connector</groupId>
       <artifactId>domibusConnectorAPI</artifactId>
-      <version>4.2.0-RELEASE</version>
+      <version>4.2.6</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -87,10 +88,6 @@
           <groupId>org.springframework</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>spring-core</artifactId>
-          <groupId>org.springframework</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>spring-expression</artifactId>
           <groupId>org.springframework</groupId>
         </exclusion>
@@ -104,10 +101,6 @@
       <exclusions>
         <exclusion>
           <artifactId>spring-beans</artifactId>
-          <groupId>org.springframework</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>spring-core</artifactId>
           <groupId>org.springframework</groupId>
         </exclusion>
       </exclusions>
