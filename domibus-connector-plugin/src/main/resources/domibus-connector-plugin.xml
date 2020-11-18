@@ -2,6 +2,7 @@
 <beans
 	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:amq="http://activemq.apache.org/schema/core"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
     xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:wsp="http://www.w3.org/ns/ws-policy"
@@ -18,7 +19,8 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
-        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd" >
+        http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd" >
 	
 	
     <!-- ATTENTION! To set the connection between this plugin and your domibusConnector installation it is important
@@ -31,12 +33,12 @@
         <property name="lister" ref="connectorDeliveryWebserviceNotificationListenerService"/>
    </bean>
 	
-	<!--  <amq:queue name="notifyDomibusConnectorDeliveryWebServiceQueue"
-               physicalName="domibus.notification.webservice"/> -->
+	 <amq:queue name="notifyDomibusConnectorDeliveryWebServiceQueue"
+               physicalName="domibus.notification.webservice"/>
 
 	<bean id="connectorDeliveryWebserviceNotificationListenerService"
           class="eu.domibus.plugin.NotificationListenerService"
-          c:queue-ref="notifyBackendWebServiceQueue" c:mode="PUSH"
+          c:queue-ref="notifyDomibusConnectorDeliveryWebServiceQueue" c:mode="PUSH"
           p:backendConnector-ref="domibusConnectorWebservice">
     </bean> 
 
