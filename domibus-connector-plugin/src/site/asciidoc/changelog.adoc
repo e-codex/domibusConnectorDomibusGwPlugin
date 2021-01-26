@@ -1,0 +1,11 @@
+= Changelog
+
+== 4.2
+
+=== 4.2.0
+
+ * Support for pulling messages from plugin
+ * Adaptions for the new domibus 4.2 plugin api
+ * Support for Domibus PropertyManager (plugin properties are now displayed within the UI)
+
+

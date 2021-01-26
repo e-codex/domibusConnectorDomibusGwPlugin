@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="domibusConnectorDomibusPlugin">
+
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.8</version>
+    </skin>
+    <custom>
+        <fluidoSkin>
+            <topBarEnabled>false</topBarEnabled>
+            <sideBarEnabled>true</sideBarEnabled>
+        </fluidoSkin>
+    </custom>
+    <body>
+        <links>
+            <item name="E-Codex Project" href="https://www.e-codex.eu/"/>
+        </links>
+
+        <menu name="domibusConnectorDomibusPlugin">
+            <item name="Overview" href="index.html"/>
+            <item name="Changelog" href="changelog.html"/>
+            <item name="Installation" href="installation.html" />
+            <item name="Test Matrix" href="test-matrix.html" />
+        </menu>
+
+        <footer/>
+
+    </body>
+</project>

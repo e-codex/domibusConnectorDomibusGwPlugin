@@ -1,0 +1,38 @@
+= Plugin installation Guide
+
+
+
+== Preconditions
+
+* Domibus Gateway setup is complete and domibus is running
+* Domibus UI is reachable under $UI-URL
+* Domibus-config folder is reachable under $DOMIBUS-CONFIG-LOCATION
+
+== First Steps
+
+Download the most recent domibusConnectorDomibusPlugin via
+link:https://secure.e-codex.eu/nexus/content/groups/public/eu/domibus/connector/plugin/domibus-connector-plugin-Distribution/
+
+Extract the downloaded distribution package to any location, this location will
+from now on be referenced as $PLUGIN-DISTRIBUTION
+
+Also make sure that you use the installation manual of this specific version.
+This installation manual is for version: ${project.version}.
+
+
+== Installing the plugin on domibus
+
+The plugin comes packaged as a jar file. This jar file has to be
+put into the domibus plugin lib folder, so domibus wil find it
+during startup:
+
+[source, bash]
+----
+cp $PLUGIN-DISTRIBUTION/plugins/lib/domibus-connector-plugin.jar $DOMIBUS-CONFIG-LOCATION/conf/plugins/lib/domibus-connector-plugin.jar
+----
+
+
+== Configuring the plugin
+
+// todo: include example properties...
+

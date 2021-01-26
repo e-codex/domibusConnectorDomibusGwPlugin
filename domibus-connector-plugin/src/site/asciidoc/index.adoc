@@ -1,0 +1,13 @@
+= DomibusConnectorDomibusPlugin
+
+The DomibusConnectorDomibusPlugin is a plugin for
+link:http://www.[domibus AS4-Gateway] developed by CEF.
+
+== Important Resources
+
+* Visit the link:./changelog.html[Changelog] to see recent changes.
+* Also take a look at the test-matrix link:./test-matrix.html[here].
+* The Installation Guide is link:./installation.html[here] available.
+
+
+

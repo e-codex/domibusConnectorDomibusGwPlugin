@@ -4,10 +4,17 @@
   <parent>
     <groupId>eu.domibus.connector.plugin</groupId>
     <artifactId>domibus-connector-plugin</artifactId>
-    <version>4.1.4.1</version>
+    <version>4.2.0-DEV-SNAPSHOT</version>
   </parent>
   <artifactId>domibus-connector-plugin-Distribution</artifactId>
   <packaging>pom</packaging>
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>domibus-connector-plugin-domibus_4_x</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
   <build>
     <finalName>domibus-connector-plugin-${project.version}</finalName>
     <plugins>
