@@ -59,7 +59,7 @@ include::../../../domibus-connector-plugin-domibus_4_x/src/main/resources/dc-plu
 == Checks
 
 Restart the domibus GW. Open the domibus UI and login with the admin user. On the left side open the 'Message Filter' there should now be
-a DC_PULL_PLUGIN or DC_PUSH_PLUGIN available (depends on the configured connector.delivery.mode).
+a **DC_PULL_PLUGIN** or **DC_PUSH_PLUGIN** available (depends on the configured connector.delivery.mode).
 
 TIP: Consult the domibus administration guide to learn more about message filtering.
 
