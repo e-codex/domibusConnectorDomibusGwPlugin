@@ -104,6 +104,7 @@ public class DomibusConnectorPullWebservice extends AbstractBackendConnector<Dom
         public DomibsConnectorAcknowledgementType invoke() {
             String messageID = null;
             DomibsConnectorAcknowledgementType ack = new DomibsConnectorAcknowledgementType();
+            ack.setResult(true);
             try {
                 LOGGER.debug("#submitMessage: call submit of parent class");
                 messageID = backendConnector.submit(new DomibusConnectorMessage(submitMessageRequest));
@@ -115,11 +116,11 @@ public class DomibusConnectorPullWebservice extends AbstractBackendConnector<Dom
 
             LOGGER.info(String.format("#submitMessage: messageID is [%s]", messageID));
             if (messageID != null) {
-                LOGGER.debug(String.format("#submitMessage: Message successfully submitted"));
+                LOGGER.debug(String.format("#submitMessage: Message successfully submitted [%s]", messageID));
                 ack.setMessageId(messageID);
                 ack.setResult(true);
             } else {
-                LOGGER.error("#submitMessage: submit message failed, returning ack with result false");
+                LOGGER.error(String.format("#submitMessage: submit message failed, returning ack with result false [%s]", messageID));
                 ack.setResult(false);
             }
             return ack;

@@ -8,8 +8,8 @@ The current 4.2.x plugin has been tested with the following components:
 | GW-Webserver | Gateway | Connector | Mode
 
 | Tomcat 9
-| 4.2.0
-| 4.3.x-DEV
+| 4.2.1
+| 4.3.0
 | Mode-Pull
 
 

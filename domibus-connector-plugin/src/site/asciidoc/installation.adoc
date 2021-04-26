@@ -1,11 +1,13 @@
 = Plugin installation Guide
 
-
+:imgdir: ./images/
+:imagesdir: {imgdir}
 
 == Preconditions
 
 * Domibus Gateway setup is complete and domibus is running
 * Domibus UI is reachable under $UI-URL
+* Domibus is reachable under $DOMIBUS-URL
 * Domibus-config folder is reachable under $DOMIBUS-CONFIG-LOCATION
 
 == First Steps
@@ -17,7 +19,7 @@ Extract the downloaded distribution package to any location, this location will
 from now on be referenced as $PLUGIN-DISTRIBUTION
 
 Also make sure that you use the installation manual of this specific version.
-This installation manual is for version: ${project.version}.
+This installation manual is for version: **{project-version}**.
 
 
 == Installing the plugin on domibus
@@ -31,8 +33,41 @@ during startup:
 cp $PLUGIN-DISTRIBUTION/plugins/lib/domibus-connector-plugin.jar $DOMIBUS-CONFIG-LOCATION/conf/plugins/lib/domibus-connector-plugin.jar
 ----
 
+=== Configuring Queues
 
-== Configuring the plugin
+The domibus-connector-plugin requires an additional queue. You have to configure it at your Message-Broker. If you are running the gateway with the embedded Message-Broker you have to add the queue definition into the activemq.xml file. The file is located at $DOMIBUS-CONFIG-LOCATION/internal/activemq.xml
 
-// todo: include example properties...
+Add the following line to the queue definitions:
+
+[source, xml]
+----
+<queue id="dcpluginQueue" physicalName="domibus.dcplugin.messages" />
+----
+
+
+
+=== Configuring the plugin
+
+Add the following properties to your domibus.properties file:
+
+[source, properties]
+----
+include::../../../domibus-connector-plugin-domibus_4_x/src/main/resources/dc-plugin-default.properties[lines=1..-1]
+----
+
+
+== Checks
+
+Restart the domibus GW. Open the domibus UI and login with the admin user. On the left side open the 'Message Filter' there should now be
+a DC_PULL_PLUGIN or DC_PUSH_PLUGIN available (depends on the configured connector.delivery.mode).
+
+TIP: Consult the domibus administration guide to learn more about message filtering.
+
+image:MessageFilterView.png[Message Filter]
+
+Also check if the Plugin is listed under $DOMIBUS-URL/services
+
+image:soap_services.png[Soap Services]
+
+WARNING: Please make sure, that ONLY the MSHWebservice is available from the internet. Otherwise you are exposing internal webservices to the outside world.
 
