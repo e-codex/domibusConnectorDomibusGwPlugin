@@ -55,13 +55,15 @@ Add the following properties to your domibus.properties file:
 include::../../../domibus-connector-plugin-domibus_4_x/src/main/resources/dc-plugin-default.properties[lines=1..-1]
 ----
 
+TIP: As an alternative the properties can also be put into a file under ${domibus.config.location}/plugins/config/dcplugin.properties. For details see the link:https://ec.europa.eu/cefdigital/wiki/download/attachments/352387309/%28eDelivery%29%28AP%29%28Plugin-CB%29%28Domibus.4.2.1%29%284.1%29.pdf?version=2&modificationDate=1616499371407&api=v2[plugin cookbook] (chapter 4.1 Property files) of the domibus gateway.
+
 
 == Checks
 
 Restart the domibus GW. Open the domibus UI and login with the admin user. On the left side open the 'Message Filter' there should now be
 a **DC_PULL_PLUGIN** or **DC_PUSH_PLUGIN** available (depends on the configured connector.delivery.mode).
 
-TIP: Consult the domibus administration guide to learn more about message filtering.
+TIP: Consult the link:https://ec.europa.eu/cefdigital/wiki/download/attachments/352387309/%28eDelivery%29%28AP%29%28AG%29%284.2.1%29%288.6%29.pdf?version=1&modificationDate=1619426922903&api=v2[domibus administration guide] (chapter 10.4 Message Filtering) to learn more about message filtering.
 
 image:MessageFilterView.png[Message Filter]
 

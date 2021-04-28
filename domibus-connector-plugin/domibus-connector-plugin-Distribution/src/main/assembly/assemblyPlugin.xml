@@ -1,4 +1,5 @@
-<assembly>
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
 	<id>Plugin</id>
 	<formats>
 		<format>zip</format>
@@ -15,62 +16,19 @@
 		</dependencySet>
 	</dependencySets>
 
-
-
-	<!-- <fileSets>
-		==================== Copying conf files =================
+	<fileSets>
 		<fileSet>
-			<directory>${project.basedir}/conf/
-			</directory>
-			<outputDirectory>/config
-			</outputDirectory>
+			<directory>${project.basedir}/../target/generated-docs</directory>
+			<outputDirectory>html-documentation</outputDirectory>
+			<includes>
+				<include>*.html</include>
+			</includes>
 		</fileSet>
-	</fileSets> -->
-<!--	<files>-->
-<!--		&lt;!&ndash; ==================== Copying JAR files ================= &ndash;&gt;-->
-<!--		<file>-->
-<!--			<source>${project.basedir}/../domibus-connector-plugin-domibus_4_0/target/domibus-connector-plugin-domibus_4_0-${project.version}.jar-->
-<!--			</source>-->
-<!--			<outputDirectory>/domibus-v4_0/conf/plugins/lib</outputDirectory>-->
-<!--			<destName>domibus-connector-plugin.jar</destName>-->
-<!--		</file>-->
-<!--		<file>-->
-<!--			<source>${project.basedir}/../domibus-connector-plugin-domibus_4_1/target/domibus-connector-plugin-domibus_4_1-${project.version}.jar-->
-<!--			</source>-->
-<!--			<outputDirectory>/domibus-v4_1/conf/plugins/lib</outputDirectory>-->
-<!--			<destName>domibus-connector-plugin.jar</destName>-->
-<!--		</file>-->
-<!--		&lt;!&ndash; ==================== Copying CONF files ================= &ndash;&gt;-->
-<!--		<file>-->
-<!--			<source>${project.basedir}/../src/main/resources/domibus-connector-plugin.xml</source>-->
-<!--			<outputDirectory>/domibus-v4_0/conf/plugins/config-->
-<!--			</outputDirectory>-->
-<!--			<destName>domibus-connector-plugin.xml</destName>-->
-<!--		</file>-->
-<!--		<file>-->
-<!--			<source>${project.basedir}/../src/main/resources/domibus-connector-plugin.properties</source>-->
-<!--			<outputDirectory>/domibus-v4_0/conf-->
-<!--			</outputDirectory>-->
-<!--			<destName>domibus-connector-plugin.properties</destName>-->
-<!--		</file>-->
-<!--		<file>-->
-<!--			<source>${project.basedir}/../src/main/resources/domibus-connector-plugin.xml</source>-->
-<!--			<outputDirectory>/domibus-v4_1/conf/plugins/config-->
-<!--			</outputDirectory>-->
-<!--			<destName>domibus-connector-plugin.xml</destName>-->
-<!--		</file>-->
-<!--		<file>-->
-<!--			<source>${project.basedir}/../src/main/resources/domibus-connector-plugin.properties</source>-->
-<!--			<outputDirectory>/domibus-v4_1/conf-->
-<!--			</outputDirectory>-->
-<!--			<destName>domibus-connector-plugin.properties</destName>-->
-<!--		</file>-->
-<!--		&lt;!&ndash; ==================== Copying DOC files ================= &ndash;&gt;-->
-<!--		<file>-->
-<!--			<source>${project.basedir}/../src/main/resources/domibus-connector-plugin_InstallationGuide.pdf</source>-->
-<!--			<outputDirectory>/documentation-->
-<!--			</outputDirectory>-->
-<!--			<destName>domibus-connector-plugin_InstallationGuide.pdf</destName>-->
-<!--		</file>-->
-<!--	</files>-->
+	</fileSets>
+	<files>
+		<file>
+			<source>${project.basedir}/../target/generated-docs/installation.pdf</source>
+		</file>
+	</files>
+
 </assembly>
