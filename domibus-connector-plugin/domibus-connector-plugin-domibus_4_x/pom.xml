@@ -4,7 +4,7 @@
   <parent>
     <groupId>eu.domibus.connector.plugin</groupId>
     <artifactId>domibus-connector-plugin</artifactId>
-    <version>4.2.0-DEV-SNAPSHOT</version>
+    <version>4.2.0-RC2</version>
   </parent>
   <artifactId>domibus-connector-plugin-domibus_4_x</artifactId>
   <description>Plugin to attach the connector to the domibus 4.x AS4 Gateway</description>
@@ -19,28 +19,28 @@
       <version>${domibus.connector.version}</version>
       <exclusions>
         <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
           <artifactId>log4j-api</artifactId>
-          <groupId>org.apache.logging.log4j</groupId>
         </exclusion>
         <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
           <artifactId>log4j-core</artifactId>
-          <groupId>org.apache.logging.log4j</groupId>
         </exclusion>
         <exclusion>
+          <groupId>org.slf4j</groupId>
           <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>log4j-slf4j-impl</artifactId>
           <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-slf4j-impl</artifactId>
         </exclusion>
         <exclusion>
+          <groupId>org.slf4j</groupId>
           <artifactId>jul-to-slf4j</artifactId>
-          <groupId>org.slf4j</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>jcl-over-slf4j</artifactId>
           <groupId>org.slf4j</groupId>
+          <artifactId>jcl-over-slf4j</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -67,8 +67,8 @@
     <dependency>
       <groupId>org.apache.activemq</groupId>
       <artifactId>activemq-client</artifactId>
-      <scope>provided</scope>
       <version>5.15.14</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>eu.domibus</groupId>
@@ -120,10 +120,10 @@
         <artifactId>maven-shade-plugin</artifactId>
         <executions>
           <execution>
-            <phase>package</phase>
             <goals>
               <goal>shade</goal>
             </goals>
+            <phase>package</phase>
             <configuration>
               <artifactSet>
                 <includes>

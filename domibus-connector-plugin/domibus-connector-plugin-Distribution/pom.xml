@@ -4,7 +4,7 @@
   <parent>
     <groupId>eu.domibus.connector.plugin</groupId>
     <artifactId>domibus-connector-plugin</artifactId>
-    <version>4.2.0-DEV-SNAPSHOT</version>
+    <version>4.2.0-RC2</version>
   </parent>
   <artifactId>domibus-connector-plugin-Distribution</artifactId>
   <packaging>pom</packaging>
@@ -21,21 +21,21 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>create-distribution-package</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
         <configuration>
           <appendAssemblyId>false</appendAssemblyId>
           <descriptors>
             <descriptor>src/main/assembly/assemblyPlugin.xml</descriptor>
           </descriptors>
         </configuration>
+        <executions>
+          <execution>
+            <id>create-distribution-package</id>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
