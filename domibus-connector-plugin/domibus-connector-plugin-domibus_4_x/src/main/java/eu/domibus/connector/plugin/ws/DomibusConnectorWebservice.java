@@ -1,6 +1,7 @@
 package eu.domibus.connector.plugin.ws;
 
 import eu.domibus.common.MessageReceiveFailureEvent;
+import eu.domibus.common.NotificationType;
 import eu.domibus.connector.domain.transition.DomibsConnectorAcknowledgementType;
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
 import eu.domibus.connector.domain.transition.ObjectFactory;
@@ -19,6 +20,9 @@ import eu.domibus.plugin.transformer.MessageSubmissionTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 public class DomibusConnectorWebservice extends AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> implements DomibusConnectorGatewaySubmissionWebService {
 
@@ -29,6 +33,9 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 
 	public DomibusConnectorWebservice() {
 		super(PLUGIN_NAME);
+		this.requiredNotifications = Stream
+				.of(NotificationType.MESSAGE_RECEIVED)
+				.collect(Collectors.toList());
 	}
 
 	@Autowired
@@ -45,7 +52,7 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 
 	@Override
 	public DomibsConnectorAcknowledgementType submitMessage(DomibusConnectorMessageType submitMessageRequest) {
-		return new DomibusConnectorPullWebservice.SubmitMessage(submitMessageRequest, this).invoke();
+		return new SubmitMessage(submitMessageRequest, this).invoke();
 	}
 	
 	@Override
@@ -64,14 +71,17 @@ public class DomibusConnectorWebservice extends AbstractBackendConnector<Domibus
 		if(isMessageValid(message)){
 
 			LOGGER.debug("Successfully downloaded message " + messageId + " from Queue.");
-
-			DomibsConnectorAcknowledgementType ack = deliveryClient.deliverMessage(message.getConnectorMessage());
-			if(ack.isResult()) {
-				LOGGER.info("Successfully delivered message " + messageId + " to domibusConnector.");
-			}else {
-			    String error = "Message with ID " + messageId + " not delivered successfully to domibusConnector: "+ack.getResultMessage();
-				LOGGER.error(error);
-				throw new RuntimeException(error);
+			try {
+				DomibsConnectorAcknowledgementType ack = deliveryClient.deliverMessage(message.getConnectorMessage());
+				if(ack.isResult()) {
+					LOGGER.info("Successfully delivered message " + messageId + " to domibusConnector.");
+				}else {
+					String error = "Message with ID " + messageId + " not delivered successfully to domibusConnector: "+ack.getResultMessage();
+					LOGGER.error(error);
+					throw new RuntimeException(error);
+				}
+			} catch (Exception e) {
+				LOGGER.error("Error occured while delivering message " + messageId + " to connector", e);
 			}
 		}else{
 			LOGGER.error("Message with ID " + messageId + " is not valid after download!");

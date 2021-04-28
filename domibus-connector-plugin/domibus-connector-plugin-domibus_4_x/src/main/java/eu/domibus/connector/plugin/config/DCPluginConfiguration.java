@@ -34,14 +34,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
 import javax.jms.Queue;
+import javax.xml.ws.soap.MTOMFeature;
 import java.io.IOException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Configuration
 public class DCPluginConfiguration {
@@ -70,9 +69,13 @@ public class DCPluginConfiguration {
     public static final String CXF_LOGGING_FEATURE_BEAN = "dcCxfLoggingFeature";
     public static final String DC_PLUGIN_CXF_FEATURE = "dcPluginCxfFeature";
 
-    public static final String DC_PULL_MESSAGES_QUEUE_BEAN = "dcpluginMessageQueueBean";
-    public static final String DC_PULL_MESSAGES_QUEUE_JNDI = "jms/domibus.dcplugin.messages";
-    public static final String DC_PULL_MESSAGES_QUEUE_NAME = "domibus.dcplugin.messages";
+    public static final String DC_PLUGIN_NOTIFICATIONS_QUEUE_BEAN = "dcpluginMessageQueueBean";
+    public static final String DC_PLUGIN_NOTIFICATIONS_QUEUE_JNDI = "jms/domibus.dcplugin.notifications";
+    public static final String DC_PLUGIN_NOTIFICATIONS_QUEUE_NAME = "domibus.dcplugin.notifications";
+
+    public static final String PULL_PLUGIN_QUEUE_MESSAGE_LISTER_BEAN_NAME = "dcPullPluginMessageListerBean";
+
+
 
     public static class IsPullPluginCondition implements Condition {
         @Override
@@ -120,21 +123,7 @@ public class DCPluginConfiguration {
         return connector;
     }
 
-    @Bean("connectorDeliveryWebserviceNotificationListenerService")
-    @Conditional({IsPushPluginCondition.class})
-    public PluginAsyncNotificationConfiguration notificationListenerService(DomibusConnectorPullWebservice backend,
-                                                                            @Qualifier("notifyDCBackendConnector") javax.jms.Queue q) {
 
-        PluginAsyncNotificationConfiguration pluginAsyncNotificationConfiguration = new PluginAsyncNotificationConfiguration(backend, q);
-        return pluginAsyncNotificationConfiguration;
-    }
-
-
-    @Conditional(IsPushPluginCondition.class)
-    @Bean("notifyDCBackendConnector")
-    public ActiveMQQueue notifyDCPushBackendConnectorQueue() {
-        return new ActiveMQQueue("domibus.notification.dcpull");
-    }
 
 
     @Conditional(IsPullPluginCondition.class)
@@ -208,15 +197,16 @@ public class DCPluginConfiguration {
         jaxWsProxyFactoryBean.setEndpointName(DomibusConnectorGatewayDeliveryWSService.DomibusConnectorGatewayDeliveryWebService);
         jaxWsProxyFactoryBean.setWsdlLocation(DomibusConnectorGatewayDeliveryWSService.WSDL_LOCATION.toString());
 
+        String cxfDeliveryAddr = wsPluginPropertyManager.getKnownPropertyValue(CXF_DELIVERY_ENDPOINT_ADDRESS);
         Map<String, Object> properties = getWssProperties(wsPluginPropertyManager);
-        LOGGER.debug("Setting properties [{}] for DC-Plugin ClientProxy", properties);
+        LOGGER.debug("Setting properties [{}] for DC-Plugin ClientProxy\nDeliveryAddress would be [{}]", properties, cxfDeliveryAddr);
         jaxWsProxyFactoryBean.setProperties(properties);
+        jaxWsProxyFactoryBean.setAddress(cxfDeliveryAddr);
 
         return (DomibusConnectorGatewayDeliveryWebService) jaxWsProxyFactoryBean.create();
     }
 
 
-//    @Bean(WEB_SERVICE_PROPERTIES_BEAN_NAME)
     public Map<String, Object> getWssProperties(
             DCPluginPropertyManager wsPluginPropertyManager
     ) {
@@ -324,13 +314,13 @@ public class DCPluginConfiguration {
         return loggingFeature;
     }
 
-    public static final String PULL_PLUGIN_QUEUE_MESSAGE_LISTER_BEAN_NAME = "dcPullPluginQueue";
+
 
     @Conditional(IsPullPluginCondition.class)
     @Bean(PULL_PLUGIN_QUEUE_MESSAGE_LISTER_BEAN_NAME)
     public QueueMessageLister QueueMessageLister(
             JMSExtService jmsExtService,
-            @Qualifier(DC_PULL_MESSAGES_QUEUE_BEAN) Queue pullMessageQueue
+            @Qualifier(DC_PLUGIN_NOTIFICATIONS_QUEUE_BEAN) Queue pullMessageQueue
     ) {
         QueueMessageLister q = new QueueMessageLister(jmsExtService, pullMessageQueue, DomibusConnectorPullWebservice.PLUGIN_NAME);
         return q;
@@ -338,18 +328,34 @@ public class DCPluginConfiguration {
 
     @Conditional(IsPullPluginCondition.class)
     @Bean("asyncPullWebserviceNotification")
-    public PluginAsyncNotificationConfiguration pluginAsyncNotificationConfiguration( @Qualifier(DC_PULL_MESSAGES_QUEUE_BEAN) Queue notifyBackendWebServiceQueue,
+    public PluginAsyncNotificationConfiguration pluginAsyncNotificationConfiguration( @Qualifier(DC_PLUGIN_NOTIFICATIONS_QUEUE_BEAN) Queue notifyBackendWebServiceQueue,
                                                                                      DomibusConnectorPullWebservice backendWebService,
                                                                                      Environment environment) {
         PluginAsyncNotificationConfiguration pluginAsyncNotificationConfiguration
                 = new PluginAsyncNotificationConfiguration(backendWebService, notifyBackendWebServiceQueue);
         if (DomibusEnvironmentUtil.INSTANCE.isApplicationServer(environment)) {
-            String queueNotificationJndi = DC_PULL_MESSAGES_QUEUE_JNDI;
+            String queueNotificationJndi = DC_PLUGIN_NOTIFICATIONS_QUEUE_JNDI;
             LOGGER.debug("Domibus is running inside an application server. Setting the queue name to [{}]", queueNotificationJndi);
             pluginAsyncNotificationConfiguration.setQueueName(queueNotificationJndi);
         }
         return pluginAsyncNotificationConfiguration;
     }
+
+    //not necessary for push plugin, it will be synchronosly called...
+//    @Conditional(IsPushPluginCondition.class)
+//    @Bean("asyncPushWebserviceNotification")
+//    public PluginAsyncNotificationConfiguration pluginAsyncNotificationConfiguration( @Qualifier(DC_PLUGIN_NOTIFICATIONS_QUEUE_BEAN) Queue notifyBackendWebServiceQueue,
+//                                                                                      DomibusConnectorWebservice backendWebService,
+//                                                                                      Environment environment) {
+//        PluginAsyncNotificationConfiguration pluginAsyncNotificationConfiguration
+//                = new PluginAsyncNotificationConfiguration(backendWebService, notifyBackendWebServiceQueue);
+//        if (DomibusEnvironmentUtil.INSTANCE.isApplicationServer(environment)) {
+//            String queueNotificationJndi = DC_PLUGIN_NOTIFICATIONS_QUEUE_JNDI;
+//            LOGGER.debug("Domibus is running inside an application server. Setting the queue name to [{}]", queueNotificationJndi);
+//            pluginAsyncNotificationConfiguration.setQueueName(queueNotificationJndi);
+//        }
+//        return pluginAsyncNotificationConfiguration;
+//    }
 
 
 }

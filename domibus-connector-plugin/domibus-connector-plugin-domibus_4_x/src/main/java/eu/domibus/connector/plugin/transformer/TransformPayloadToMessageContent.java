@@ -40,8 +40,8 @@ public class TransformPayloadToMessageContent implements SubmissionPayloadToDomi
         
         byte[] byteArray = ConversionTools.convertDataHandlerToByteArray(payloadWrapper.getPayloadDataHandler());
 
-        if(LOGGER.isDebugEnabled()) {
-           	LOGGER.debug("Business content XML before transformed to Source: {}", new String(byteArray));
+        if(LOGGER.isTraceEnabled()) {
+           	LOGGER.trace("Business content XML before transformed to Source: {}", new String(byteArray));
         }
             
 		source = ConversionTools.convertByteArrayToStreamSource(byteArray);

@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
-import static eu.domibus.connector.plugin.config.DCPluginConfiguration.DC_PULL_MESSAGES_QUEUE_BEAN;
+import static eu.domibus.connector.plugin.config.DCPluginConfiguration.DC_PLUGIN_NOTIFICATIONS_QUEUE_BEAN;
+import static eu.domibus.connector.plugin.config.DCPluginConfiguration.DC_PLUGIN_NOTIFICATIONS_QUEUE_NAME;
 
 /**
  * Class responsible for the configuration of the plugin for Tomcat
@@ -22,9 +23,9 @@ public class DCPluginTomcatConfiguration {
 
     private static final DomibusLogger LOG = DomibusLoggerFactory.getLogger(DCPluginTomcatConfiguration.class);
 
-    @Bean(DC_PULL_MESSAGES_QUEUE_BEAN)
+    @Bean(DC_PLUGIN_NOTIFICATIONS_QUEUE_BEAN)
     public ActiveMQQueue messagesQueue() {
-        return new ActiveMQQueue("domibus.dcplugin.messages");
+        return new ActiveMQQueue(DC_PLUGIN_NOTIFICATIONS_QUEUE_NAME);
     }
 
 

@@ -37,11 +37,11 @@ cp $PLUGIN-DISTRIBUTION/plugins/lib/domibus-connector-plugin.jar $DOMIBUS-CONFIG
 
 The domibus-connector-plugin requires an additional queue. You have to configure it at your Message-Broker. If you are running the gateway with the embedded Message-Broker you have to add the queue definition into the activemq.xml file. The file is located at $DOMIBUS-CONFIG-LOCATION/internal/activemq.xml
 
-Add the following line to the queue definitions:
+Add the following lines to the queue definitions:
 
 [source, xml]
 ----
-<queue id="dcpluginQueue" physicalName="domibus.dcplugin.messages" />
+<queue id="dcpluginNotificationsQueue" physicalName="domibus.dcplugin.notifications" />
 ----
 
 
@@ -71,3 +71,7 @@ image:soap_services.png[Soap Services]
 
 WARNING: Please make sure, that ONLY the MSHWebservice is available from the internet. Otherwise you are exposing internal webservices to the outside world.
 
+
+
+
+include::test-matrix.adoc[leveloffset=+2]

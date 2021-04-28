@@ -10,7 +10,7 @@ import org.springframework.jndi.JndiObjectFactoryBean;
 
 import javax.jms.Queue;
 
-import static eu.domibus.connector.plugin.config.DCPluginConfiguration.DC_PULL_MESSAGES_QUEUE_BEAN;
+import static eu.domibus.connector.plugin.config.DCPluginConfiguration.DC_PLUGIN_NOTIFICATIONS_QUEUE_BEAN;
 
 /**
  * Class responsible for the configuration of the plugin for an application server, WebLogic and WildFly
@@ -24,11 +24,11 @@ public class DCPluginApplicationServerConfiguration {
 
     private static final DomibusLogger LOG = DomibusLoggerFactory.getLogger(DCPluginApplicationServerConfiguration.class);
 
-    @Bean(DC_PULL_MESSAGES_QUEUE_BEAN)
+    @Bean(DC_PLUGIN_NOTIFICATIONS_QUEUE_BEAN)
     public JndiObjectFactoryBean notifyBackendWebServiceQueue() {
         JndiObjectFactoryBean jndiObjectFactoryBean = new JndiObjectFactoryBean();
 
-        String queueNotificationJndi = DCPluginConfiguration.DC_PULL_MESSAGES_QUEUE_JNDI;
+        String queueNotificationJndi = DCPluginConfiguration.DC_PLUGIN_NOTIFICATIONS_QUEUE_JNDI;
         LOG.debug("Using queue messages jndi for dcMessages [{}]", queueNotificationJndi);
         jndiObjectFactoryBean.setJndiName(queueNotificationJndi);
 
