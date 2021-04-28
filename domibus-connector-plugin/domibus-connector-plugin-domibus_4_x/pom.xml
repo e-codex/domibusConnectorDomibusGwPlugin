@@ -4,7 +4,7 @@
   <parent>
     <groupId>eu.domibus.connector.plugin</groupId>
     <artifactId>domibus-connector-plugin</artifactId>
-    <version>4.2.0-RC2</version>
+    <version>4.2.0-SNAPSHOT</version>
   </parent>
   <artifactId>domibus-connector-plugin-domibus_4_x</artifactId>
   <description>Plugin to attach the connector to the domibus 4.x AS4 Gateway</description>
