@@ -28,7 +28,7 @@
     
 	<bean
 		id="domibusConnectorWebservice"
-        class="eu.domibus.connector.plugin.ws.DomibusConnectorWebservice">
+        class="eu.domibus.connector.plugin.ws.DomibusConnectorPushWebservice">
         <constructor-arg value="domibusConnectorWebservice"/>
         <property name="lister" ref="connectorDeliveryWebserviceNotificationListenerService"/>
    </bean>

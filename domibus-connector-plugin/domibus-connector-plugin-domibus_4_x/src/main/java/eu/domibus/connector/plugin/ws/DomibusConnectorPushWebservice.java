@@ -24,14 +24,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public class DomibusConnectorWebservice extends AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> implements DomibusConnectorGatewaySubmissionWebService {
+public class DomibusConnectorPushWebservice extends AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> implements DomibusConnectorGatewaySubmissionWebService {
 
 	public static final String PLUGIN_NAME = "DC_PUSH_PLUGIN";
 
-	private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DomibusConnectorWebservice.class);
+	private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DomibusConnectorPushWebservice.class);
 
 
-	public DomibusConnectorWebservice() {
+	public DomibusConnectorPushWebservice() {
 		super(PLUGIN_NAME);
 		this.requiredNotifications = Stream
 				.of(NotificationType.MESSAGE_RECEIVED)
