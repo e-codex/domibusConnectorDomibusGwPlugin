@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -26,6 +27,9 @@ import eu.domibus.plugin.transformer.MessageRetrievalTransformer;
 public class DomibusConnectorMessageRetrievalTransformer implements MessageRetrievalTransformer<DomibusConnectorMessage> {
 
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DomibusConnectorMessageRetrievalTransformer.class);
+
+    @Value("${connector.delivery.strip-loopback-suffix:true}")
+    private boolean stripLoopbackSuffix;
 
 	@Override
 	public DomibusConnectorMessage transformFromSubmission(Submission submission, DomibusConnectorMessage connectorMessage) {
@@ -75,9 +79,15 @@ public class DomibusConnectorMessageRetrievalTransformer implements MessageRetri
 
 	}
 
+	private static final String REMOVE_SUFFIX = "_1";
+
 	private void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {
 		DomibusConnectorMessageDetailsType messageDetails = new DomibusConnectorMessageDetailsType();
-		messageDetails.setEbmsMessageId(submission.getMessageId());
+		if (stripLoopbackSuffix && submission.getMessageId().endsWith(REMOVE_SUFFIX)) {
+			messageDetails.setEbmsMessageId(submission.getMessageId().substring(0, submission.getMessageId().length() - REMOVE_SUFFIX.length()));
+		} else {
+			messageDetails.setEbmsMessageId(submission.getMessageId());
+		}
 		messageDetails.setRefToMessageId(submission.getRefToMessageId());
 		messageDetails.setConversationId(submission.getConversationId());
 
