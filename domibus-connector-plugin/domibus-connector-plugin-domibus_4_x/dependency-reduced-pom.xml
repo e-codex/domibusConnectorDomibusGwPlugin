@@ -3,7 +3,7 @@
   <parent>
     <artifactId>domibus-connector-plugin</artifactId>
     <groupId>eu.domibus.connector.plugin</groupId>
-    <version>4.2.0-SNAPSHOT</version>
+    <version>4.2.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>domibus-connector-plugin-domibus_4_x</artifactId>
@@ -198,6 +198,42 @@
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-ws-security</artifactId>
+      <version>3.3.8</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>cxf-rt-security-saml</artifactId>
+          <groupId>org.apache.cxf</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>ehcache</artifactId>
+          <groupId>net.sf.ehcache</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>wss4j-ws-security-dom</artifactId>
+          <groupId>org.apache.wss4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>wss4j-policy</artifactId>
+          <groupId>org.apache.wss4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>wss4j-ws-security-stax</artifactId>
+          <groupId>org.apache.wss4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>wss4j-ws-security-policy-stax</artifactId>
+          <groupId>org.apache.wss4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>cxf-rt-bindings-soap</artifactId>
+          <groupId>org.apache.cxf</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-features-logging</artifactId>
       <version>3.3.8</version>
       <scope>provided</scope>
@@ -234,6 +270,34 @@
       <version>5.2.9.RELEASE</version>
       <scope>provided</scope>
       <exclusions>
+        <exclusion>
+          <artifactId>spring-beans</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>5.2.9.RELEASE</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-security-core</artifactId>
+          <groupId>org.springframework.security</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-aop</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-expression</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-web</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
         <exclusion>
           <artifactId>spring-beans</artifactId>
           <groupId>org.springframework</groupId>

@@ -2,6 +2,7 @@ package eu.domibus.connector.plugin.config;
 
 import eu.domibus.connector.plugin.config.property.DCPluginPropertyManager;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
+import eu.domibus.connector.plugin.ws.AuthenticationService;
 import eu.domibus.connector.plugin.ws.DomibusConnectorPullWebservice;
 import eu.domibus.connector.plugin.ws.DomibusConnectorPushWebservice;
 import eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWSService;
@@ -47,19 +48,22 @@ public class DCPluginConfiguration {
 
     public static final String MODULE_NAME = "DOMIBUS_CONNECTOR_PLUGIN";
 
+    public static final String CXF_TRUST_STORE = "connector.delivery.trust-store";
     public static final String CXF_TRUST_STORE_PATH_PROPERTY_NAME = "connector.delivery.trust-store.file";
     public static final String CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME = "connector.delivery.trust-store.password";
     public static final String CXF_TRUST_STORE_TYPE_PROPERTY_NAME = "connector.delivery.trust-store.type";
     public static final String CXF_KEY_STORE_PATH_PROPERTY_NAME = "connector.delivery.key-store.file";
     public static final String CXF_KEY_STORE_PASSWORD = "connector.delivery.key-store.password";
+    public static final String CXF_KEY_STORE = "connector.delivery.key-store";
     public static final String CXF_KEY_STORE_TYPE = "connector.delivery.key-store.type";
     public static final String CXF_PRIVATE_KEY_ALIAS = "connector.delivery.private-key.alias";
     public static final String CXF_PRIVATE_KEY_PASSWORD = "connector.delivery.private-key.password";
-    public static final String CXF_ENCRYPT_ALIAS = "connector.delivery.private-key.encrypt-alias";
+    public static final String CXF_ENCRYPT_ALIAS = "connector.delivery.encrypt-alias";
     public static final String CXF_DELIVERY_ENDPOINT_ADDRESS = "connector.delivery.service.address";
     public static final String CXF_SECURITY_POLICY = "connector.delivery.service.service.security-policy";
     public static final String CXF_LOGGING_FEATURE_PROPERTY_NAME = "connector.delivery.service.service.logging-feature.enabled";
     public static final String PLUGIN_DELIVERY_MODE = "connector.delivery.mode";
+    public static final String CXF_PUBLISH_URL = "connector.delivery.service.publish";
 
     public static final String WEB_SERVICE_PROPERTIES_BEAN_NAME = "dcWebServiceProperties";
     public static final String POLICY_FEATURE_BEAN_NAME = "dcPolicyFeature";
@@ -72,6 +76,11 @@ public class DCPluginConfiguration {
     public static final String DC_PLUGIN_NOTIFICATIONS_QUEUE_NAME = "domibus.dcplugin.notifications";
 
     public static final String PULL_PLUGIN_QUEUE_MESSAGE_LISTER_BEAN_NAME = "dcPullPluginMessageListerBean";
+
+    public static final String DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME = "dcplugin.auth.username";
+    public static final String DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME = "dcplugin.auth.roles";
+    public static final String DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME = "dcplugin.auth.use-username-from"; //ALIAS, DN, DEFAULT
+//    public static final String DC_PLUGIN_PW_PROPERTY_NAME = "dcplugin.auth.password";
 
 
 
@@ -128,6 +137,7 @@ public class DCPluginConfiguration {
     @Bean("pullBackendWebserviceEndpoint")
     public EndpointImpl pullBackendInterfaceEndpoint(@Qualifier(Bus.DEFAULT_BUS_ID) Bus bus,
                                                  DomibusConnectorPullWebservice backendWebService,
+                                                 AuthenticationService authenticationService,
                                                  DCPluginPropertyManager wsPluginPropertyManager,
                                                      @Qualifier(DC_PLUGIN_CXF_FEATURE) List<Feature> featureList
 
@@ -144,8 +154,10 @@ public class DCPluginConfiguration {
         Map<String, Object> properties = getWssProperties(wsPluginPropertyManager);
         LOGGER.debug("Setting properties for DC-Plugin DC-Plugin PullPlugin: [{}]", properties);
         endpoint.setProperties(properties);
-
-        endpoint.publish("/dcplugin");
+        if (authenticationService != null) {
+            endpoint.getInInterceptors().add(authenticationService);
+        }
+        endpoint.publish(wsPluginPropertyManager.getKnownPropertyValue(CXF_PUBLISH_URL));
         return endpoint;
     }
 
@@ -155,9 +167,10 @@ public class DCPluginConfiguration {
      *  SubmissionWebservice
      */
     @Conditional(IsPushPluginCondition.class)
-    @Bean("pullBackendWebserviceEndpoint")
+    @Bean("pushBackendWebserviceEndpoint")
     public EndpointImpl pushBackendInterfaceEndpoint(@Qualifier(Bus.DEFAULT_BUS_ID) Bus bus,
                                                      DomibusConnectorGatewaySubmissionWebService backendWebService,
+                                                     AuthenticationService authenticationService,
                                                      DCPluginPropertyManager wsPluginPropertyManager,
                                                      @Qualifier(DC_PLUGIN_CXF_FEATURE) List<Feature> featureList
 
@@ -173,8 +186,10 @@ public class DCPluginConfiguration {
         Map<String, Object> properties = getWssProperties(wsPluginPropertyManager);
         LOGGER.debug("Setting properties for DC-Plugin DC-Plugin PushPlugin: [{}]", properties);
         endpoint.setProperties(properties);
-
-        endpoint.publish("/dcplugin");
+        if (authenticationService != null) {
+            endpoint.getInInterceptors().add(authenticationService);
+        }
+        endpoint.publish(wsPluginPropertyManager.getKnownPropertyValue(CXF_PUBLISH_URL));
         return endpoint;
     }
 
@@ -232,26 +247,34 @@ public class DCPluginConfiguration {
 
 
         props.put("org.apache.wss4j.crypto.provider", "org.apache.wss4j.common.crypto.Merlin");
-        props.put("org.apache.wss4j.crypto.merlin.keystore.type", wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_TYPE));
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.type", CXF_KEY_STORE_TYPE);
         props.put("org.apache.wss4j.crypto.merlin.keystore.file", checkLocation(ctx, wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PATH_PROPERTY_NAME)));
-        props.put("org.apache.wss4j.crypto.merlin.keystore.password", wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PASSWORD));
-        props.put("org.apache.wss4j.crypto.merlin.keystore.alias", wsPluginPropertyManager.getKnownPropertyValue(CXF_PRIVATE_KEY_ALIAS));
-        props.put("org.apache.wss4j.crypto.merlin.keystore.private.password", wsPluginPropertyManager.getKnownPropertyValue(CXF_PRIVATE_KEY_PASSWORD));
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.password", CXF_KEY_STORE_PASSWORD);
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.alias", CXF_PRIVATE_KEY_ALIAS);
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.private.password", CXF_PRIVATE_KEY_PASSWORD);
 
-        checkKeyStore(wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_TYPE), wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PATH_PROPERTY_NAME), wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PASSWORD));
+        checkKeyStore(CXF_KEY_STORE, wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_TYPE), wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PATH_PROPERTY_NAME), wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PASSWORD));
 
 
-        props.put("org.apache.wss4j.crypto.merlin.truststore.type", wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_TYPE_PROPERTY_NAME));
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.truststore.type", CXF_TRUST_STORE_TYPE_PROPERTY_NAME);
 
         String trustStoreLocation = wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PATH_PROPERTY_NAME);
 
-        checkKeyStore("JKS", trustStoreLocation, wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME));
+        checkKeyStore(CXF_TRUST_STORE, "JKS", trustStoreLocation, wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME));
 
         trustStoreLocation = checkLocation(ctx, trustStoreLocation);
         props.put("org.apache.wss4j.crypto.merlin.truststore.file", trustStoreLocation);
-        props.put("org.apache.wss4j.crypto.merlin.truststore.password", wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME));
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.truststore.password", CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME);
 
         return props;
+    }
+
+    private void putIfNotNull(DCPluginPropertyManager wsPluginPropertyManager, Properties props, String s, String cxfKeyStoreType) {
+        String knownPropertyValue = wsPluginPropertyManager.getKnownPropertyValue(cxfKeyStoreType);
+        if (knownPropertyValue == null) {
+            throw new IllegalArgumentException(String.format("The property %s is null - this is not allowed!", s));
+        }
+        props.put(s, knownPropertyValue);
     }
 
     private String checkLocation(ApplicationContext ctx, String storeLocation) {
@@ -267,7 +290,10 @@ public class DCPluginConfiguration {
     }
 
 
-    private void checkKeyStore(String storeType, String location, String password) {
+    private void checkKeyStore(String propName, String storeType, String location, String password) {
+        if (storeType == null) {
+            throw new IllegalArgumentException(String.format("Property: [%s] is invalid: storeType is not allowed to be empty!", propName));
+        }
         try {
             KeyStore ks = KeyStore.getInstance(storeType);
             Resource resource = ctx.getResource(location);
@@ -275,7 +301,7 @@ public class DCPluginConfiguration {
 
 
         } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
-            String error = String.format("Failed to load KeyStore from location [%s]", location);
+            String error = String.format("Property: [%s] is invalid:Failed to load KeyStore from location [%s]", propName, location);
             throw new RuntimeException(error, e);
         }
     }
@@ -356,5 +382,10 @@ public class DCPluginConfiguration {
         return pluginAsyncNotificationConfiguration;
     }
 
+    @Bean
+    public AuthenticationService certAuthenticationService(DCPluginPropertyManager wsPluginPropertyManager,
+                                                           ApplicationContext ctx) {
+        return new AuthenticationService(wsPluginPropertyManager, ctx);
+    }
 
 }

@@ -57,7 +57,7 @@ Add the following properties to your domibus.properties file:
 
 [source, properties]
 ----
-include::../../../domibus-connector-plugin-domibus_4_x/src/main/resources/dc-plugin-default.properties[lines=1..-1]
+include::../../../domibus-connector-plugin-domibus_4_x/src/main/resources/config/dc-plugin-default.properties[lines=1..-1]
 ----
 
 TIP: As an alternative the properties can also be put into a file under ${domibus.config.location}/plugins/config/dcplugin.properties. For details see the link:https://ec.europa.eu/cefdigital/wiki/download/attachments/352387309/%28eDelivery%29%28AP%29%28Plugin-CB%29%28Domibus.4.2.1%29%284.1%29.pdf?version=2&modificationDate=1616499371407&api=v2[plugin cookbook] (chapter 4.1 Property files) of the domibus gateway.

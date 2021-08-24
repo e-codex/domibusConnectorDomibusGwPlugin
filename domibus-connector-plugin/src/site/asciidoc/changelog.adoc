@@ -9,3 +9,7 @@
  * Support for Domibus PropertyManager (plugin properties are now displayed within the UI)
 
 
+=== 4.2.1
+
+ * Added default config for plugin
+ * renamed: **connector.delivery.private-key.encrypt-alias => connector.delivery.encrypt-alias**, because it is not a private key! In fact the alias has to be located within the connector.delivery.trust-store.file!
