@@ -1,0 +1,40 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
+	<id>Plugin</id>
+	<formats>
+		<format>zip</format>
+		<format>dir</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>conf/plugins/lib</outputDirectory>
+			<includes>
+				<include>${project.groupId}:domibus-connector-plugin:jar:${project.version}</include>
+			</includes>
+		</dependencySet>
+		<dependencySet>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>${project.groupId}:domibus-connector-plugin-documentation:zip:${project.version}</include>
+			</includes>
+		</dependencySet>
+	</dependencySets>
+
+<!--	<fileSets>-->
+<!--		<fileSet>-->
+<!--			<directory>${project.basedir}/../target/generated-docs</directory>-->
+<!--			<outputDirectory>html-documentation</outputDirectory>-->
+<!--			<includes>-->
+<!--				<include>*.html</include>-->
+<!--			</includes>-->
+<!--		</fileSet>-->
+<!--	</fileSets>-->
+<!--	<files>-->
+<!--		<file>-->
+<!--			<source>${project.basedir}/../target/generated-docs/installation.pdf</source>-->
+<!--		</file>-->
+<!--	</files>-->
+
+</assembly>

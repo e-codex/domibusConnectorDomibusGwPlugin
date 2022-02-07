@@ -1,0 +1,31 @@
+
+:path: ../../
+
+ifndef::basepath[]
+:basepath: {path}
+endif::basepath[]
+
+ifndef::header[]
+include::{basepath}/doc/header.adoc[]
+endif::header[]
+
+
+= Compatibility-Matrix
+
+The 4.4.x plugin should work with the following component versions:
+For a more details consult the link:test-matrix[].
+
+|===
+| Gateway Plugin-API | Connector | Mode
+
+| 4.2
+| 4.4.x
+| Mode-Pull
+
+| 4.2
+| 4.4.x
+| Mode-Push
+
+|===
+
+NOTE: Gateway Plugin-API does not directly refer to the gateway version. Instead it declares by the gateway supported plugin API. So as long as a future gateway version supports the used plugin-API version it should work. (Gateway 4.2.0 has deprecated the 4.1 gateway plugin API, but a plugin built against 4.1 plugin API would still run on a gateway 4.2.2.)
