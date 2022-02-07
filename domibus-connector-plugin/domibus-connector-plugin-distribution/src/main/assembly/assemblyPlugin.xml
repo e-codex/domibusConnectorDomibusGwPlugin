@@ -19,22 +19,9 @@
 			<includes>
 				<include>${project.groupId}:domibus-connector-plugin-documentation:zip:${project.version}</include>
 			</includes>
+			<unpack>true</unpack>
 		</dependencySet>
 	</dependencySets>
 
-<!--	<fileSets>-->
-<!--		<fileSet>-->
-<!--			<directory>${project.basedir}/../target/generated-docs</directory>-->
-<!--			<outputDirectory>html-documentation</outputDirectory>-->
-<!--			<includes>-->
-<!--				<include>*.html</include>-->
-<!--			</includes>-->
-<!--		</fileSet>-->
-<!--	</fileSets>-->
-<!--	<files>-->
-<!--		<file>-->
-<!--			<source>${project.basedir}/../target/generated-docs/installation.pdf</source>-->
-<!--		</file>-->
-<!--	</files>-->
 
 </assembly>
