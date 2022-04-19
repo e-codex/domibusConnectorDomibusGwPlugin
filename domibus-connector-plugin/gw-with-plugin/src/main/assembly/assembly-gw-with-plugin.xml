@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>gw-with-plugin</id>
+    <formats>
+        <format>dir</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <dependencySets>
+        <dependencySet>
+            <includes>
+                <include>**</include>
+            </includes>
+<!--            <directory>${html.docu.output.directory}</directory>-->
+            <outputDirectory>gw/conf/domibus/conf/plugins/lib/</outputDirectory>
+        </dependencySet>
+    </dependencySets>
+</assembly>

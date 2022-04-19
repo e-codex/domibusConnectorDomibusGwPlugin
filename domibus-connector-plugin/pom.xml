@@ -10,6 +10,7 @@
     <module>domibus-connector-plugin</module>
     <module>domibus-connector-plugin-distribution</module>
     <module>domibus-connector-plugin-documentation</module>
+      <module>gw-with-plugin</module>
   </modules>
   <scm>
     <developerConnection>scm:git:https://www.git.e-codex.eu/ecodex.git/domibus-connector-plugin</developerConnection>
