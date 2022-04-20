@@ -11,7 +11,8 @@
                 <include>${project.groupId}:domibus-connector-plugin:*</include>
             </includes>
 <!--            <directory>${html.docu.output.directory}</directory>-->
-            <outputDirectory>gw/conf/domibus/conf/plugins/lib/</outputDirectory>
+            <outputDirectory>conf/domibus/conf/plugins/lib/</outputDirectory>
         </dependencySet>
     </dependencySets>
+
 </assembly>

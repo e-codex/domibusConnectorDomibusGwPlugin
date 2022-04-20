@@ -11,6 +11,10 @@
 
     <artifactId>gw-with-plugin</artifactId>
 
+    <properties>
+        <domibus-gw.version>4.2.9</domibus-gw.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -40,6 +44,63 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <!-- download domibus AS4 gw -->
+                    <execution>
+                        <id>copy-domibus</id>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/gw</outputDirectory>
+                            <excludes>
+                                domibus/conf/domibus/plugins/lib/*.*, domibus/conf/domibus/plugins/config/*.*
+                            </excludes>
+                            <artifactItems>
+                                <artifactItem>
+                                    <overWrite>true</overWrite>
+                                    <groupId>eu.domibus</groupId>
+                                    <artifactId>domibus-distribution</artifactId>
+                                    <classifier>tomcat-full</classifier>
+                                    <version>${domibus-gw.version}</version>
+                                    <type>zip</type>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <!-- download domibus connector gateway plugin -->
+<!--                    <execution>-->
+<!--                        <id>copy-domibus-connector-gw-plugin</id>-->
+<!--                        <goals>-->
+<!--                            <goal>unpack</goal>-->
+<!--                        </goals>-->
+<!--                        <phase>package</phase>-->
+<!--                        <configuration>-->
+<!--                            <overWriteSnapshots>true</overWriteSnapshots>-->
+<!--                            <overWriteReleases>true</overWriteReleases>-->
+<!--                            <outputDirectory>${project.build.outputDirectory}/gw</outputDirectory>-->
+<!--                            <artifactItems>-->
+<!--                                <artifactItem>-->
+<!--                                    <overWrite>true</overWrite>-->
+<!--                                    <groupId>eu.domibus.connector.plugin</groupId>-->
+<!--                                    <artifactId>domibus-connector-plugin-Distribution</artifactId>-->
+<!--                                    <version>${domibus-connector-plugin.version}</version>-->
+<!--                                    <type>zip</type>-->
+<!--                                </artifactItem>-->
+<!--                            </artifactItems>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
