@@ -25,25 +25,25 @@
 
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>create-architecture-package</id>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>src/main/assembly/assembly-gw-with-plugin.xml</descriptor>
-                            </descriptors>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <finalName>gw</finalName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <artifactId>maven-assembly-plugin</artifactId>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>create-architecture-package</id>-->
+<!--                        <goals>-->
+<!--                            <goal>single</goal>-->
+<!--                        </goals>-->
+<!--                        <phase>package</phase>-->
+<!--                        <configuration>-->
+<!--                            <descriptors>-->
+<!--                                <descriptor>src/main/assembly/assembly-gw-with-plugin.xml</descriptor>-->
+<!--                            </descriptors>-->
+<!--                            <appendAssemblyId>false</appendAssemblyId>-->
+<!--                            <finalName>gw</finalName>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -77,27 +77,28 @@
                         </configuration>
                     </execution>
                     <!-- download domibus connector gateway plugin -->
-<!--                    <execution>-->
-<!--                        <id>copy-domibus-connector-gw-plugin</id>-->
-<!--                        <goals>-->
-<!--                            <goal>unpack</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>package</phase>-->
-<!--                        <configuration>-->
-<!--                            <overWriteSnapshots>true</overWriteSnapshots>-->
-<!--                            <overWriteReleases>true</overWriteReleases>-->
-<!--                            <outputDirectory>${project.build.outputDirectory}/gw</outputDirectory>-->
+                    <execution>
+                        <id>copy-domibus-connector-gw-plugin</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/gw/domibus/conf/plugins/lib/</outputDirectory>
+                            <excludeTransitive>true</excludeTransitive>
 <!--                            <artifactItems>-->
 <!--                                <artifactItem>-->
 <!--                                    <overWrite>true</overWrite>-->
-<!--                                    <groupId>eu.domibus.connector.plugin</groupId>-->
-<!--                                    <artifactId>domibus-connector-plugin-Distribution</artifactId>-->
-<!--                                    <version>${domibus-connector-plugin.version}</version>-->
-<!--                                    <type>zip</type>-->
+<!--                                    <groupId>${project.groupId}</groupId>-->
+<!--                                    <artifactId>domibus-connector-plugin</artifactId>-->
+<!--                                    <version>${project.version}</version>-->
+<!--                                    <type>jar</type>-->
 <!--                                </artifactItem>-->
 <!--                            </artifactItems>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 
