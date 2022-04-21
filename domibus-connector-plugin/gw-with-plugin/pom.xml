@@ -106,11 +106,6 @@
                 <configuration>
                     <skip>true</skip>
                 </configuration>
-                <executions>
-                    <execution>
-                        <phase>none</phase>
-                    </execution>
-                </executions>
             </plugin>
 
         </plugins>
