@@ -13,6 +13,7 @@
 
     <properties>
         <domibus-gw.version>4.2.9</domibus-gw.version>
+        <tomcat.version>9.0.62</tomcat.version>
     </properties>
 
     <dependencies>
@@ -25,30 +26,37 @@
 
     <build>
         <plugins>
-<!--            <plugin>-->
-<!--                <artifactId>maven-assembly-plugin</artifactId>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>create-architecture-package</id>-->
-<!--                        <goals>-->
-<!--                            <goal>single</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>package</phase>-->
-<!--                        <configuration>-->
-<!--                            <descriptors>-->
-<!--                                <descriptor>src/main/assembly/assembly-gw-with-plugin.xml</descriptor>-->
-<!--                            </descriptors>-->
-<!--                            <appendAssemblyId>false</appendAssemblyId>-->
-<!--                            <finalName>gw</finalName>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
+<!--                    <execution>-->
+<!--                        <id>copy-tomcat</id>-->
+<!--                        <goals>-->
+<!--                            <goal>unpack</goal>-->
+<!--                        </goals>-->
+<!--                        <phase>package</phase>-->
+<!--                        <configuration>-->
+
+<!--                            <overWriteSnapshots>true</overWriteSnapshots>-->
+<!--                            <overWriteReleases>true</overWriteReleases>-->
+<!--                            <outputDirectory>target/tomcat</outputDirectory>-->
+<!--                            <excludes>-->
+
+<!--                            </excludes>-->
+
+<!--                            <artifactItems>-->
+<!--                                <artifactItem>-->
+<!--                                    <overWrite>true</overWrite>-->
+<!--                                    <groupId>org.apache.tomcat</groupId>-->
+<!--                                    <artifactId>tomcat</artifactId>-->
+<!--                                    <version>${tomcat.version}</version>-->
+<!--                                    <type>zip</type>-->
+<!--                                </artifactItem>-->
+<!--                            </artifactItems>-->
+
+<!--                        </configuration>-->
+<!--                    </execution>-->
                     <!-- download domibus AS4 gw -->
                     <execution>
                         <id>copy-domibus</id>
@@ -88,15 +96,69 @@
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/conf/plugins/lib/</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
-<!--                            <artifactItems>-->
-<!--                                <artifactItem>-->
-<!--                                    <overWrite>true</overWrite>-->
-<!--                                    <groupId>${project.groupId}</groupId>-->
-<!--                                    <artifactId>domibus-connector-plugin</artifactId>-->
-<!--                                    <version>${project.version}</version>-->
-<!--                                    <type>jar</type>-->
-<!--                                </artifactItem>-->
-<!--                            </artifactItems>-->
+                        </configuration>
+                    </execution>
+                    <!-- download mysql driver -->
+                    <execution>
+                        <id>copy-mysql-driver</id>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/gw/domibus/lib</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <overWrite>true</overWrite>
+                                    <groupId>mysql</groupId>
+                                    <artifactId>mysql-connector-java</artifactId>
+                                    <version>8.0.26</version>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <!-- download mariadb driver -->
+                    <execution>
+                        <id>copy-mariadb-driver</id>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/gw/domibus/lib</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <overWrite>true</overWrite>
+                                    <groupId>org.mariadb.jdbc</groupId>
+                                    <artifactId>mariadb-java-client</artifactId>
+                                    <version>3.0.4</version>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <!-- download h2 driver -->
+                    <execution>
+                        <id>copy-h2-driver</id>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/gw/domibus/lib</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <overWrite>true</overWrite>
+                                    <groupId>com.h2database</groupId>
+                                    <artifactId>h2</artifactId>
+                                    <version>2.1.212</version>
+                                </artifactItem>
+                            </artifactItems>
                         </configuration>
                     </execution>
                 </executions>
@@ -105,6 +167,58 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jkube</groupId>
+                <artifactId>openshift-maven-plugin</artifactId>
+                <version>1.7.0</version>
+                <configuration>
+                    <skip>false</skip>
+                    <buildStrategy>docker</buildStrategy>
+                    <resources>
+                        <openshiftBuildConfig>
+                            <requests>
+                                <cpu>200m</cpu>
+                                <memory>256Mi</memory>
+                            </requests>
+                            <limits>
+                                <cpu>1000m</cpu>
+                                <memory>1Gi</memory>
+                            </limits>
+                        </openshiftBuildConfig>
+                    </resources>
+                    <images>
+                        <image>
+                            <name>domibus-gw-with-connector-plugin</name>
+                            <build>
+                                <dockerFile>Dockerfile</dockerFile>
+                                <fromExt>
+                                    <name>java:openjdk-8-ubi8</name>
+                                    <kind>ImageStreamTag</kind>
+                                    <namespace>openshift</namespace>
+                                </fromExt>
+                                <assembly>
+                                    <name>test</name>
+                                    <mode>dir</mode>
+                                    <targetDir>app</targetDir>
+                                    <excludeFinalOutputArtifact>true</excludeFinalOutputArtifact>
+                                    <layers>
+                                        <layer>
+                                            <id>domibusTomcat</id>
+                                            <baseDirectory>${project.basedir}</baseDirectory>
+                                            <fileSets>
+                                                <fileSet>
+                                                    <outputDirectory>./</outputDirectory>
+                                                    <directory>target/gw/</directory>
+                                                </fileSet>
+                                            </fileSets>
+                                        </layer>
+                                    </layers>
+                                </assembly>
+                            </build>
+                        </image>
+                    </images>
                 </configuration>
             </plugin>
 
