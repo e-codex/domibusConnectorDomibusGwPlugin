@@ -13,3 +13,4 @@
 
  * Added default config for plugin
  * renamed: **connector.delivery.private-key.encrypt-alias => connector.delivery.encrypt-alias**, because it is not a private key! In fact the alias has to be located within the connector.delivery.trust-store.file!
+* Plugin is now setting the SecurityContext, so it can be used in a MultiTenant environment
