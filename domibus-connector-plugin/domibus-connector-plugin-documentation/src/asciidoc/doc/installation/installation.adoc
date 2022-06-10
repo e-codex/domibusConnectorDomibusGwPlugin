@@ -52,11 +52,11 @@ cp $PLUGIN-DISTRIBUTION/plugins/lib/domibus-connector-plugin.jar $DOMIBUS-CONFIG
 
 The domibus-connector-plugin requires an additional queue. You have to configure it at your Message-Broker. If you are running the gateway with the embedded Message-Broker you have to add the queue definition into the activemq.xml file. The file is located at $DOMIBUS-CONFIG-LOCATION/internal/activemq.xml
 
-Add the following lines next to the other queue definitions:
+Add the following lines next to the other queue definitions (this will create the queue):
 
 [source, xml]
 ----
-<queue id="dcpluginNotificationsQueue" physicalName="domibus.dcplugin.notifications" />
+<queue id="dcpluginNotificationsQueue" physicalName="${dcplugin.notifications.queue}" />
 ----
 
 === Configuring certificates

@@ -12,8 +12,7 @@
     <artifactId>gw-with-plugin</artifactId>
 
     <properties>
-        <domibus-gw.version>4.2.9</domibus-gw.version>
-        <tomcat.version>9.0.62</tomcat.version>
+        <domibus-gw.version>5.0</domibus-gw.version>
     </properties>
 
     <dependencies>
@@ -94,7 +93,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/domibus/conf/plugins/lib/</outputDirectory>
+                            <outputDirectory>target/gw/domibus/conf/domibus/plugins/lib/</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
                         </configuration>
                     </execution>
@@ -192,6 +191,9 @@
                         <image>
                             <name>domibus-gw-with-connector-plugin</name>
                             <build>
+                                <tags>
+                                    <tag>${domibus-gw.version}</tag>
+                                </tags>
                                 <dockerFile>Dockerfile</dockerFile>
                                 <fromExt>
                                     <name>java:openjdk-8-ubi8</name>

@@ -4,8 +4,8 @@
 
 === 4.4.0
 
-Functional the same as 4.2.0 only project/building environemnt related changes:
+
 
 * Rearranged project setup
 * Documentation cleaned up
-
+* Upgrade to domibus 5.0 plugin API

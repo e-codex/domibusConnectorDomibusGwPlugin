@@ -9,7 +9,7 @@
   <artifactId>domibus-connector-plugin</artifactId>
   <description>Plugin to attach the connector to the domibus 4.x AS4 Gateway</description>
   <properties>
-    <plugin-api.version>4.2</plugin-api.version>
+    <plugin-api.version>5.0</plugin-api.version>
     <org.springframework.version>5.2.9.RELEASE</org.springframework.version>
   </properties>
   <dependencies>

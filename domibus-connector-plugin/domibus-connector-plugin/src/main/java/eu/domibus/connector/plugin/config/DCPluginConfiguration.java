@@ -125,7 +125,7 @@ public class DCPluginConfiguration {
         resources.add(new ClassPathResource("config/dc-plugin-default.properties"));
 
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        LOGGER.info("Using DCPlugin external properties file [{}]", dcPluginConfigurationFile);
+        LOGGER.info("Using DCPlugin external properties file (if exists under path) [{}]", dcPluginConfigurationFile);
         Resource domibusProperties = resolver.getResource(dcPluginConfigurationFile);
         resources.add(domibusProperties);
 
@@ -181,6 +181,7 @@ public class DCPluginConfiguration {
         if (authenticationService != null) {
             endpoint.getInInterceptors().add(authenticationService);
         }
+        LOGGER.info("Publish URL for DC PullPlugin is: [{}]", wsPluginPropertyManager.getKnownPropertyValue(CXF_PUBLISH_URL));
         endpoint.publish(wsPluginPropertyManager.getKnownPropertyValue(CXF_PUBLISH_URL));
         return endpoint;
     }
@@ -208,11 +209,12 @@ public class DCPluginConfiguration {
         LOGGER.debug("Activating the following features for DC-Plugin PushPlugin: [{}]", featureList);
         endpoint.setFeatures(featureList);
         Map<String, Object> properties = getWssProperties(wsPluginPropertyManager);
-        LOGGER.debug("Setting properties for DC-Plugin DC-Plugin PushPlugin: [{}]", properties);
+        LOGGER.debug("Setting properties for DC PushPlugin: [{}]", properties);
         endpoint.setProperties(properties);
         if (authenticationService != null) {
             endpoint.getInInterceptors().add(authenticationService);
         }
+        LOGGER.info("Publish URL for DC PushPlugin is: [{}]", wsPluginPropertyManager.getKnownPropertyValue(CXF_PUBLISH_URL));
         endpoint.publish(wsPluginPropertyManager.getKnownPropertyValue(CXF_PUBLISH_URL));
         return endpoint;
     }
@@ -236,7 +238,8 @@ public class DCPluginConfiguration {
 
         String cxfDeliveryAddr = wsPluginPropertyManager.getKnownPropertyValue(CXF_DELIVERY_ENDPOINT_ADDRESS);
         Map<String, Object> properties = getWssProperties(wsPluginPropertyManager);
-        LOGGER.debug("Setting properties [{}] for DC-Plugin ClientProxy\nDeliveryAddress would be [{}]", properties, cxfDeliveryAddr);
+        LOGGER.info("Sending push messages to [{}]", cxfDeliveryAddr);
+        LOGGER.debug("Setting properties [{}] for DC-Plugin ClientProxy", properties);
         jaxWsProxyFactoryBean.setProperties(properties);
         jaxWsProxyFactoryBean.setAddress(cxfDeliveryAddr);
 
