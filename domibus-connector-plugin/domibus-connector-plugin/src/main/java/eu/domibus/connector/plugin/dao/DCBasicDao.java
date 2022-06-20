@@ -16,6 +16,7 @@ import java.util.Collection;
 public class DCBasicDao<T> {
 
 
+
     protected final Class<T> typeOfT;
 
     @PersistenceContext(unitName = "domibusJTA")

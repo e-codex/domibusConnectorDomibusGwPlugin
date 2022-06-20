@@ -37,7 +37,8 @@ public class DCPluginPropertyManager extends DomibusPropertyExtServiceDelegateAb
                 new DomibusPropertyMetadataDTO(DCPluginConfiguration.CXF_PUBLISH_URL, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(DCPluginConfiguration.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(DCPluginConfiguration.DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(DCPluginConfiguration.DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME, Type.COMMA_SEPARATED_LIST, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL)
+                new DomibusPropertyMetadataDTO(DCPluginConfiguration.DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME, Type.COMMA_SEPARATED_LIST, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(DCPluginConfiguration.DC_PLUGIN_MAX_MESSAGE_LIST, Type.NUMERIC, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL)
 
         );
         this.knownProperties = allProperties.stream().collect(Collectors.toMap(x -> x.getName(), x -> x));
