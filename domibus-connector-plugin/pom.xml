@@ -32,7 +32,7 @@
         </site>
     </distributionManagement>
     <properties>
-        <cxf.version>3.3.8</cxf.version>
+<!--        <cxf.version>3.3.8</cxf.version>-->
         <domibus.connector.version>4.4.4</domibus.connector.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <asciidoclet.version>1.5.6</asciidoclet.version>
@@ -42,6 +42,7 @@
         <asciidoctorj.diagram.plantuml.version>1.2021.8</asciidoctorj.diagram.plantuml.version>
         <asciidoctorj.maven.plugin.version>2.2.1</asciidoctorj.maven.plugin.version>
         <jruby.version>9.2.13.0</jruby.version>
+        <gw.version>4.2.9</gw.version>
     </properties>
     <repositories>
         <repository>
@@ -50,6 +51,17 @@
             <url>https://ec.europa.eu/cefdigital/artifact/content/groups/public/</url>
         </repository>
     </repositories>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>eu.domibus</groupId>
+                <artifactId>domibus</artifactId>
+                <scope>import</scope>
+                <type>pom</type>
+                <version>${gw.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <pluginManagement>
             <plugins>
