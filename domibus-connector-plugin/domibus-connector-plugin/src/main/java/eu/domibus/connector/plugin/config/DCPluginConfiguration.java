@@ -132,14 +132,19 @@ public class DCPluginConfiguration {
 
 
 
-    @Bean("backendPushPluginWebserver")
-    @Conditional({IsPushPluginCondition.class})
-    public AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> createDomibusConnectorPushWebservice() {
-        AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> connector;
-        connector = new DomibusConnectorPushWebservice();
-        return connector;
-    }
+//    @Bean("backendPushPluginWebserver")
+////    @Conditional({IsPushPluginCondition.class})
+//    public AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> createDomibusConnectorPushWebservice(DomibusConnectorPushWebservice domibusConnectorPushWebservice) {
+//        AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> connector;
+////        connector = new DomibusConnectorPushWebservice();
+//        return connector;
+//    }
 
+
+    @Bean
+    public DomibusConnectorPushWebservice domibusConnectorPushWebservice() {
+        return new DomibusConnectorPushWebservice();
+    }
 
 
 
@@ -147,7 +152,7 @@ public class DCPluginConfiguration {
      * Create endpoint for Push
      *  SubmissionWebservice
      */
-    @Conditional(IsPushPluginCondition.class)
+//    @Conditional(IsPushPluginCondition.class)
     @Bean("pushBackendWebserviceEndpoint")
     public EndpointImpl pushBackendInterfaceEndpoint(@Qualifier(Bus.DEFAULT_BUS_ID) Bus bus,
                                                      DomibusConnectorGatewaySubmissionWebService backendWebService,
@@ -177,7 +182,7 @@ public class DCPluginConfiguration {
 
 
     //Creating Client Proxy for Push Plugin
-    @Conditional(IsPushPluginCondition.class)
+//    @Conditional(IsPushPluginCondition.class)
     @Bean
     public DomibusConnectorGatewayDeliveryWebService domibusConnectorGatewayDeliveryWebService(
             @Qualifier(DC_PLUGIN_CXF_FEATURE) List<Feature> featureList,
