@@ -18,11 +18,11 @@ For a more details consult the link:test-matrix[].
 |===
 | Gateway Plugin-API | Connector | Mode
 
-| 5.0
+| 4.2
 | 4.4.x
 | Mode-Pull
 
-| 5.0
+| 4.2
 | 4.4.x
 | Mode-Push
 
