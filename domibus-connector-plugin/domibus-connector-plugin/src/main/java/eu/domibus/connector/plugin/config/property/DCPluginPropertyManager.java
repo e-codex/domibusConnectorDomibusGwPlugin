@@ -19,6 +19,10 @@ public class DCPluginPropertyManager extends DomibusPropertyExtServiceDelegateAb
 
     private final Map<String, DomibusPropertyMetadataDTO> knownProperties;
 
+    protected String getPropertiesFileName() {
+        return "dc-plugin.properties";
+    }
+
     public DCPluginPropertyManager() {
         List<DomibusPropertyMetadataDTO> allProperties = Arrays.asList(
                 new DomibusPropertyMetadataDTO(DCPluginConfiguration.CXF_DELIVERY_ENDPOINT_ADDRESS, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),

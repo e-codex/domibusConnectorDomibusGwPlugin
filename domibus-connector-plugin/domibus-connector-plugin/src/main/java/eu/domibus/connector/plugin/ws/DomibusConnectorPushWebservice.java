@@ -1,5 +1,6 @@
 package eu.domibus.connector.plugin.ws;
 
+import eu.domibus.common.DeliverMessageEvent;
 import eu.domibus.common.MessageReceiveFailureEvent;
 import eu.domibus.common.NotificationType;
 import eu.domibus.connector.domain.transition.DomibsConnectorAcknowledgementType;
@@ -54,10 +55,13 @@ public class DomibusConnectorPushWebservice extends AbstractBackendConnector<Dom
 	public DomibsConnectorAcknowledgementType submitMessage(DomibusConnectorMessageType submitMessageRequest) {
 		return new SubmitMessage(submitMessageRequest, this).invoke();
 	}
-	
+
+
+
 	@Override
 	@Transactional
-	public void deliverMessage(final String messageId) {
+	public void deliverMessage(final DeliverMessageEvent event) {
+		String messageId = event.getMessageId();
 		LOGGER.debug("Download message "+messageId+" from Queue.");
 		DomibusConnectorMessage message = new DomibusConnectorMessage(objectFactory.createDomibusConnectorMessageType());
 		try {
@@ -121,17 +125,6 @@ public class DomibusConnectorPushWebservice extends AbstractBackendConnector<Dom
 		return this.messageSubmissionTransformer;
 	}
 
-	@Override
-	public void messageSendSuccess(String messageId) {
-		//just ignore...
-		LOGGER.debug(String.format("Message with ID {%s} successfully Sent", messageId));
-	}
-
-	@Override
-	public void messageSendFailed(String messageId) {
-		LOGGER.error(String.format("Send message with messageId [%s] failed", messageId));
-	}
-
     public void messageReceiveFailed(MessageReceiveFailureEvent receiveFailureEvent) {
         LOGGER.error(String.format("Message receiveFailed: messageId: [%s] on endpoint [%s] with ErrorResult [%s]",
                 receiveFailureEvent.getMessageId(),
@@ -140,8 +133,5 @@ public class DomibusConnectorPushWebservice extends AbstractBackendConnector<Dom
                 ));
     }
 
-	public BackendConnector.Mode getMode() {
-		return Mode.PUSH;
-	}
 
 }
