@@ -55,73 +55,73 @@
     <dependency>
       <groupId>eu.domibus</groupId>
       <artifactId>domibus-plugin-api</artifactId>
-      <version>${plugin-api.version}</version>
-      <scope>provided</scope>
+<!--      <version>${plugin-api.version}</version>-->
+<!--      <scope>provided</scope>-->
     </dependency>
     <dependency>
       <groupId>eu.domibus</groupId>
       <artifactId>domibus-logging</artifactId>
-      <version>${plugin-api.version}</version>
-      <scope>provided</scope>
+<!--      <version>${plugin-api.version}</version>-->
+<!--      <scope>provided</scope>-->
     </dependency>
     <dependency>
       <groupId>org.apache.activemq</groupId>
       <artifactId>activemq-client</artifactId>
-      <version>5.15.14</version>
-      <scope>provided</scope>
+<!--      <version>5.15.14</version>-->
+<!--      <scope>provided</scope>-->
     </dependency>
     <dependency>
       <groupId>eu.domibus</groupId>
       <artifactId>domibus-ext-model</artifactId>
-      <version>${plugin-api.version}</version>
+<!--      <version>${plugin-api.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-core</artifactId>
-      <version>${cxf.version}</version>
+<!--      <version>${cxf.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-frontend-jaxws</artifactId>
-      <version>${cxf.version}</version>
+<!--      <version>${cxf.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-ws-policy</artifactId>
-      <version>${cxf.version}</version>
+<!--      <version>${cxf.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-ws-security</artifactId>
-      <version>${cxf.version}</version>
+<!--      <version>${cxf.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-features-logging</artifactId>
-      <version>${cxf.version}</version>
+<!--      <version>${cxf.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-      <version>${org.springframework.version}</version>
+<!--      <version>${org.springframework.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
-      <version>${org.springframework.version}</version>
+<!--      <version>${org.springframework.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
-      <version>${org.springframework.version}</version>
+<!--      <version>${org.springframework.version}</version>-->
       <scope>provided</scope>
     </dependency>
   </dependencies>

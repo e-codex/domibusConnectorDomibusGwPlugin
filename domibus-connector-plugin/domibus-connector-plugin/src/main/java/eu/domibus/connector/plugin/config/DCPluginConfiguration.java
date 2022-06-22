@@ -15,8 +15,6 @@ import eu.domibus.ext.services.JMSExtService;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.plugin.AbstractBackendConnector;
-import eu.domibus.plugin.MessageLister;
-import eu.domibus.plugin.QueueMessageLister;
 import eu.domibus.plugin.environment.DomibusEnvironmentUtil;
 import eu.domibus.plugin.notification.PluginAsyncNotificationConfiguration;
 import org.apache.cxf.Bus;
