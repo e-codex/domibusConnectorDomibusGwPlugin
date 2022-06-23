@@ -20,6 +20,10 @@ For a more details consult the link:test-matrix[].
 
 | 5.0
 | 4.4.x
+| Mode-Pull
+
+| 5.0
+| 4.4.x
 | Mode-Push
 
 |===

@@ -66,6 +66,8 @@ public class DCPluginConfiguration {
     public static final String PLUGIN_DELIVERY_MODE = "connector.delivery.mode";
     public static final String CXF_PUBLISH_URL = "connector.delivery.service.publish";
 
+    public static final String DC_PLUGIN_MAX_MESSAGE_LIST = "connector.delivery.pull.messages.pending.list.max";
+
     public static final String WEB_SERVICE_PROPERTIES_BEAN_NAME = "dcWebServiceProperties";
     public static final String POLICY_FEATURE_BEAN_NAME = "dcPolicyFeature";
     public static final String WSS4J_ENC_PROPERTIES = "dcWss4jEncProperties";
@@ -83,21 +85,6 @@ public class DCPluginConfiguration {
     public static final String DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME = "dcplugin.auth.use-username-from"; //ALIAS, DN, DEFAULT
 //    public static final String DC_PLUGIN_PW_PROPERTY_NAME = "dcplugin.auth.password";
 
-
-
-    public static class IsPullPluginCondition implements Condition {
-        @Override
-        public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-            return "PULL".equalsIgnoreCase(context.getEnvironment().getProperty(PLUGIN_DELIVERY_MODE));
-        }
-    }
-
-    public static class IsPushPluginCondition implements Condition {
-        @Override
-        public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-            return "PUSH".equalsIgnoreCase(context.getEnvironment().getProperty(PLUGIN_DELIVERY_MODE));
-        }
-    }
 
     public static class IsCxfLoggingFeatureEnabled implements Condition {
         @Override

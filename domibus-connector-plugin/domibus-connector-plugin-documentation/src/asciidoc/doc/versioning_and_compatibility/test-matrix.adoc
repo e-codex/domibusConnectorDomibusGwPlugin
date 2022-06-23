@@ -51,11 +51,5 @@ NOTE: This matrix ist a list of tested combinations. If you have a up and runnin
 | 4.4.4
 | Mode-Push
 
-| 4.4.0
-| Java 8, IBM JRE
-| Tomcat 9
-| 5.0
-| 4.4.5
-| Mode-Push
 
 |===

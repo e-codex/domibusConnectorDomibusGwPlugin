@@ -12,7 +12,7 @@
     <artifactId>gw-with-plugin</artifactId>
 
     <properties>
-        <domibus-gw.version>5.0</domibus-gw.version>
+        <domibus-gw.version>${gw.version}</domibus-gw.version>
     </properties>
 
     <dependencies>

@@ -32,7 +32,7 @@
         </site>
     </distributionManagement>
     <properties>
-        <cxf.version>3.3.8</cxf.version>
+<!--        <cxf.version>3.3.8</cxf.version>-->
         <domibus.connector.version>4.4.4</domibus.connector.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <asciidoclet.version>1.5.6</asciidoclet.version>

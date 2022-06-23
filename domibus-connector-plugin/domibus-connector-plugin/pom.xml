@@ -51,6 +51,17 @@
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>eu.domibus</groupId>
+      <artifactId>domibus-default-ws-plugin</artifactId>
+      <version>${plugin-api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <!-- make sure the following libraries do not have any conflicts with the libs used in domibus GW -->
     <dependency>
       <groupId>eu.domibus</groupId>
@@ -69,6 +80,7 @@
       <artifactId>activemq-client</artifactId>
 <!--      <version>5.15.14</version>-->
 <!--      <scope>provided</scope>-->
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>eu.domibus</groupId>
@@ -122,6 +134,11 @@
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
 <!--      <version>${org.springframework.version}</version>-->
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
       <scope>provided</scope>
     </dependency>
   </dependencies>

@@ -59,6 +59,15 @@ Add the following lines next to the other queue definitions (this will create th
 <queue id="dcpluginNotificationsQueue" physicalName="${dcplugin.notifications.queue}" />
 ----
 
+=== Configuring Database (Only needed for PULL-MODE)
+
+Please create the following table for PULL-Mode. You have to set the Column ID_PK to either AUTOINCREMENT or create an SEQUENCE for it. The column must be incremented by the DBMS!
+
+[source, sql]
+----
+include::{mvnbasedir}/domibus-connector-plugin/src/main/resources/sql/create-dc-message-log-table.sql[]
+----
+
 === Configuring certificates
 
 TODO: describe locations of certificate stores...link to java key store explorer + key generation tutorial.
