@@ -4,7 +4,7 @@
   <parent>
     <groupId>eu.domibus.connector.plugin</groupId>
     <artifactId>domibus-connector-plugin-parent</artifactId>
-    <version>4.4.x-GW5.0-ALPHA2</version>
+    <version>4.4.x-GW5.0-ALPHA3-SNAPSHOT</version>
   </parent>
 
   <artifactId>domibus-connector-plugin-documentation</artifactId>

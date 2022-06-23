@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.domibus.connector.plugin</groupId>
     <artifactId>domibus-connector-plugin-parent</artifactId>
-    <version>4.4.x-GW5.0-ALPHA2</version>
+    <version>4.4.x-GW5.0-ALPHA3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Parent project for all domibus gw plugins</description>
     <modules>
