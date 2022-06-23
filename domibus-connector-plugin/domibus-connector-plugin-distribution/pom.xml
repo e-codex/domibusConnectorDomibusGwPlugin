@@ -4,14 +4,19 @@
   <parent>
     <groupId>eu.domibus.connector.plugin</groupId>
     <artifactId>domibus-connector-plugin-parent</artifactId>
-    <version>4.4.x-GW5.0-ALPHA1</version>
+    <version>4.4.x-GW5.0-ALPHA2</version>
   </parent>
   <artifactId>domibus-connector-plugin-distribution</artifactId>
   <packaging>pom</packaging>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>domibus-connector-plugin</artifactId>
+      <artifactId>domibus-connector-push-plugin</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>domibus-connector-pull-plugin</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

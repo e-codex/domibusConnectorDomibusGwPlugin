@@ -9,9 +9,15 @@
 
 	<dependencySets>
 		<dependencySet>
-			<outputDirectory>conf/plugins/lib</outputDirectory>
+			<outputDirectory>push_plugin/conf/plugins/lib</outputDirectory>
 			<includes>
-				<include>${project.groupId}:domibus-connector-plugin:jar:${project.version}</include>
+				<include>${project.groupId}:domibus-connector-push-plugin:jar:${project.version}:shaded</include>
+			</includes>
+		</dependencySet>
+		<dependencySet>
+			<outputDirectory>pull_plugin/conf/plugins/lib</outputDirectory>
+			<includes>
+				<include>${project.groupId}:domibus-connector-pull-plugin:jar:${project.version}:shaded</include>
 			</includes>
 		</dependencySet>
 		<dependencySet>

@@ -1,15 +1,10 @@
 package eu.domibus.connector.plugin.ws;
 
-import eu.domibus.connector.plugin.config.DCPluginConfiguration;
 import eu.domibus.connector.plugin.config.property.DCPluginPropertyManager;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
 import org.apache.cxf.binding.soap.SoapMessage;
-import org.apache.cxf.common.security.SecurityToken;
 import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.interceptor.Interceptor;
-import org.apache.cxf.jaxws.context.WrappedMessageContext;
-import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
@@ -29,14 +24,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.handler.MessageContext;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -63,21 +56,21 @@ public class AuthenticationService extends AbstractPhaseInterceptor {
                                  ApplicationContext ctx) {
         super(Phase.PRE_INVOKE);
 
-        String usernameFrom = dcPluginPropertyManager.getKnownPropertyValue(DCPluginConfiguration.DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME);
+        String usernameFrom = dcPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME);
         this.usernameSource = UseUsernameFrom.valueOf(usernameFrom);
-        this.defaultUsername = dcPluginPropertyManager.getKnownPropertyValue(DCPluginConfiguration.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME);
+        this.defaultUsername = dcPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME);
         if (usernameSource == UseUsernameFrom.DEFAULT && !StringUtils.hasText(defaultUsername)) {
-            throw new IllegalArgumentException(String.format("If Username Source is [%s] then default username property [%s] must not be empty", usernameSource, DCPluginConfiguration.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME));
+            throw new IllegalArgumentException(String.format("If Username Source is [%s] then default username property [%s] must not be empty", usernameSource, DCPluginPropertyManager.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME));
         }
-        String roles = dcPluginPropertyManager.getKnownPropertyValue(DCPluginConfiguration.DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME);
+        String roles = dcPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME);
         this.defaultRoles = Stream.of(roles.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
         if (usernameSource == UseUsernameFrom.ALIAS) {
-            String storeType = dcPluginPropertyManager.getKnownPropertyValue(DCPluginConfiguration.CXF_TRUST_STORE_TYPE_PROPERTY_NAME);
-            String location = dcPluginPropertyManager.getKnownPropertyValue(DCPluginConfiguration.CXF_TRUST_STORE_PATH_PROPERTY_NAME);
-            String password = dcPluginPropertyManager.getKnownPropertyValue(DCPluginConfiguration.CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME);
+            String storeType = dcPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.CXF_TRUST_STORE_TYPE_PROPERTY_NAME);
+            String location = dcPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.CXF_TRUST_STORE_PATH_PROPERTY_NAME);
+            String password = dcPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME);
             try {
                 KeyStore ks = KeyStore.getInstance(storeType);
                 Resource resource = ctx.getResource(location);
@@ -85,7 +78,7 @@ public class AuthenticationService extends AbstractPhaseInterceptor {
                 this.keyStore = ks;
 
             } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
-                String error = String.format("Property: [%s] is invalid:Failed to load KeyStore from location [%s]", DCPluginConfiguration.CXF_TRUST_STORE, location);
+                String error = String.format("Property: [%s] is invalid:Failed to load KeyStore from location [%s]", DCPluginPropertyManager.CXF_TRUST_STORE, location);
                 throw new RuntimeException(error, e);
             }
         } else {

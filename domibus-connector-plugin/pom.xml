@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.domibus.connector.plugin</groupId>
     <artifactId>domibus-connector-plugin-parent</artifactId>
-    <version>4.4.x-GW5.0-ALPHA1</version>
+    <version>4.4.x-GW5.0-ALPHA2</version>
     <packaging>pom</packaging>
     <description>Parent project for all domibus gw plugins</description>
     <modules>
@@ -12,6 +12,8 @@
         <module>domibus-connector-plugin-distribution</module>
         <module>domibus-connector-plugin-documentation</module>
         <module>gw-with-plugin</module>
+        <module>domibus-connector-push-plugin</module>
+        <module>domibus-connector-pull-plugin</module>
     </modules>
     <scm>
         <developerConnection>scm:git:https://www.git.e-codex.eu/ecodex.git/domibus-connector-plugin

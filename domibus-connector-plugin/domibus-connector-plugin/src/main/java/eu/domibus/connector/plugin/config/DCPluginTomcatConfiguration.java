@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 import static eu.domibus.connector.plugin.config.DCPluginConfiguration.DC_PLUGIN_NOTIFICATIONS_QUEUE_BEAN;
-import static eu.domibus.connector.plugin.config.DCPluginConfiguration.DC_PLUGIN_NOTIFICATIONS_QUEUE_NAME;
+import static eu.domibus.connector.plugin.config.property.DCPluginPropertyManager.DC_PLUGIN_NOTIFICATIONS_QUEUE_NAME;
 
 /**
  * Class responsible for the configuration of the plugin for Tomcat

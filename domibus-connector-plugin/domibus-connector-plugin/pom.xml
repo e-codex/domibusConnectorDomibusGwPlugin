@@ -4,14 +4,10 @@
   <parent>
     <groupId>eu.domibus.connector.plugin</groupId>
     <artifactId>domibus-connector-plugin-parent</artifactId>
-    <version>4.4.x-GW5.0-ALPHA1</version>
+    <version>4.4.x-GW5.0-ALPHA2</version>
   </parent>
   <artifactId>domibus-connector-plugin</artifactId>
   <description>Plugin to attach the connector to the domibus 4.x AS4 Gateway</description>
-  <properties>
-    <plugin-api.version>5.0</plugin-api.version>
-    <org.springframework.version>5.2.9.RELEASE</org.springframework.version>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>eu.domibus.connector</groupId>
@@ -52,12 +48,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>eu.domibus</groupId>
-      <artifactId>domibus-default-ws-plugin</artifactId>
-      <version>${plugin-api.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
       <scope>provided</scope>
@@ -66,74 +56,59 @@
     <dependency>
       <groupId>eu.domibus</groupId>
       <artifactId>domibus-plugin-api</artifactId>
-<!--      <version>${plugin-api.version}</version>-->
-<!--      <scope>provided</scope>-->
     </dependency>
     <dependency>
       <groupId>eu.domibus</groupId>
       <artifactId>domibus-logging</artifactId>
-<!--      <version>${plugin-api.version}</version>-->
-<!--      <scope>provided</scope>-->
     </dependency>
     <dependency>
       <groupId>org.apache.activemq</groupId>
       <artifactId>activemq-client</artifactId>
-<!--      <version>5.15.14</version>-->
-<!--      <scope>provided</scope>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>eu.domibus</groupId>
       <artifactId>domibus-ext-model</artifactId>
-<!--      <version>${plugin-api.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-core</artifactId>
-<!--      <version>${cxf.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-frontend-jaxws</artifactId>
-<!--      <version>${cxf.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-ws-policy</artifactId>
-<!--      <version>${cxf.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-ws-security</artifactId>
-<!--      <version>${cxf.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-features-logging</artifactId>
-<!--      <version>${cxf.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-<!--      <version>${org.springframework.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
-<!--      <version>${org.springframework.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
-<!--      <version>${org.springframework.version}</version>-->
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -160,7 +135,7 @@
                   <include>eu.domibus.connector:domibusConnectorAPIlib</include>
                 </includes>
               </artifactSet>
-              <shadedArtifactAttached>false</shadedArtifactAttached>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
             </configuration>
           </execution>
         </executions>

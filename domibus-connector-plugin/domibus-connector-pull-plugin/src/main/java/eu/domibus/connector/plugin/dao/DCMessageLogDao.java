@@ -1,25 +1,21 @@
 package eu.domibus.connector.plugin.dao;
 
-import eu.domibus.connector.plugin.config.DCPluginConfiguration;
-import eu.domibus.connector.plugin.config.IsPullPluginCondition;
 import eu.domibus.connector.plugin.entity.DCMessageLogEntity;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
-import eu.domibus.plugin.webService.dao.WSMessageLogDao;
-import eu.domibus.plugin.webService.entity.WSMessageLogEntity;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Conditional(IsPullPluginCondition.class)
+//@Conditional(IsPullPluginCondition.class)
 @Repository
 public class DCMessageLogDao extends DCBasicDao<DCMessageLogEntity> {
 
-
-    private static final DomibusLogger LOG = DomibusLoggerFactory.getLogger(WSMessageLogDao.class);
+    private static final DomibusLogger LOG = DomibusLoggerFactory.getLogger(DCMessageLogDao.class);
 
     private static final String MESSAGE_ID = "MESSAGE_ID";
     private static final String MESSAGE_IDS = "MESSAGE_IDS";
@@ -34,10 +30,10 @@ public class DCMessageLogDao extends DCBasicDao<DCMessageLogEntity> {
      *
      * @param messageId the id of the message.
      */
-    public WSMessageLogEntity findByMessageId(String messageId) {
-        TypedQuery<WSMessageLogEntity> query = em.createNamedQuery("DCMessageLogEntity.findByMessageId", WSMessageLogEntity.class);
+    public DCMessageLogEntity findByMessageId(String messageId) {
+        TypedQuery<DCMessageLogEntity> query = em.createNamedQuery("DCMessageLogEntity.findByMessageId", DCMessageLogEntity.class);
         query.setParameter(MESSAGE_ID, messageId);
-        WSMessageLogEntity wsMessageLogEntity;
+        DCMessageLogEntity wsMessageLogEntity;
         try {
             wsMessageLogEntity = query.getSingleResult();
         } catch (NoResultException nre) {
@@ -49,8 +45,8 @@ public class DCMessageLogDao extends DCBasicDao<DCMessageLogEntity> {
     /**
      * Find all entries in the plugin table limited to maxCount. When maxCount is 0, return all.
      */
-    public List<WSMessageLogEntity> findAll(int maxCount) {
-        TypedQuery<WSMessageLogEntity> query = em.createNamedQuery("DCMessageLogEntity.findAll", WSMessageLogEntity.class);
+    public List<DCMessageLogEntity> findAll(int maxCount) {
+        TypedQuery<DCMessageLogEntity> query = em.createNamedQuery("DCMessageLogEntity.findAll", DCMessageLogEntity.class);
         if(maxCount > 0) {
             return query.setMaxResults(maxCount).getResultList();
         }
@@ -60,8 +56,8 @@ public class DCMessageLogDao extends DCBasicDao<DCMessageLogEntity> {
     /**
      * Find all entries in the plugin table.
      */
-    public List<WSMessageLogEntity> findAll() {
-        TypedQuery<WSMessageLogEntity> query = em.createNamedQuery("DCMessageLogEntity.findAll", WSMessageLogEntity.class);
+    public List<DCMessageLogEntity> findAll() {
+        TypedQuery<DCMessageLogEntity> query = em.createNamedQuery("DCMessageLogEntity.findAll", DCMessageLogEntity.class);
         return query.getResultList();
     }
 
