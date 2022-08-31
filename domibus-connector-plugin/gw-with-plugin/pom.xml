@@ -8,6 +8,7 @@
         <version>4.4.x-GW5.0-ALPHA3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
 
     <artifactId>gw-with-plugin</artifactId>
 
@@ -18,8 +19,15 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>domibus-connector-plugin</artifactId>
+            <artifactId>domibus-connector-pull-plugin</artifactId>
             <version>${project.version}</version>
+            <classifier>shaded</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>domibus-connector-push-plugin</artifactId>
+            <version>${project.version}</version>
+            <classifier>shaded</classifier>
         </dependency>
     </dependencies>
 
@@ -29,33 +37,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-<!--                    <execution>-->
-<!--                        <id>copy-tomcat</id>-->
-<!--                        <goals>-->
-<!--                            <goal>unpack</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>package</phase>-->
-<!--                        <configuration>-->
-
-<!--                            <overWriteSnapshots>true</overWriteSnapshots>-->
-<!--                            <overWriteReleases>true</overWriteReleases>-->
-<!--                            <outputDirectory>target/tomcat</outputDirectory>-->
-<!--                            <excludes>-->
-
-<!--                            </excludes>-->
-
-<!--                            <artifactItems>-->
-<!--                                <artifactItem>-->
-<!--                                    <overWrite>true</overWrite>-->
-<!--                                    <groupId>org.apache.tomcat</groupId>-->
-<!--                                    <artifactId>tomcat</artifactId>-->
-<!--                                    <version>${tomcat.version}</version>-->
-<!--                                    <type>zip</type>-->
-<!--                                </artifactItem>-->
-<!--                            </artifactItems>-->
-
-<!--                        </configuration>-->
-<!--                    </execution>-->
                     <!-- download domibus AS4 gw -->
                     <execution>
                         <id>copy-domibus</id>
@@ -68,9 +49,6 @@
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw</outputDirectory>
-                            <excludes>
-                                domibus/conf/domibus/plugins/lib/*.*, domibus/conf/domibus/plugins/config/*.*
-                            </excludes>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -79,6 +57,9 @@
                                     <classifier>tomcat-full</classifier>
                                     <version>${domibus-gw.version}</version>
                                     <type>zip</type>
+                                    <excludes>
+                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**
+                                    </excludes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -168,10 +149,79 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
+<!--            <plugin>-->
+<!--                <groupId>com.google.cloud.tools</groupId>-->
+<!--                <artifactId>jib-maven-plugin</artifactId>-->
+<!--                <version>3.2.1</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>build</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <from>-->
+<!--                        <image>openjdk:alpine</image>-->
+<!--                    </from>-->
+<!--                    <to>-->
+<!--                        <image>localhost:5000/my-image:built-with-jib</image>-->
+<!--                        <credHelper>osxkeychain</credHelper>-->
+<!--                        <tags>-->
+<!--                            <tag>tag2</tag>-->
+<!--                            <tag>latest</tag>-->
+<!--                        </tags>-->
+<!--                    </to>-->
+<!--                    <extraDirectories>-->
+<!--                        <paths>-->
+<!--                            &lt;!&ndash; Copies from 'src/main/custom-extra-dir' into '/' on the container. &ndash;&gt;-->
+<!--&lt;!&ndash;                            <path>src/main/custom-extra-dir</path>&ndash;&gt;-->
+<!--                            &lt;!&ndash; Copies from '/home/user/jib-extras' into '/extras' on the container &ndash;&gt;-->
+<!--                            <path>-->
+<!--                                <from>target/gw</from>-->
+<!--                                <into>/app</into>-->
+<!--                                <excludes>-->
+<!--                                    <exclude>gw/domibus/conf/domibus/plugins</exclude>-->
+<!--                                    <exclude>gw/domibus/conf/domibus/domains</exclude>-->
+<!--                                </excludes>-->
+<!--                            </path>-->
+<!--                        </paths>-->
+<!--                    </extraDirectories>-->
+<!--                    <container>-->
+<!--                        <ports>-->
+<!--                            <port>8080</port>-->
+<!--                        </ports>-->
+<!--                        <format>OCI</format>-->
+<!--                    </container>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-domibus-properties</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/gw</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/config</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.eclipse.jkube</groupId>
                 <artifactId>openshift-maven-plugin</artifactId>
-                <version>1.7.0</version>
                 <configuration>
                     <skip>false</skip>
                     <buildStrategy>docker</buildStrategy>
@@ -213,6 +263,69 @@
                                                 <fileSet>
                                                     <outputDirectory>./</outputDirectory>
                                                     <directory>target/gw/</directory>
+                                                </fileSet>
+                                            </fileSets>
+                                        </layer>
+                                    </layers>
+                                </assembly>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.jkube</groupId>
+                <artifactId>kubernetes-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                    <buildStrategy>jib</buildStrategy>
+
+                    <images>
+                        <image>
+                            <name>domibus-gw-with-connector-plugin</name>
+                            <build>
+                                <tags>
+                                    <tag>${domibus-gw.version}</tag>
+                                </tags>
+<!--                                <dockerFile>Dockerfile</dockerFile>-->
+                                <from>adoptopenjdk/openjdk11:centos</from>
+                                <cmd>/app/domibus/bin/catalina.sh run</cmd>
+                                <entryPoint>/bin/bash</entryPoint>
+
+                                <ports>
+                                    <port>8080</port>
+                                </ports>
+                                <volumes>
+                                    <volume>/app/temp</volume>
+                                    <volume>/app/logs</volume>
+                                    <volume>/app/data</volume>
+                                </volumes>
+
+                                <env>
+                                    <CATALINA_HOME>/app/domibus</CATALINA_HOME>
+                                    <DOMIBUS_CONFIG_LOCATION>/app/domibus/conf/domibus</DOMIBUS_CONFIG_LOCATION>
+                                    <DOMIBUS_WORK_LOCATION>/app/data/work</DOMIBUS_WORK_LOCATION>
+                                    <CATALINA_TMPDIR>/app/temp/temp</CATALINA_TMPDIR>
+
+                                    <DOMIBUS_DATABASE_SERVER_NAME>localhost</DOMIBUS_DATABASE_SERVER_NAME>
+                                    <DOMIBUS_DATABASE_PORT>3306</DOMIBUS_DATABASE_PORT>
+                                    <DOMIBUS_DATABASE_SCHEMA>domibus</DOMIBUS_DATABASE_SCHEMA>
+
+
+                                </env>
+
+                                <assembly>
+                                    <name>test</name>
+                                    <mode>dir</mode>
+                                    <targetDir>/app</targetDir>
+                                    <layers>
+                                        <layer>
+                                            <id>domibusTomcat</id>
+                                            <fileSets>
+                                                <fileSet>
+                                                    <directory>target/gw/domibus</directory>
+                                                    <outputDirectory>domibus</outputDirectory>
                                                 </fileSet>
                                             </fileSets>
                                         </layer>

@@ -8,9 +8,11 @@
     <dependencySets>
         <dependencySet>
             <includes>
-                <include>${project.groupId}:domibus-connector-plugin:*</include>
+                <include>${project.groupId}:domibus-connector-push-plugin:*</include>
+<!--                <include>${project.groupId}:domibus-connector-pull-plugin:*</include>-->
             </includes>
 <!--            <directory>${html.docu.output.directory}</directory>-->
+
             <outputDirectory>conf/domibus/conf/plugins/lib/</outputDirectory>
         </dependencySet>
     </dependencySets>
