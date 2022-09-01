@@ -16,15 +16,10 @@ The 4.4.x plugin should work with the following component versions:
 For a more details consult the link:test-matrix[].
 
 |===
-| Gateway Plugin-API | Connector | Mode
+| Gateway Plugin-API | Connector API
 
 | 5.0
 | 4.4.x
-| Mode-Pull
-
-| 5.0
-| 4.4.x
-| Mode-Push
 
 |===
 

@@ -10,7 +10,7 @@ include::{basepath}/doc/header.adoc[]
 endif::header[]
 
 ifndef::mvnbasedir[]
-:mvnbasedir: {basepath}/../../../../
+:mvnbasedir: {basepath}/../../../../../
 endif::mvnbasedir[]
 
 
@@ -45,28 +45,12 @@ during startup:
 
 [source, bash]
 ----
-cp $PLUGIN-DISTRIBUTION/plugins/lib/domibus-connector-plugin.jar $DOMIBUS-CONFIG-LOCATION/conf/plugins/lib/domibus-connector-plugin.jar
+cp $PLUGIN-DISTRIBUTION/plugins/lib/domibus-connector-[push|pull]-plugin.jar $DOMIBUS-CONFIG-LOCATION/conf/plugins/lib/domibus-connector-[push|pull]-plugin.jar
 ----
 
-=== Configuring Queues
 
-The domibus-connector-plugin requires an additional queue. You have to configure it at your Message-Broker. If you are running the gateway with the embedded Message-Broker you have to add the queue definition into the activemq.xml file. The file is located at $DOMIBUS-CONFIG-LOCATION/internal/activemq.xml
 
-Add the following lines next to the other queue definitions (this will create the queue):
 
-[source, xml]
-----
-<queue id="dcpluginNotificationsQueue" physicalName="${dcplugin.notifications.queue}" />
-----
-
-=== Configuring Database (Only needed for PULL-MODE)
-
-Please create the following table for PULL-Mode. You have to set the Column ID_PK to either AUTOINCREMENT or create an SEQUENCE for it. The column must be incremented by the DBMS!
-
-[source, sql]
-----
-include::{mvnbasedir}/domibus-connector-plugin/src/main/resources/sql/create-dc-message-log-table.sql[]
-----
 
 === Configuring certificates
 
@@ -75,22 +59,35 @@ TODO: describe locations of certificate stores...link to java key store explorer
 
 === Configuring the plugin
 
-Add the following properties to your domibus.properties file:
+//Add the following properties to your domibus.properties file:
+//
+//[source, properties]
+//----
+//include::{mvnbasedir}/domibus-connector-plugin/src/main/resources/config/dc-plugin-default.properties[lines=1..-1]
+//----
 
-[source, properties]
-----
-include::{mvnbasedir}/domibus-connector-plugin/src/main/resources/config/dc-plugin-default.properties[lines=1..-1]
-----
+Location
+
+**Push-Plugin** Property names
+
+**Pull-Plugin** Property names
+
 
 TIP: As an alternative the properties can also be put into a file under ${domibus.config.location}/plugins/config/dc-plugin.properties. The plugin will also lookup properties their.
 Choose either one of the 2 approaches, otherwise the behaviour is undefined.
 
 WARNING: Please remember to update the properties according to your environment.
 
+=== Pull Plugin Configuration
+include::{basepath}/doc/installation/pull-plugin-installation.adoc[leveloffset=+2]
+
+=== Push Plugin Configuration
+include::{basepath}/doc/installation/push-plugin-installation.adoc[leveloffset=+2]
+
 == Checks
 
 Restart the domibus GW. Open the domibus UI and login with the admin user. On the left side open the 'Message Filter' there should now be
-a **DC_PULL_PLUGIN** or **DC_PUSH_PLUGIN** available (depends on the configured connector.delivery.mode).
+a **DC_PULL_PLUGIN** and/or **DC_PUSH_PLUGIN** available (depends on copied plugins).
 
 TIP: Consult the link:https://ec.europa.eu/cefdigital/wiki/download/attachments/352387309/%28eDelivery%29%28AP%29%28AG%29%284.2.1%29%288.6%29.pdf?version=1&modificationDate=1619426922903&api=v2[domibus administration guide] (chapter 10.4 Message Filtering) to learn more about message filtering.
 

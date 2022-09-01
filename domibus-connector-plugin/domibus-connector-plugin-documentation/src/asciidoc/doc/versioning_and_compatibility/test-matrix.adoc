@@ -18,7 +18,30 @@ The current  plugin has been tested with the following components:
 
 NOTE: This matrix ist a list of tested combinations. If you have a up and running installation please report back so this list can be extended.
 
+== Current Test-Matrix
 
+|===
+| Plugin Version | Java | GW-Webserver | Gateway | Connector (standalone)
+
+| 4.4.0 / PUSH
+| Java 8, AdoptJDK
+| Tomcat 9
+| 5.0
+| 4.4.5
+
+
+| 4.4.0 / PULL
+| Java 8, AdoptJDK
+| Tomcat 9
+| 5.0
+| 4.4.5
+
+|===
+
+
+== Historic Test-Matrix
+
+Older Plugin versions are still listed in this matrix.
 
 |===
 | Plugin Version | Java | GW-Webserver | Gateway | Connector (standalone) | Mode
