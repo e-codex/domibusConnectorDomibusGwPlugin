@@ -29,6 +29,18 @@
             <version>${project.version}</version>
             <classifier>shaded</classifier>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.8.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-client</artifactId>
+            <version>6.0.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -43,7 +55,7 @@
                         <goals>
                             <goal>unpack</goal>
                         </goals>
-                        <phase>package</phase>
+                        <phase>process-resources</phase>
                         <configuration>
 
                             <overWriteSnapshots>true</overWriteSnapshots>
@@ -70,7 +82,7 @@
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
-                        <phase>package</phase>
+                        <phase>process-resources</phase>
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
@@ -84,7 +96,7 @@
                         <goals>
                             <goal>copy</goal>
                         </goals>
-                        <phase>package</phase>
+                        <phase>process-resources</phase>
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
@@ -105,7 +117,7 @@
                         <goals>
                             <goal>copy</goal>
                         </goals>
-                        <phase>package</phase>
+                        <phase>process-resources</phase>
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
@@ -126,7 +138,7 @@
                         <goals>
                             <goal>copy</goal>
                         </goals>
-                        <phase>package</phase>
+                        <phase>process-resources</phase>
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
@@ -141,6 +153,28 @@
                             </artifactItems>
                         </configuration>
                     </execution>
+                    <!-- download tomcat lifecycle listener -->
+                    <execution>
+                        <id>copy-tomcat-lifecycle-listener</id>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/gw/domibus/lib</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <overWrite>true</overWrite>
+                                    <groupId>net.aschemann.tomcat</groupId>
+                                    <artifactId>tomcat-lifecyclelistener</artifactId>
+                                    <version>1.0.1</version>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+
                 </executions>
             </plugin>
             <plugin>
@@ -149,58 +183,28 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>com.google.cloud.tools</groupId>-->
-<!--                <artifactId>jib-maven-plugin</artifactId>-->
-<!--                <version>3.2.1</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>build</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <from>-->
-<!--                        <image>openjdk:alpine</image>-->
-<!--                    </from>-->
-<!--                    <to>-->
-<!--                        <image>localhost:5000/my-image:built-with-jib</image>-->
-<!--                        <credHelper>osxkeychain</credHelper>-->
-<!--                        <tags>-->
-<!--                            <tag>tag2</tag>-->
-<!--                            <tag>latest</tag>-->
-<!--                        </tags>-->
-<!--                    </to>-->
-<!--                    <extraDirectories>-->
-<!--                        <paths>-->
-<!--                            &lt;!&ndash; Copies from 'src/main/custom-extra-dir' into '/' on the container. &ndash;&gt;-->
-<!--&lt;!&ndash;                            <path>src/main/custom-extra-dir</path>&ndash;&gt;-->
-<!--                            &lt;!&ndash; Copies from '/home/user/jib-extras' into '/extras' on the container &ndash;&gt;-->
-<!--                            <path>-->
-<!--                                <from>target/gw</from>-->
-<!--                                <into>/app</into>-->
-<!--                                <excludes>-->
-<!--                                    <exclude>gw/domibus/conf/domibus/plugins</exclude>-->
-<!--                                    <exclude>gw/domibus/conf/domibus/domains</exclude>-->
-<!--                                </excludes>-->
-<!--                            </path>-->
-<!--                        </paths>-->
-<!--                    </extraDirectories>-->
-<!--                    <container>-->
-<!--                        <ports>-->
-<!--                            <port>8080</port>-->
-<!--                        </ports>-->
-<!--                        <format>OCI</format>-->
-<!--                    </container>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.2.0</version>
+                <inherited>true</inherited>
                 <executions>
+                    <execution>
+                        <id>copy-test-resources</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/test-classes</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/test/resources</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>copy-domibus-properties</id>
                         <phase>package</phase>
@@ -243,6 +247,7 @@
                             <build>
                                 <tags>
                                     <tag>${domibus-gw.version}</tag>
+                                    <tag>${maven.build.timestamp}</tag>
                                 </tags>
                                 <dockerFile>Dockerfile</dockerFile>
                                 <fromExt>
@@ -279,17 +284,19 @@
                 <artifactId>kubernetes-maven-plugin</artifactId>
                 <configuration>
                     <skip>false</skip>
-                    <buildStrategy>jib</buildStrategy>
-
+<!--                    <buildStrategy>jib</buildStrategy>-->
+                    <pushRegistry>${image.registry}</pushRegistry>
+                    <pullRegistry>${image.registry}</pullRegistry>
                     <images>
                         <image>
                             <name>domibus-gw-with-connector-plugin</name>
                             <build>
                                 <tags>
                                     <tag>${domibus-gw.version}</tag>
+<!--                                    <tag>${maven.build.timestamp}</tag>-->
                                 </tags>
-<!--                                <dockerFile>Dockerfile</dockerFile>-->
-                                <from>adoptopenjdk/openjdk11:centos</from>
+<!--                                <from>adoptopenjdk/openjdk11:centos</from>-->
+                                <from>${image.registry}/adoptopenjdk/openjdk11:centos@sha256:97bee9a6e166444c95ded7d7dc97021feada8228a9152def6b8806c8fbd516f2</from>
                                 <cmd>/app/domibus/bin/catalina.sh run</cmd>
                                 <entryPoint>/bin/bash</entryPoint>
 
@@ -336,6 +343,26 @@
                     </images>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <environmentVariables>
+                        <MAVEN_BUILD_TIMESTAMP>${maven.build.timestamp}</MAVEN_BUILD_TIMESTAMP>
+                    </environmentVariables>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
+            </plugin>
+
 
         </plugins>
     </build>

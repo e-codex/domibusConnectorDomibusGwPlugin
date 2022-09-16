@@ -45,6 +45,7 @@
         <asciidoctorj.maven.plugin.version>2.2.1</asciidoctorj.maven.plugin.version>
         <jruby.version>9.2.13.0</jruby.version>
         <gw.version>5.0</gw.version>
+        <image.registry>centralrepo.apps.a3.cp.cna.at/brz-ju-eu-services-docker</image.registry>
     </properties>
     <repositories>
         <repository>
@@ -145,7 +146,7 @@
                 <plugin>
                     <groupId>org.eclipse.jkube</groupId>
                     <artifactId>kubernetes-maven-plugin</artifactId>
-                    <version>1.8.0</version>
+                    <version>1.9.0</version>
                     <configuration>
                         <skip>true</skip>
                     </configuration>

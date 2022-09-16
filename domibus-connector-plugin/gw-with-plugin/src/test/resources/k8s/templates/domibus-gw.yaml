@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecx-gateway-lab${lab.id}
+  namespace: ju-eu-ejustice-eqs
+  labels:
+    pod.cp.cna.at/ingress: allow
+    product: ju-eu-ejustice-eqs
+spec:
+  selector:
+    app: ecx-gateway-lab${lab.id}
+  ports:
+    - name: ecx-gateway-lab${lab.id}-port
+      targetPort: 8080
+      protocol: TCP
+      port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecx-gateway-mariadb-lab${lab.id}
+  namespace: ju-eu-ejustice-eqs
+  labels:
+    pod.cp.cna.at/ingress: allow
+    product: ju-eu-ejustice-eqs
+spec:
+  selector:
+    app: ecx-gateway-mariadb-lab${lab.id}
+  ports:
+    - name: ecx-gateway-mariadb-lab${lab.id}-port
+      targetPort: 3306
+      protocol: TCP
+      port: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dpl-lab${lab.id}-ecx-gateway
+  namespace: ju-eu-ejustice-eqs
+  labels:
+    pod.cp.cna.at/ingress: allow
+    product: ju-eu-ejustice-eqs
+    app: ecx-gateway-lab${lab.id}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecx-gateway-lab${lab.id}
+  template:
+    metadata:
+      labels:
+        pod.cp.cna.at/ingress: allow
+        product: ju-eu-ejustice-eqs
+        app: ecx-gateway-lab${lab.id}
+    spec:
+      volumes:
+        - name: temp
+          emptyDir: {}
+      containers:
+        - name: cnt-ecx-gateway
+          env: null
+          image: ${gateway.image}
+          imagePullPolicy: Always
+          readinessProbe:
+            initialDelaySeconds: 1
+            periodSeconds: 2
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 1
+            httpGet:
+              host:
+              scheme: HTTP
+              path: /domibus/services/msh
+              port: 8080
+          resources:
+            requests:
+              memory: 512M
+              cpu: 100m
+            limits:
+              memory: 1024M
+              cpu: 200m
+          volumeMounts:
+#            - name: domibus-config
+#              readOnly: true
+#              mountPath: /app/domibus/conf/domibus/domibus.properties
+#              subPath: domibus.properties
+            - name: temp
+              mountPath: /app/data
+              subPath: domibus/data
+            - name: temp
+              mountPath: /app/logs
+              subPath: domibus/logs
+            - name: temp
+              mountPath: /app/temp
+              subPath: domibus/temp
+#            - name: ecx-keystores
+#              mountPath: /app/domibus/conf/domibus/keystores/
