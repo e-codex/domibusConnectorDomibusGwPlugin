@@ -30,6 +30,12 @@
             <classifier>shaded</classifier>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>gw-liquibase-db-init</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.8.2</version>
@@ -88,7 +94,7 @@
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/conf/domibus/plugins/lib/</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
-                            <excludeScope>test</excludeScope>
+                            <includeScope>compile</includeScope>
                         </configuration>
                     </execution>
                     <!-- download mysql driver -->
@@ -171,6 +177,27 @@
                                     <groupId>net.aschemann.tomcat</groupId>
                                     <artifactId>tomcat-lifecyclelistener</artifactId>
                                     <version>1.0.1</version>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <!-- download tomcat lifecycle listener -->
+                    <execution>
+                        <id>copy-liquibase-db-init-tool</id>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/gw/tools</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <overWrite>true</overWrite>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>gw-liquibase-db-init</artifactId>
+                                    <version>${project.version}</version>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

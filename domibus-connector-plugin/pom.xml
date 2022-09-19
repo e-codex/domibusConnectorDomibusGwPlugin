@@ -14,6 +14,7 @@
         <module>gw-with-plugin</module>
         <module>domibus-connector-push-plugin</module>
         <module>domibus-connector-pull-plugin</module>
+        <module>gw-liquibase-db-init</module>
     </modules>
     <scm>
         <developerConnection>scm:git:https://www.git.e-codex.eu/ecodex.git/domibus-connector-plugin
@@ -34,7 +35,7 @@
         </site>
     </distributionManagement>
     <properties>
-<!--        <cxf.version>3.3.8</cxf.version>-->
+        <spring.boot.version>2.5.14</spring.boot.version>
         <domibus.connector.version>4.4.4</domibus.connector.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <asciidoclet.version>1.5.6</asciidoclet.version>
@@ -45,6 +46,8 @@
         <asciidoctorj.maven.plugin.version>2.2.1</asciidoctorj.maven.plugin.version>
         <jruby.version>9.2.13.0</jruby.version>
         <gw.version>5.0</gw.version>
+        <h2database.version>2.1.214</h2database.version>
+        <liquibase.version>4.15.0</liquibase.version>
         <image.registry>centralrepo.apps.a3.cp.cna.at/brz-ju-eu-services-docker</image.registry>
         <project.build.outputTimestamp>10</project.build.outputTimestamp>
     </properties>
@@ -93,13 +96,18 @@
                 </executions>
                 <configuration>
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+                    </generateGitPropertiesFilename>
                     <includeOnlyProperties>
                         <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
                         <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
                     </includeOnlyProperties>
                     <commitIdGenerationMode>full</commitIdGenerationMode>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.ekryd.sortpom</groupId>
+                <artifactId>sortpom-maven-plugin</artifactId>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -175,6 +183,19 @@
                     <version>1.9.0</version>
                     <configuration>
                         <skip>true</skip>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.ekryd.sortpom</groupId>
+                    <artifactId>sortpom-maven-plugin</artifactId>
+                    <version>2.11.0</version>
+                    <configuration>
+                        <nrOfIndentSpace>4</nrOfIndentSpace>
                     </configuration>
                 </plugin>
             </plugins>
