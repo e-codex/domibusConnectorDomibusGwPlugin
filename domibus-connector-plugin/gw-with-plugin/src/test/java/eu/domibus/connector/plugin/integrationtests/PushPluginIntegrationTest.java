@@ -53,7 +53,8 @@ public class PushPluginIntegrationTest {
     private static void buildLab(KubernetesClient client, String namespace) {
         Properties p = new Properties();
         p.put("lab.id", "04");
-        p.put("gateway.image", "default-route-openshift-image-registry.apps.a2.cp.cna.at/ju-eu-ejustice-eqs/domibus-gw-with-connector-plugin:latest");
+//        p.put("gateway.image", "default-route-openshift-image-registry.apps.a2.cp.cna.at/ju-eu-ejustice-eqs/domibus-gw-with-connector-plugin:latest");
+        p.put("gateway.image", "image-registry.openshift-image-registry.svc:5000/ju-eu-ejustice-eqs/domibus-gw-with-connector-plugin");
 
         List<HasMetadata> result = new ArrayList<>();
 

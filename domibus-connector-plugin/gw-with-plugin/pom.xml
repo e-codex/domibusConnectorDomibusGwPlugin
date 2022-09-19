@@ -88,6 +88,7 @@
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/conf/domibus/plugins/lib/</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
+                            <excludeScope>test</excludeScope>
                         </configuration>
                     </execution>
                     <!-- download mysql driver -->
