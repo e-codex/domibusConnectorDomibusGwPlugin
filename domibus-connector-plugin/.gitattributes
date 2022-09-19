@@ -1,5 +1,7 @@
 * text=auto
 
+*.sh eol=lf
+
 *.jks binary
 *.png binary
 *.jpg binary
