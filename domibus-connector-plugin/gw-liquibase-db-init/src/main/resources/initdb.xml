@@ -8,8 +8,18 @@
     <property name="now" value="CURRENT_TIMESTAMP()" dbms="h2"/>
     <property name="current_db_user" value="USER()" dbms="h2"/>
 
+    <property name="now" value="CURRENT_TIMESTAMP()" dbms="HSQLDB" />
+    <property name="current_db_user" value="USER()" dbms="HSQLDB"/>
+
+
 
     <changeSet dbms="h2" author="sks" id="changelog-3.2-delta-1_h2_extension">
+        <comment>create sequence</comment>
+        <createSequence sequenceName="HIBERNATE_SEQUENCE" minValue="1"
+                        incrementBy="1" startValue="1" cacheSize="100" cycle="false" ordered="false"/>
+    </changeSet>
+
+    <changeSet dbms="HSQLDB" author="sks" id="changelog-3.2-delta-1_hsqldb_extension">
         <comment>create sequence</comment>
         <createSequence sequenceName="HIBERNATE_SEQUENCE" minValue="1"
                         incrementBy="1" startValue="1" cacheSize="100" cycle="false" ordered="false"/>

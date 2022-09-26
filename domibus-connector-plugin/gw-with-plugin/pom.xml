@@ -12,11 +12,13 @@
 
     <artifactId>gw-with-plugin</artifactId>
 
-    <properties>
-        <domibus-gw.version>${gw.version}</domibus-gw.version>
-    </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>gw-extension</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>domibus-connector-pull-plugin</artifactId>
@@ -55,9 +57,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <!-- download domibus AS4 gw -->
+                    <!-- download tomcat -->
                     <execution>
-                        <id>copy-domibus</id>
+                        <id>copy-tomcat</id>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
@@ -66,22 +68,80 @@
 
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw</outputDirectory>
+                            <outputDirectory>target/tomcat</outputDirectory>
+
+
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
-                                    <groupId>eu.domibus</groupId>
-                                    <artifactId>domibus-distribution</artifactId>
-                                    <classifier>tomcat-full</classifier>
-                                    <version>${domibus-gw.version}</version>
+                                    <groupId>org.apache.tomcat</groupId>
+                                    <artifactId>tomcat</artifactId>
+                                    <version>${tomcat.version}</version>
                                     <type>zip</type>
                                     <excludes>
-                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**
+                                        */webapps/**
                                     </excludes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
+                    <!-- download domibus AS4 gw -->
+<!--                    <execution>-->
+<!--                        <id>copy-domibus</id>-->
+<!--                        <goals>-->
+<!--                            <goal>unpack</goal>-->
+<!--                        </goals>-->
+<!--                        <phase>process-resources</phase>-->
+<!--                        <configuration>-->
+
+<!--                            <overWriteSnapshots>true</overWriteSnapshots>-->
+<!--                            <overWriteReleases>true</overWriteReleases>-->
+<!--                            <outputDirectory>target/gw</outputDirectory>-->
+<!--                            <artifactItems>-->
+<!--                                <artifactItem>-->
+<!--                                    <overWrite>true</overWrite>-->
+<!--                                    <groupId>eu.domibus</groupId>-->
+<!--                                    <artifactId>domibus-distribution</artifactId>-->
+<!--                                    <classifier>tomcat-full</classifier>-->
+<!--                                    <version>${domibus-gw.version}</version>-->
+<!--                                    <type>zip</type>-->
+<!--                                    <excludes>-->
+<!--                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**-->
+<!--                                    </excludes>-->
+<!--                                </artifactItem>-->
+<!--                            </artifactItems>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+
+                    <!-- download domibus AS4 gw .war -->
+                    <execution>
+                        <id>copy-domibus-war</id>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/deployment</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <overWrite>true</overWrite>
+                                    <groupId>eu.domibus</groupId>
+                                    <artifactId>domibus-distribution</artifactId>
+                                    <classifier>tomcat-war</classifier>
+                                    <version>${domibus-gw.version}</version>
+                                    <type>zip</type>
+<!--                                    <excludes>-->
+<!--                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**-->
+<!--                                    </excludes>-->
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+
+
                     <!-- download domibus connector gateway plugin -->
                     <execution>
                         <id>copy-domibus-connector-gw-plugin</id>
@@ -92,9 +152,10 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/domibus/conf/domibus/plugins/lib/</outputDirectory>
+                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/conf/domibus/plugins/lib/</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
                             <includeScope>compile</includeScope>
+                            <includeArtifactIds>domibus-connector-pull-plugin,domibus-connector-push-plugin</includeArtifactIds>
                         </configuration>
                     </execution>
                     <!-- download mysql driver -->
@@ -107,7 +168,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/domibus/lib</outputDirectory>
+                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/lib</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -128,7 +189,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/domibus/lib</outputDirectory>
+                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/lib</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -141,7 +202,7 @@
                     </execution>
                     <!-- download h2 driver -->
                     <execution>
-                        <id>copy-h2-driver</id>
+                        <id>copy-sql-drivers</id>
                         <goals>
                             <goal>copy</goal>
                         </goals>
@@ -149,7 +210,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/domibus/lib</outputDirectory>
+                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/lib</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -157,9 +218,33 @@
                                     <artifactId>h2</artifactId>
                                     <version>2.1.212</version>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.hsqldb</groupId>
+                                    <artifactId>hsqldb</artifactId>
+                                    <version>${hsqldb.version}</version>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
+
+                    <!-- download custom gw extensions -->
+                    <execution>
+                        <id>copy-custom-gw-libs</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/deployment/</outputDirectory>
+                            <excludeTransitive>true</excludeTransitive>
+                            <includeScope>compile</includeScope>
+                            <includeArtifactIds>gw-extension</includeArtifactIds>
+                        </configuration>
+                    </execution>
+
+
                     <!-- download tomcat lifecycle listener -->
                     <execution>
                         <id>copy-tomcat-lifecycle-listener</id>
@@ -170,7 +255,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/domibus/lib</outputDirectory>
+                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/lib</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -181,7 +266,7 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-                    <!-- download tomcat lifecycle listener -->
+                    <!-- download gw-liquibase-db-init -->
                     <execution>
                         <id>copy-liquibase-db-init-tool</id>
                         <goals>
@@ -191,7 +276,8 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/tools</outputDirectory>
+                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/tools</outputDirectory>
+                            <stripVersion>true</stripVersion>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -235,16 +321,16 @@
                     </execution>
                     <execution>
                         <id>copy-domibus-properties</id>
-                        <phase>package</phase>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>target/gw</outputDirectory>
+                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>src/main/config</directory>
-                                    <filtering>false</filtering>
+                                    <directory>src/main/config/domibus</directory>
+                                    <filtering>true</filtering>
                                 </resource>
                             </resources>
                         </configuration>
@@ -312,8 +398,9 @@
                 <artifactId>kubernetes-maven-plugin</artifactId>
                 <configuration>
                     <skip>false</skip>
-<!--                    <buildStrategy>jib</buildStrategy>-->
+                    <buildStrategy>jib</buildStrategy>
                     <pushRegistry>${image.registry}</pushRegistry>
+<!--                    <pushRegistry>default-route-openshift-image-registry.apps.a2.cp.cna.at/ju-eu-ejustice-eqs</pushRegistry>-->
                     <pullRegistry>${image.registry}</pullRegistry>
                     <images>
                         <image>
@@ -324,7 +411,9 @@
 <!--                                    <tag>${maven.build.timestamp}</tag>-->
                                 </tags>
 <!--                                <from>adoptopenjdk/openjdk11:centos</from>-->
-                                <from>${image.registry}/adoptopenjdk/openjdk11:centos@sha256:97bee9a6e166444c95ded7d7dc97021feada8228a9152def6b8806c8fbd516f2</from>
+<!--                                <from>${image.registry}/adoptopenjdk/openjdk11:centos@sha256:97bee9a6e166444c95ded7d7dc97021feada8228a9152def6b8806c8fbd516f2</from>-->
+                                <from>${image.registry}/library/tomcat:9.0</from>
+
                                 <cmd>/app/domibus/bin/catalina.sh run</cmd>
                                 <entryPoint>/bin/bash</entryPoint>
 
@@ -338,10 +427,10 @@
                                 </volumes>
 
                                 <env>
-                                    <CATALINA_HOME>/app/domibus</CATALINA_HOME>
-                                    <DOMIBUS_CONFIG_LOCATION>/app/domibus/conf/domibus</DOMIBUS_CONFIG_LOCATION>
-                                    <DOMIBUS_WORK_LOCATION>/app/data/work</DOMIBUS_WORK_LOCATION>
-                                    <CATALINA_TMPDIR>/app/temp/temp</CATALINA_TMPDIR>
+<!--                                    <CATALINA_HOME>/app/domibus</CATALINA_HOME>-->
+<!--                                    <DOMIBUS_CONFIG_LOCATION>/app/domibus/conf/domibus</DOMIBUS_CONFIG_LOCATION>-->
+<!--                                    <DOMIBUS_WORK_LOCATION>/app/data/work</DOMIBUS_WORK_LOCATION>-->
+<!--                                    <CATALINA_TMPDIR>/app/temp/temp</CATALINA_TMPDIR>-->
 
                                     <DOMIBUS_DATABASE_SERVER_NAME>localhost</DOMIBUS_DATABASE_SERVER_NAME>
                                     <DOMIBUS_DATABASE_PORT>3306</DOMIBUS_DATABASE_PORT>
@@ -359,8 +448,8 @@
                                             <id>domibusTomcat</id>
                                             <fileSets>
                                                 <fileSet>
-                                                    <directory>target/gw/domibus</directory>
-                                                    <outputDirectory>domibus</outputDirectory>
+                                                    <directory>target/domibus/webapps/</directory>
+                                                    <outputDirectory>deployment</outputDirectory>
                                                 </fileSet>
                                             </fileSets>
                                         </layer>

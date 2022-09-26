@@ -1,0 +1,17 @@
+<Context docBase="${catalina.home}/deployment/domibus-MSH-tomcat-${domibus-gw.version}.war">
+
+    <!-- overwrite gw classpath to allow H2 db again -->
+<!--    <PostResources base="${catalina.home}/deployment/gw-extension-${project.version}.jar"-->
+<!--                  className="org.apache.catalina.webresources.JarResourceSet"-->
+<!--                  webAppMount="/WEB-INF/classes"-->
+<!--    />-->
+
+    <PostResource base="${catalina.home}/deployment/gw-extension-${project.version}.jar"
+            className="org.apache.catalina.webresources.FileResourceSet"
+            webAppMount="/WEB-INF/lib/gw-extension-${project.version}.jar"
+    />
+
+    <Parameter name="domibus.config.location" value="${catalina.home}/conf/domibus" />
+    <Parameter name="domibus.work.location" value="${catalina.home}/work/domibus" />
+
+</Context>

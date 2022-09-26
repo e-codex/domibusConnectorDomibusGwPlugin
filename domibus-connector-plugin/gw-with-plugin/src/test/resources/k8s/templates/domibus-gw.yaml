@@ -15,23 +15,6 @@ spec:
       protocol: TCP
       port: 8080
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: ecx-gateway-mariadb-lab${lab.id}
-  namespace: ju-eu-ejustice-eqs
-  labels:
-    pod.cp.cna.at/ingress: allow
-    product: ju-eu-ejustice-eqs
-spec:
-  selector:
-    app: ecx-gateway-mariadb-lab${lab.id}
-  ports:
-    - name: ecx-gateway-mariadb-lab${lab.id}-port
-      targetPort: 3306
-      protocol: TCP
-      port: 3306
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -46,6 +29,8 @@ spec:
   selector:
     matchLabels:
       app: ecx-gateway-lab${lab.id}
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -56,7 +41,37 @@ spec:
       volumes:
         - name: temp
           emptyDir: {}
+        - name: data
+          emptyDir: {}
       containers:
+#        - name: cnt-ecx-gateway-db
+#          resources:
+#            limits:
+#              cpu: 100m
+#              memory: 128Mi
+#            requests:
+#              cpu: 50m
+#              memory: 64Mi
+#          terminationMessagePath: /dev/termination-log
+#          env:
+#            - name: MYSQL_DATABASE
+#              value: domibus
+#            - name: MYSQL_PASSWORD
+#              value: domibus
+#            - name: MYSQL_USER
+#              value: domibus
+#            - name: MYSQL_ROOT_PASSWORD
+#              value: db
+#          ports:
+#            - containerPort: 3306
+#              protocol: TCP
+#          imagePullPolicy: Always
+#          volumeMounts:
+#            - name: data
+#              mountPath: /var/lib/mysql/data
+#              subPath: mariadb
+#          terminationMessagePolicy: File
+#          image: rhscl/mariadb-101-rhel7
         - name: cnt-ecx-gateway
           env: null
           image: ${gateway.image}
@@ -75,16 +90,16 @@ spec:
           resources:
             requests:
               memory: 512M
-              cpu: 100m
+              cpu: 300m
             limits:
               memory: 1024M
-              cpu: 200m
+              cpu: 600m
           volumeMounts:
 #            - name: domibus-config
 #              readOnly: true
 #              mountPath: /app/domibus/conf/domibus/domibus.properties
 #              subPath: domibus.properties
-            - name: temp
+            - name: data
               mountPath: /app/data
               subPath: domibus/data
             - name: temp

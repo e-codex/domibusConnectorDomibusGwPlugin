@@ -5,7 +5,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -25,15 +27,17 @@ public class LiquiBaseInit {
                 .run(args);
     }
 
+    @Primary
+    @Bean
+    @ConfigurationProperties(prefix = "domibus.datasource")
+    DataSourceProperties domibusDataSourceProperties() {
+        return new DataSourceProperties();
+    }
+
     @Bean
     @Primary
-    DataSource domibusDatasource(Environment env) {
-        return DataSourceBuilder.create()
-                .url(env.getRequiredProperty("domibus.datasource.url"))
-                .username(env.getRequiredProperty("domibus.datasource.user"))
-                .password(env.getRequiredProperty("domibus.datasource.password"))
-                .driverClassName(env.getRequiredProperty("domibus.datasource.driverClassName"))
-                .build();
+    DataSource domibusDatasource(DataSourceProperties props) {
+        return props.initializeDataSourceBuilder().build();
     }
 
     @Component
