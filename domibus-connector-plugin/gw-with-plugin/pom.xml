@@ -57,65 +57,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <!-- download tomcat -->
-                    <execution>
-                        <id>copy-tomcat</id>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <phase>process-resources</phase>
-                        <configuration>
 
-                            <overWriteSnapshots>true</overWriteSnapshots>
-                            <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/tomcat</outputDirectory>
-
-
-                            <artifactItems>
-                                <artifactItem>
-                                    <overWrite>true</overWrite>
-                                    <groupId>org.apache.tomcat</groupId>
-                                    <artifactId>tomcat</artifactId>
-                                    <version>${tomcat.version}</version>
-                                    <type>zip</type>
-                                    <excludes>
-                                        */webapps/**
-                                    </excludes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
                     <!-- download domibus AS4 gw -->
-<!--                    <execution>-->
-<!--                        <id>copy-domibus</id>-->
-<!--                        <goals>-->
-<!--                            <goal>unpack</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>process-resources</phase>-->
-<!--                        <configuration>-->
-
-<!--                            <overWriteSnapshots>true</overWriteSnapshots>-->
-<!--                            <overWriteReleases>true</overWriteReleases>-->
-<!--                            <outputDirectory>target/gw</outputDirectory>-->
-<!--                            <artifactItems>-->
-<!--                                <artifactItem>-->
-<!--                                    <overWrite>true</overWrite>-->
-<!--                                    <groupId>eu.domibus</groupId>-->
-<!--                                    <artifactId>domibus-distribution</artifactId>-->
-<!--                                    <classifier>tomcat-full</classifier>-->
-<!--                                    <version>${domibus-gw.version}</version>-->
-<!--                                    <type>zip</type>-->
-<!--                                    <excludes>-->
-<!--                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**-->
-<!--                                    </excludes>-->
-<!--                                </artifactItem>-->
-<!--                            </artifactItems>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-
-                    <!-- download domibus AS4 gw .war -->
                     <execution>
-                        <id>copy-domibus-war</id>
+                        <id>copy-domibus</id>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
@@ -124,22 +69,24 @@
 
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/deployment</outputDirectory>
+                            <outputDirectory>target/gw</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
                                     <groupId>eu.domibus</groupId>
                                     <artifactId>domibus-distribution</artifactId>
-                                    <classifier>tomcat-war</classifier>
+                                    <classifier>tomcat-full</classifier>
                                     <version>${domibus-gw.version}</version>
                                     <type>zip</type>
-<!--                                    <excludes>-->
-<!--                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**-->
-<!--                                    </excludes>-->
+                                    <excludes>
+                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**
+                                    </excludes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
+
+
 
 
                     <!-- download domibus connector gateway plugin -->
@@ -152,7 +99,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/conf/domibus/plugins/lib/</outputDirectory>
+                            <outputDirectory>target/gw/conf/domibus/plugins/lib/</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
                             <includeScope>compile</includeScope>
                             <includeArtifactIds>domibus-connector-pull-plugin,domibus-connector-push-plugin</includeArtifactIds>
@@ -168,7 +115,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/lib</outputDirectory>
+                            <outputDirectory>target/gw/lib</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -189,7 +136,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/lib</outputDirectory>
+                            <outputDirectory>target/gw/lib</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -210,7 +157,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/lib</outputDirectory>
+                            <outputDirectory>target/gw/lib</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -237,7 +184,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/deployment/</outputDirectory>
+                            <outputDirectory>target/gw/lib/</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
                             <includeScope>compile</includeScope>
                             <includeArtifactIds>gw-extension</includeArtifactIds>
@@ -255,7 +202,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/lib</outputDirectory>
+                            <outputDirectory>target/gw/lib</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -276,7 +223,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/tools</outputDirectory>
+                            <outputDirectory>target/gw/tools</outputDirectory>
                             <stripVersion>true</stripVersion>
                             <artifactItems>
                                 <artifactItem>
@@ -300,7 +247,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
                 <inherited>true</inherited>
                 <executions>
                     <execution>
