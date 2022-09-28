@@ -10,12 +10,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class DCPluginPropertyManager extends DomibusPropertyExtServiceDelegateAbstract
+public abstract class DCPluginPropertyManager extends DomibusPropertyExtServiceDelegateAbstract
         implements DomibusPropertyManagerExt {
 
     public static final String CXF_TRUST_STORE_PATH_PROPERTY_NAME = "connector.delivery.trust-store.file";
@@ -37,7 +39,11 @@ public class DCPluginPropertyManager extends DomibusPropertyExtServiceDelegateAb
     public static final String DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME = "dcplugin.auth.username";
     public static final String DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME = "dcplugin.auth.roles";
     public static final String DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME = "dcplugin.auth.use-username-from"; //ALIAS, DN, DEFAULT
-    public static final String CXF_PUBLISH_URL = "connector.delivery.service.publish";
+//    public static final String CXF_PUBLISH_URL = "connector.delivery.service.publish";
+
+    public static final String DC_PUSH_PLUGIN_CXF_PUBLISH_URL = "dcplugin.push.publish.url";
+    public static final String DC_PULL_PLUGIN_CXF_PUBLISH_URL = "dcplugin.pull.publish.url";
+
     public static final String DC_PLUGIN_NOTIFICATIONS_QUEUE_NAME = "domibus.dcplugin.notifications";
     private final Map<String, DomibusPropertyMetadataDTO> knownProperties;
 
@@ -45,7 +51,7 @@ public class DCPluginPropertyManager extends DomibusPropertyExtServiceDelegateAb
         return "dc-plugin.properties";
     }
 
-    public DCPluginPropertyManager() {
+    public DCPluginPropertyManager(List<DomibusPropertyMetadataDTO> properties) {
         List<DomibusPropertyMetadataDTO> allProperties = Arrays.asList(
                 new DomibusPropertyMetadataDTO(CXF_DELIVERY_ENDPOINT_ADDRESS, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(CXF_ENCRYPT_ALIAS, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
@@ -60,14 +66,17 @@ public class DCPluginPropertyManager extends DomibusPropertyExtServiceDelegateAb
                 new DomibusPropertyMetadataDTO(CXF_SECURITY_POLICY, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(PLUGIN_DELIVERY_MODE, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(CXF_LOGGING_FEATURE_PROPERTY_NAME, Type.BOOLEAN, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(CXF_PUBLISH_URL, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
+//                new DomibusPropertyMetadataDTO(CXF_PUBLISH_URL, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME, Type.COMMA_SEPARATED_LIST, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(DC_PLUGIN_MAX_MESSAGE_LIST, Type.NUMERIC, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL)
 
         );
-        this.knownProperties = allProperties.stream().collect(Collectors.toMap(DomibusPropertyMetadataDTO::getName, Function.identity()));
+
+        this.knownProperties = Stream.of(allProperties, properties)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toMap(DomibusPropertyMetadataDTO::getName, Function.identity()));
     }
 
     @Override

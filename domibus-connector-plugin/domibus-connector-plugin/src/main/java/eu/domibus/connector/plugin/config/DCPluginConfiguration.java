@@ -40,10 +40,10 @@ public class DCPluginConfiguration {
     @Autowired
     ApplicationContext ctx;
 
-    @Bean
-    public DCPluginPropertyManager dcPluginPropertyManager() {
-        return new DCPluginPropertyManager();
-    }
+//    @Bean
+//    public DCPluginPropertyManager dcPluginPropertyManager() {
+//        return new DCPluginPropertyManager();
+//    }
 
 
     @Bean(JAXWS_PROPERTIES_BEAN_NAME)

@@ -1,5 +1,6 @@
 package eu.domibus.connector.plugin.dao;
 
+import eu.domibus.common.JPAConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -19,7 +20,7 @@ public class DCBasicDao<T> {
 
     protected final Class<T> typeOfT;
 
-    @PersistenceContext(unitName = "domibusJTA")
+    @PersistenceContext(unitName = JPAConstants.PERSISTENCE_UNIT_NAME)
     protected EntityManager em;
 
     /**

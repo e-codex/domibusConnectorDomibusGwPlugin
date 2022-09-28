@@ -1,6 +1,7 @@
 package eu.domibus.connector.plugin.config;
 
 import eu.domibus.connector.plugin.config.property.DCPluginPropertyManager;
+import eu.domibus.connector.plugin.config.property.DCPushPluginPropertyManager;
 import eu.domibus.connector.plugin.ws.AuthenticationService;
 import eu.domibus.connector.plugin.ws.DomibusConnectorPushWebservice;
 import eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWSService;
@@ -42,6 +43,11 @@ public class DCPushPluginConfiguration {
         return new DomibusConnectorPushWebservice();
     }
 
+    @Bean
+    public DCPluginPropertyManager dcPluginPropertyManager() {
+        return new DCPushPluginPropertyManager();
+    }
+
 
     /**
      * Create endpoint for Push
@@ -70,8 +76,8 @@ public class DCPushPluginConfiguration {
         if (authenticationService != null) {
             endpoint.getInInterceptors().add(authenticationService);
         }
-        LOGGER.info("Publish URL for DC PushPlugin is: [{}]", wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.CXF_PUBLISH_URL));
-        endpoint.publish(wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.CXF_PUBLISH_URL));
+        LOGGER.info("Publish URL for DC PushPlugin is: [{}]", wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PUSH_PLUGIN_CXF_PUBLISH_URL));
+        endpoint.publish(wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PUSH_PLUGIN_CXF_PUBLISH_URL));
         return endpoint;
     }
 

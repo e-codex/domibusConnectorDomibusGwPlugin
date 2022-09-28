@@ -1,6 +1,7 @@
 package eu.domibus.connector.plugin.config;
 
 import eu.domibus.connector.plugin.config.property.DCPluginPropertyManager;
+import eu.domibus.connector.plugin.config.property.DCPullPluginPropertyManager;
 import eu.domibus.connector.plugin.ws.AuthenticationService;
 import eu.domibus.connector.plugin.ws.DomibusConnectorPullWebservice;
 import eu.domibus.connector.ws.gateway.submission.webservice.DomibusConnectorGatewaySubmissionWSService;
@@ -24,6 +25,10 @@ public class DCPullPluginConfiguration {
 
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DCPullPluginConfiguration.class);
 
+    @Bean
+    public DCPluginPropertyManager dcPluginPropertyManager() {
+        return new DCPullPluginPropertyManager();
+    }
 
     @Bean
     public DomibusConnectorPullWebservice domibusConnectorPullWebservice() {
@@ -58,8 +63,8 @@ public class DCPullPluginConfiguration {
         if (authenticationService != null) {
             endpoint.getInInterceptors().add(authenticationService);
         }
-        LOGGER.info("Publish URL for DC PullPlugin is: [{}]", wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.CXF_PUBLISH_URL));
-        endpoint.publish(wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.CXF_PUBLISH_URL));
+        LOGGER.info("Publish URL for DC PullPlugin is: [{}]", wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PULL_PLUGIN_CXF_PUBLISH_URL));
+        endpoint.publish(wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PULL_PLUGIN_CXF_PUBLISH_URL));
         return endpoint;
     }
 
