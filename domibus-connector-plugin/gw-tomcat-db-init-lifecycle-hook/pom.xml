@@ -1,0 +1,97 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>domibus-connector-plugin-parent</artifactId>
+        <groupId>eu.domibus.connector.plugin</groupId>
+        <version>4.4.x-GW5.0-ALPHA3-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>gw-tomcat-db-init-lifecycle-hook</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>gw-liquibase-db-init</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-loader</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+
+                <!-- download domibus AS4 gw -->
+                <execution>
+                    <id>copy-domibus</id>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <phase>process-resources</phase>
+                    <configuration>
+
+                        <overWriteSnapshots>true</overWriteSnapshots>
+                        <overWriteReleases>true</overWriteReleases>
+                        <outputDirectory>target/classes</outputDirectory>
+                        <includeArtifactIds>spring-boot-loader,gw-liquibase-db-init</includeArtifactIds>
+                        <stripVersion>true</stripVersion>
+<!--                        <artifactItems>-->
+<!--                            <artifactItem>-->
+<!--                                <overWrite>true</overWrite>-->
+<!--                                <groupId>eu.domibus</groupId>-->
+<!--                                <artifactId>domibus-distribution</artifactId>-->
+<!--                                <classifier>tomcat-full</classifier>-->
+<!--                                <version>${domibus-gw.version}</version>-->
+<!--                                <type>zip</type>-->
+<!--                                <excludes>-->
+<!--                                    domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**-->
+<!--                                </excludes>-->
+<!--                            </artifactItem>-->
+<!--                        </artifactItems>-->
+                    </configuration>
+                </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>commons-io:commons-io</include>
+                                    <include>org.springframework.boot:spring-boot-loader</include>
+                                </includes>
+                            </artifactSet>
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+<!--                            <shadedClassifierName></shadedClassifierName>-->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -17,6 +17,7 @@
         <module>gw-liquibase-db-init</module>
         <module>gw-extension</module>
         <module>gw-within-embedded-spring-boot-tomcat</module>
+        <module>gw-tomcat-db-init-lifecycle-hook</module>
     </modules>
     <scm>
         <developerConnection>scm:git:https://www.git.e-codex.eu/ecodex.git/domibus-connector-plugin
@@ -121,6 +122,16 @@
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.2.2</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <configuration>
+                        <skip>true</skip>
+                        <executable>cmd.exe</executable>
+                    </configuration>
+                </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>

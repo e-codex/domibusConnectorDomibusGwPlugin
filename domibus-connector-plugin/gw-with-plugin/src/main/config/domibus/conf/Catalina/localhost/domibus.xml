@@ -1,19 +1,29 @@
-<Context >
+<Context docBase="${catalina.home}/deployments/domibus-MSH-tomcat-${domibus-gw.version}.war">
 
+    <Resources>
     <!-- overwrite gw classpath to allow H2 db again -->
-<!--    <PostResources base="${catalina.home}/deployment/gw-extension-${project.version}.jar"-->
+<!--    <PostResources base="${catalina.home}/additional-libs/gw-extension-${project.version}.jar"-->
 <!--                  className="org.apache.catalina.webresources.JarResourceSet"-->
 <!--                  webAppMount="/WEB-INF/classes"-->
 <!--    />-->
 
-    <Loader delegate="true" />
+<!--    <Loader delegate="true" />-->
 
-<!--    <PostResource base="${catalina.home}/deployment/gw-extension-${project.version}.jar"-->
-<!--            className="org.apache.catalina.webresources.FileResourceSet"-->
-<!--            webAppMount="/WEB-INF/lib/gw-extension-${project.version}.jar"-->
-<!--    />-->
+<!--        <PostResources base="${catalina.home}/additional-libs/gw-extension-${project.version}.jar"-->
+<!--                className="org.apache.catalina.webresources.FileResourceSet"-->
+<!--                webAppMount="/WEB-INF/lib/gw-extension-${project.version}.jar"-->
+<!--        />-->
+
+        <PreResources base="${catalina.home}/additional-libs/gw-extension-${project.version}.jar"
+                       className="org.apache.catalina.webresources.FileResourceSet"
+                       webAppMount="/WEB-INF/lib/gw-extension-${project.version}.jar"
+        />
+    </Resources>
 
     <Parameter name="domibus.config.location" value="${catalina.home}/conf/domibus" />
     <Parameter name="domibus.work.location" value="${catalina.home}/work/domibus" />
+
+    <Listener className="net.aschemann.tomcat.lifecycle.FailstopLifecycleListener" force="true" />
+    <Listener className="eu.ecodex.domibus.gw.init.DomibusDbInitListener" />
 
 </Context>

@@ -21,6 +21,5 @@ public class NoH2DatabaseCondition implements Condition {
         String currentDatabase = environment.getProperty("domibus.datasource.driverClassName");
         String h2Allowed = environment.getProperty("domibus.datasource.allowH2Driver");
         return !StringUtils.contains(currentDatabase, "org.h2.Driver") || "true".equals(h2Allowed);
-
     }
 }

@@ -11,12 +11,30 @@
 
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>eu.domibus</groupId>-->
-<!--            <artifactId>domibus-MSH</artifactId>-->
-<!--            <version>${domibus-gw.version}</version>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>eu.domibus</groupId>
+            <artifactId>domibus-MSH</artifactId>
+            <version>${domibus-gw.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.roda-project</groupId>
+                    <artifactId>commons-ip2</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>eu.domibus</groupId>
+            <artifactId>domibus-MSH-tomcat</artifactId>
+            <version>${domibus-gw.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.roda-project</groupId>
+                    <artifactId>commons-ip2</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <!-- Spring -->
         <dependency>

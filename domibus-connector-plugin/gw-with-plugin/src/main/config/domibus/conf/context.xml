@@ -35,6 +35,6 @@
        - set port (default: 8005) and shutdown password (default: SHUTDOWN) as in server.xml
        - set waitForStart (default 30s) to make the shut down command wait until TC is completely up and running
 -->
-    <Listener className="net.aschemann.tomcat.lifecycle.FailstopLifecycleListener" force="true" />
+<!--    <Listener className="net.aschemann.tomcat.lifecycle.FailstopLifecycleListener" force="true" />-->
 
 </Context>

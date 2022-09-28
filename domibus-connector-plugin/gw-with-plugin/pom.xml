@@ -33,9 +33,9 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>gw-liquibase-db-init</artifactId>
+            <artifactId>gw-tomcat-db-init-lifecycle-hook</artifactId>
             <version>${project.version}</version>
-            <scope>runtime</scope>
+            <!--            <classifier>shaded</classifier>-->
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -79,14 +79,63 @@
                                     <version>${domibus-gw.version}</version>
                                     <type>zip</type>
                                     <excludes>
-                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**
+                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**,domibus/webapps/**
                                     </excludes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
 
+                    <!-- download domibus AS4 gw .war -->
+                    <execution>
+                        <id>copy-domibus-war</id>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
 
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/gw/domibus/deployments/</outputDirectory>
+
+                            <artifactItems>
+                                <artifactItem>
+                                    <overWrite>true</overWrite>
+                                    <groupId>eu.domibus</groupId>
+                                    <artifactId>domibus-distribution</artifactId>
+                                    <classifier>tomcat-war</classifier>
+                                    <version>${domibus-gw.version}</version>
+                                    <type>zip</type>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+
+
+                    <execution>
+                        <id>copy-ecodex-testkeystores</id>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/gw/domibus/conf/domibus</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <overWrite>true</overWrite>
+                                    <groupId>eu.ecodex.labbox</groupId>
+                                    <artifactId>ecodex-lab-box-config</artifactId>
+                                    <classifier>gwtestkeystores</classifier>
+                                    <version>2022.09.1</version>
+                                    <type>zip</type>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
 
 
                     <!-- download domibus connector gateway plugin -->
@@ -99,10 +148,29 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/conf/domibus/plugins/lib/</outputDirectory>
+                            <outputDirectory>target/gw/domibus/conf/domibus/plugins/lib/</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
                             <includeScope>compile</includeScope>
-                            <includeArtifactIds>domibus-connector-pull-plugin,domibus-connector-push-plugin</includeArtifactIds>
+                            <includeArtifactIds>domibus-connector-pull-plugin,domibus-connector-push-plugin
+                            </includeArtifactIds>
+                        </configuration>
+                    </execution>
+                    <!-- download extension -->
+                    <execution>
+                        <id>copy-domibus-additional-libs</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/gw/domibus/lib/</outputDirectory>
+                            <excludeTransitive>true</excludeTransitive>
+                            <includeScope>compile</includeScope>
+                            <includeArtifactIds>gw-tomcat-db-init-lifecycle-hook</includeArtifactIds>
+<!--                            <excludeArtifactIds>domibus-connector-pull-plugin,domibus-connector-push-plugin-->
+<!--                            </excludeArtifactIds>-->
                         </configuration>
                     </execution>
                     <!-- download mysql driver -->
@@ -115,7 +183,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/lib</outputDirectory>
+                            <outputDirectory>target/gw/domibus/lib</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -136,7 +204,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/lib</outputDirectory>
+                            <outputDirectory>target/gw/domibus/lib</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -157,7 +225,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/lib</outputDirectory>
+                            <outputDirectory>target/gw/domibus/lib</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -184,9 +252,9 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/lib/</outputDirectory>
+                            <outputDirectory>target/gw/domibus/additional-libs/</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
-                            <includeScope>compile</includeScope>
+<!--                            <includeScope>compile</includeScope>-->
                             <includeArtifactIds>gw-extension</includeArtifactIds>
                         </configuration>
                     </execution>
@@ -202,7 +270,7 @@
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/lib</outputDirectory>
+                            <outputDirectory>target/gw/domibus/lib</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -213,28 +281,32 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-                    <!-- download gw-liquibase-db-init -->
-                    <execution>
-                        <id>copy-liquibase-db-init-tool</id>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <overWriteSnapshots>true</overWriteSnapshots>
-                            <overWriteReleases>true</overWriteReleases>
-                            <outputDirectory>target/gw/tools</outputDirectory>
-                            <stripVersion>true</stripVersion>
-                            <artifactItems>
-                                <artifactItem>
-                                    <overWrite>true</overWrite>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>gw-liquibase-db-init</artifactId>
-                                    <version>${project.version}</version>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
+
+                    <!-- download example keystores -->
+
+
+                    <!--                    &lt;!&ndash; download gw-liquibase-db-init &ndash;&gt;-->
+                    <!--                    <execution>-->
+                    <!--                        <id>copy-liquibase-db-init-tool</id>-->
+                    <!--                        <goals>-->
+                    <!--                            <goal>copy</goal>-->
+                    <!--                        </goals>-->
+                    <!--                        <phase>process-resources</phase>-->
+                    <!--                        <configuration>-->
+                    <!--                            <overWriteSnapshots>true</overWriteSnapshots>-->
+                    <!--                            <overWriteReleases>true</overWriteReleases>-->
+                    <!--                            <outputDirectory>target/gw/domibustools</outputDirectory>-->
+                    <!--                            <stripVersion>true</stripVersion>-->
+                    <!--                            <artifactItems>-->
+                    <!--                                <artifactItem>-->
+                    <!--                                    <overWrite>true</overWrite>-->
+                    <!--                                    <groupId>${project.groupId}</groupId>-->
+                    <!--                                    <artifactId>gw-liquibase-db-init</artifactId>-->
+                    <!--                                    <version>${project.version}</version>-->
+                    <!--                                </artifactItem>-->
+                    <!--                            </artifactItems>-->
+                    <!--                        </configuration>-->
+                    <!--                    </execution>-->
 
                 </executions>
             </plugin>
@@ -272,7 +344,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>target/tomcat/apache-tomcat-${tomcat.version}/</outputDirectory>
+                            <outputDirectory>target/gw/domibus</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>src/main/config/domibus</directory>
@@ -327,7 +399,7 @@
                                             <fileSets>
                                                 <fileSet>
                                                     <outputDirectory>./</outputDirectory>
-                                                    <directory>target/gw/</directory>
+                                                    <directory>target/gw/domibus/</directory>
                                                 </fileSet>
                                             </fileSets>
                                         </layer>
@@ -346,7 +418,7 @@
                     <skip>false</skip>
                     <buildStrategy>jib</buildStrategy>
                     <pushRegistry>${image.registry}</pushRegistry>
-<!--                    <pushRegistry>default-route-openshift-image-registry.apps.a2.cp.cna.at/ju-eu-ejustice-eqs</pushRegistry>-->
+                    <!--                    <pushRegistry>default-route-openshift-image-registry.apps.a2.cp.cna.at/ju-eu-ejustice-eqs</pushRegistry>-->
                     <pullRegistry>${image.registry}</pullRegistry>
                     <images>
                         <image>
@@ -354,10 +426,10 @@
                             <build>
                                 <tags>
                                     <tag>${domibus-gw.version}</tag>
-<!--                                    <tag>${maven.build.timestamp}</tag>-->
+                                    <!--                                    <tag>${maven.build.timestamp}</tag>-->
                                 </tags>
-<!--                                <from>adoptopenjdk/openjdk11:centos</from>-->
-<!--                                <from>${image.registry}/adoptopenjdk/openjdk11:centos@sha256:97bee9a6e166444c95ded7d7dc97021feada8228a9152def6b8806c8fbd516f2</from>-->
+                                <!--                                <from>adoptopenjdk/openjdk11:centos</from>-->
+                                <!--                                <from>${image.registry}/adoptopenjdk/openjdk11:centos@sha256:97bee9a6e166444c95ded7d7dc97021feada8228a9152def6b8806c8fbd516f2</from>-->
                                 <from>${image.registry}/library/tomcat:9.0</from>
 
                                 <cmd>/app/domibus/bin/catalina.sh run</cmd>
@@ -373,10 +445,10 @@
                                 </volumes>
 
                                 <env>
-<!--                                    <CATALINA_HOME>/app/domibus</CATALINA_HOME>-->
-<!--                                    <DOMIBUS_CONFIG_LOCATION>/app/domibus/conf/domibus</DOMIBUS_CONFIG_LOCATION>-->
-<!--                                    <DOMIBUS_WORK_LOCATION>/app/data/work</DOMIBUS_WORK_LOCATION>-->
-<!--                                    <CATALINA_TMPDIR>/app/temp/temp</CATALINA_TMPDIR>-->
+                                    <!--                                    <CATALINA_HOME>/app/domibus</CATALINA_HOME>-->
+                                    <!--                                    <DOMIBUS_CONFIG_LOCATION>/app/domibus/conf/domibus</DOMIBUS_CONFIG_LOCATION>-->
+                                    <!--                                    <DOMIBUS_WORK_LOCATION>/app/data/work</DOMIBUS_WORK_LOCATION>-->
+                                    <!--                                    <CATALINA_TMPDIR>/app/temp/temp</CATALINA_TMPDIR>-->
 
                                     <DOMIBUS_DATABASE_SERVER_NAME>localhost</DOMIBUS_DATABASE_SERVER_NAME>
                                     <DOMIBUS_DATABASE_PORT>3306</DOMIBUS_DATABASE_PORT>
@@ -426,6 +498,20 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                    <executable>cmd.exe</executable>
+                    <workingDirectory>${project.build.directory}/gw/domibus/bin</workingDirectory>
+                    <arguments>
+                        <argument>/C</argument>
+                        <argument>catalina</argument>
+                        <argument>run</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
 
         </plugins>
     </build>

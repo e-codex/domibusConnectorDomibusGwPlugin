@@ -146,7 +146,7 @@
     <!--  In order to enable logging of request/responses please change the loglevel to INFO -->
     <logger name="org.apache.cxf" level="WARN"/>
 
-    <root level="DEBUG">
+    <root level="WARN">
         <appender-ref ref="file"/>
         <!--        REPLACE appender-ref "file" with "DEFAULT-ASYNC-FILE" for async logging-->
         <!--        <appender-ref ref="DEFAULT-ASYNC-FILE" />-->
