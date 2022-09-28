@@ -79,7 +79,7 @@
                                     <version>${domibus-gw.version}</version>
                                     <type>zip</type>
                                     <excludes>
-                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**,domibus/webapps/**
+<!--                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**,domibus/webapps/**-->
                                     </excludes>
                                 </artifactItem>
                             </artifactItems>

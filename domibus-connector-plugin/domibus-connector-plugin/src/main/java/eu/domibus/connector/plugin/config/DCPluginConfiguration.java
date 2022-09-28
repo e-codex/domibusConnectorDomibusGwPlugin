@@ -34,8 +34,12 @@ public class DCPluginConfiguration {
     public static final String JAXWS_PROPERTIES_BEAN_NAME = "jaxWsPropertiesBean";
     public static final String CXF_LOGGING_FEATURE_BEAN = "dcCxfLoggingFeature";
     public static final String DC_PLUGIN_CXF_FEATURE = "dcPluginCxfFeature";
-    public static final String DC_PLUGIN_NOTIFICATIONS_QUEUE_BEAN = "dcpluginMessageQueueBean";
-    public static final String DC_PLUGIN_NOTIFICATIONS_QUEUE_JNDI = "jms/domibus.dcplugin.notifications";
+
+    public static final String DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_BEAN = "dcPushPluginMessageQueueBean";
+    public static final String DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_JNDI = "jms/domibus.dcpushplugin.notifications";
+
+    public static final String DC_PULL_PLUGIN_NOTIFICATIONS_QUEUE_BEAN = "dcPullPluginMessageQueueBean";
+    public static final String DC_PULL_PLUGIN_NOTIFICATIONS_QUEUE_JNDI = "jms/domibus.dcpullplugin.notifications";
 
     @Autowired
     ApplicationContext ctx;

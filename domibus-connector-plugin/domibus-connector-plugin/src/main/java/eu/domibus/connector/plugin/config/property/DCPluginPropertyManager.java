@@ -44,7 +44,8 @@ public abstract class DCPluginPropertyManager extends DomibusPropertyExtServiceD
     public static final String DC_PUSH_PLUGIN_CXF_PUBLISH_URL = "dcplugin.push.publish.url";
     public static final String DC_PULL_PLUGIN_CXF_PUBLISH_URL = "dcplugin.pull.publish.url";
 
-    public static final String DC_PLUGIN_NOTIFICATIONS_QUEUE_NAME = "domibus.dcplugin.notifications";
+    public static final String DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_NAME = "dcplugin.push.notifications.queue";
+    public static final String DC_PULL_PLUGIN_NOTIFICATIONS_QUEUE_NAME = "dcplugin.pull.notifications.queue";
     private final Map<String, DomibusPropertyMetadataDTO> knownProperties;
 
     protected String getPropertiesFileName() {
