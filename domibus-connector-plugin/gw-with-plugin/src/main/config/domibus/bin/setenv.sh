@@ -11,5 +11,3 @@
 #CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.work.location=${DOMIBUS_WORK_LOCATION}"
 #CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.entityManagerFactory.jpaProperty.hibernate.dialect=${DOMIBUS_DATASOURCE_HIBERNATE_DIALECT}"
 
-
-JAVA_OPTS="$JAVA_OPTS -Xms4096m -Xmx4096m -Ddomibus.config.location=$CATALINA_HOME/conf/domibus -Ddomibus.work.location=$CATALINA_HOME/work/domibus"

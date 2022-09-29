@@ -100,13 +100,16 @@ spec:
 #              mountPath: /app/domibus/conf/domibus/domibus.properties
 #              subPath: domibus.properties
             - name: data
-              mountPath: /app/data
-              subPath: domibus/data
+              mountPath: /app/domibus/work
+              subPath: domibus/work
             - name: temp
-              mountPath: /app/logs
+              mountPath: /app/domibus/logs
               subPath: domibus/logs
             - name: temp
-              mountPath: /app/temp
+              mountPath: /app/domibus/temp
               subPath: domibus/temp
+            - name: temp
+              mountPath: /app/domibus/webapps
+              subPath: domibus/webapps
 #            - name: ecx-keystores
 #              mountPath: /app/domibus/conf/domibus/keystores/

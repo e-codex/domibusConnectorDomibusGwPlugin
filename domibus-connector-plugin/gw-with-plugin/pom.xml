@@ -79,7 +79,7 @@
                                     <version>${domibus-gw.version}</version>
                                     <type>zip</type>
                                     <excludes>
-<!--                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**,domibus/webapps/**-->
+                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**,domibus/webapps/**
                                     </excludes>
                                 </artifactItem>
                             </artifactItems>
@@ -281,33 +281,6 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-
-                    <!-- download example keystores -->
-
-
-                    <!--                    &lt;!&ndash; download gw-liquibase-db-init &ndash;&gt;-->
-                    <!--                    <execution>-->
-                    <!--                        <id>copy-liquibase-db-init-tool</id>-->
-                    <!--                        <goals>-->
-                    <!--                            <goal>copy</goal>-->
-                    <!--                        </goals>-->
-                    <!--                        <phase>process-resources</phase>-->
-                    <!--                        <configuration>-->
-                    <!--                            <overWriteSnapshots>true</overWriteSnapshots>-->
-                    <!--                            <overWriteReleases>true</overWriteReleases>-->
-                    <!--                            <outputDirectory>target/gw/domibustools</outputDirectory>-->
-                    <!--                            <stripVersion>true</stripVersion>-->
-                    <!--                            <artifactItems>-->
-                    <!--                                <artifactItem>-->
-                    <!--                                    <overWrite>true</overWrite>-->
-                    <!--                                    <groupId>${project.groupId}</groupId>-->
-                    <!--                                    <artifactId>gw-liquibase-db-init</artifactId>-->
-                    <!--                                    <version>${project.version}</version>-->
-                    <!--                                </artifactItem>-->
-                    <!--                            </artifactItems>-->
-                    <!--                        </configuration>-->
-                    <!--                    </execution>-->
-
                 </executions>
             </plugin>
             <plugin>
@@ -383,7 +356,7 @@
                                 </tags>
                                 <dockerFile>Dockerfile</dockerFile>
                                 <fromExt>
-                                    <name>java:openjdk-8-ubi8</name>
+                                    <name>java:openjdk-11-ubi8</name>
                                     <kind>ImageStreamTag</kind>
                                     <namespace>openshift</namespace>
                                 </fromExt>
@@ -395,10 +368,10 @@
                                     <layers>
                                         <layer>
                                             <id>domibusTomcat</id>
-                                            <baseDirectory>${project.basedir}</baseDirectory>
                                             <fileSets>
                                                 <fileSet>
-                                                    <outputDirectory>./</outputDirectory>
+<!--                                                    <outputDirectory>./</outputDirectory>-->
+
                                                     <directory>target/gw/domibus/</directory>
                                                 </fileSet>
                                             </fileSets>
@@ -487,14 +460,6 @@
                     <environmentVariables>
                         <MAVEN_BUILD_TIMESTAMP>${maven.build.timestamp}</MAVEN_BUILD_TIMESTAMP>
                     </environmentVariables>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>7</source>
-                    <target>7</target>
                 </configuration>
             </plugin>
 
