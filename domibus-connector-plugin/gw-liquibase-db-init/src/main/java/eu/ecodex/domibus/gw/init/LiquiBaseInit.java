@@ -19,7 +19,7 @@ public class LiquiBaseInit {
 
     public static void main(String[] args) {
         new SpringApplicationBuilder()
-                .properties("spring.liquibase.change-log=classpath:initdb.xml", "spring.sql.init.mode=embedded","debug=true")
+                .properties("spring.liquibase.change-log=classpath:initdb.xml", "spring.sql.init.mode=embedded")
 
                 .sources(LiquiBaseInit.class)
                 .run(args);
@@ -49,7 +49,6 @@ public class LiquiBaseInit {
 
         @Override
         public void run(String... args) throws Exception {
-            System.out.println("RUN");
             liquibase.change.DatabaseChange c;
         }
     }

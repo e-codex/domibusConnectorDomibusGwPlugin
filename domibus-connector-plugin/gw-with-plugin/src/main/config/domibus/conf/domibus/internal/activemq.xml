@@ -81,8 +81,8 @@
             <queue id="wsPluginSendQueue"
                    physicalName="${wsplugin.send.queue:domibus.wsplugin.send.queue}"/>
             <!-- DCPlugin queues -->
-            <queue id="dcPushPluginNotificationsQueue" physicalName="${dcpushplugin.notifications.queue}" />
-            <queue id="dcPullPluginNotificationsQueue" physicalName="${dcpullplugin.notifications.queue}" />
+            <queue id="dcPushPluginNotificationsQueue" physicalName="${dcplugin.push.notifications.queue:domibus.dcplugin.push.notifications.queue}" />
+            <queue id="dcPullPluginNotificationsQueue" physicalName="${dcplugin.pull.notifications.queue:domibus.dcplugin.pull.notifications.queue}" />
 
             <!-- Internal queues of JMS backend plugin -->
             <queue id="jmsPluginToBackendQueue"
