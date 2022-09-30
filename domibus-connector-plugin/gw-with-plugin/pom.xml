@@ -35,7 +35,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>gw-tomcat-db-init-lifecycle-hook</artifactId>
             <version>${project.version}</version>
-            <!--            <classifier>shaded</classifier>-->
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -356,7 +355,7 @@
                                 </tags>
                                 <dockerFile>Dockerfile</dockerFile>
                                 <fromExt>
-                                    <name>java:openjdk-11-ubi8</name>
+                                    <name>java:openjdk-8-ubi8</name>
                                     <kind>ImageStreamTag</kind>
                                     <namespace>openshift</namespace>
                                 </fromExt>

@@ -21,7 +21,6 @@ public class DomibusDbInitListener implements LifecycleListener {
 
     private static Logger LOGGER = Logger.getLogger(DomibusDbInitListener.class.getName());
 
-
     public static final String DOMIBUS_DATABASE_URL = "domibus.datasource.url";
 
     @Override

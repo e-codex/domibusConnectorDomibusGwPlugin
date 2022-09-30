@@ -44,36 +44,10 @@ spec:
         - name: data
           emptyDir: {}
       containers:
-#        - name: cnt-ecx-gateway-db
-#          resources:
-#            limits:
-#              cpu: 100m
-#              memory: 128Mi
-#            requests:
-#              cpu: 50m
-#              memory: 64Mi
-#          terminationMessagePath: /dev/termination-log
-#          env:
-#            - name: MYSQL_DATABASE
-#              value: domibus
-#            - name: MYSQL_PASSWORD
-#              value: domibus
-#            - name: MYSQL_USER
-#              value: domibus
-#            - name: MYSQL_ROOT_PASSWORD
-#              value: db
-#          ports:
-#            - containerPort: 3306
-#              protocol: TCP
-#          imagePullPolicy: Always
-#          volumeMounts:
-#            - name: data
-#              mountPath: /var/lib/mysql/data
-#              subPath: mariadb
-#          terminationMessagePolicy: File
-#          image: rhscl/mariadb-101-rhel7
         - name: cnt-ecx-gateway
-          env: null
+          env:
+            - name: GW_PRIVATE_KEY_ALIAS
+              value: gw${lab.id}
           image: ${gateway.image}
           imagePullPolicy: Always
           readinessProbe:
@@ -95,10 +69,6 @@ spec:
               memory: 1024M
               cpu: 600m
           volumeMounts:
-#            - name: domibus-config
-#              readOnly: true
-#              mountPath: /app/domibus/conf/domibus/domibus.properties
-#              subPath: domibus.properties
             - name: data
               mountPath: /app/domibus/work
               subPath: domibus/work
@@ -111,5 +81,3 @@ spec:
             - name: temp
               mountPath: /app/domibus/webapps
               subPath: domibus/webapps
-#            - name: ecx-keystores
-#              mountPath: /app/domibus/conf/domibus/keystores/

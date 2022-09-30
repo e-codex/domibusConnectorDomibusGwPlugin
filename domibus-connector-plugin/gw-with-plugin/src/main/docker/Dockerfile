@@ -1,22 +1,24 @@
-FROM java:openjdk-11-ubi8
+FROM java:openjdk-8-ubi8
 ENV CATALINA_HOME=/app/domibus
 ENV DOMIBUS_CONFIG_LOCATION=/app/domibus/conf/domibus
 ENV DOMIBUS_WORK_LOCATION=/app/domibus/work
 ENV CATALINA_TMPDIR=/app/domibus/temp
 
-ENV DOMIBUS_DATASOURCE_URL='jdbc:h2:file:/app/data/work/database;AUTO_SERVER=TRUE;MODE=LEGACY;NON_KEYWORDS=KEY,VALUE'
+ENV DOMIBUS_DATASOURCE_URL='jdbc:h2:file:/app/domibus/work/database;AUTO_SERVER=TRUE;MODE=LEGACY;NON_KEYWORDS=KEY,VALUE'
 ENV DOMIBUS_DATASOURCE_DRIVER_CLASS_NAME=org.h2.Driver
 ENV DOMIBUS_DATASOURCE_USER=edelivery
 ENV DOMIBUS_DATASOURCE_PASSWORD=edelivery
 ENV DOMIBUS_DATASOURCE_HIBERNATE_DIALECT=org.hibernate.dialect.H2Dialect
 
+ENV GW_PRIVATE_KEY_ALIAS=''
+
 COPY app /app/
 USER root
 
-RUN mkdir /app/data && mkdir /app/data/work && \
-    mkdir /app/logs && rm -rf /app/domibus/logs && ln -s /app/logs /app/domibus/logs && \
-    mkdir /app/temp && rm -rf /app/domibus/temp && mkdir /app/temp/temp && ln -s /app/temp/temp /app/domibus/temp && \
-    ln -s /app/temp/webapps /app/domibus/webapps
+#RUN mkdir /app/data && mkdir /app/data/work && \
+#    mkdir /app/logs && rm -rf /app/domibus/logs && ln -s /app/logs /app/domibus/logs && \
+#    mkdir /app/temp && rm -rf /app/domibus/temp && mkdir /app/temp/temp && ln -s /app/temp/temp /app/domibus/temp && \
+#    ln -s /app/temp/webapps /app/domibus/webapps
 #    mkdir -p /app/temp/tomcat && ln -s /app/temp/tomcat /app/domibus/work
 #    ln -s /app/temp/conf/Catalina /app/domibus/conf/Catalina
 
@@ -34,6 +36,6 @@ RUN chmod +x /app/domibus/bin/*.sh
 WORKDIR /app
 USER domibus
 EXPOSE 8080
-VOLUME /app/data /app/logs /app/temp
+VOLUME /app/domibus/work /app/domibus/logs /app/domibus/temp
 
 CMD ["/bin/sh","/app/run.sh", "run"]

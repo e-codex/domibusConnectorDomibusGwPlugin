@@ -14,13 +14,11 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 
 @SpringBootApplication
-@PropertySource("classpath:/default.properties")
 public class LiquiBaseInit {
 
     public static void main(String[] args) {
         new SpringApplicationBuilder()
                 .properties("spring.liquibase.change-log=classpath:initdb.xml", "spring.sql.init.mode=embedded")
-
                 .sources(LiquiBaseInit.class)
                 .run(args);
     }

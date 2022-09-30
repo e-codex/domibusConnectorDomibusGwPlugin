@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<db:configuration xmlns:db="http://domibus.eu/configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://domibus.eu/configuration file:/C:/development/git-repos/domibus/Domibus-MSH/domibus-configuration.xsd" party="gw04">
+    <mpcs>
+        <mpc name="defaultMpc" qualifiedName="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/defaultMPC" enabled="true" default="true" retention_downloaded="0" retention_undownloaded="60" />
+    </mpcs>
+    <businessProcesses>
+        <roles>
+            <role name="eCODEXRole" value="GW" />
+            <role name="defaultInitiatorRole" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator" />
+            <role name="defaultResponderRole" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/responder" />
+        </roles>
+        <parties>
+            <partyIdTypes>
+                <partyIdType name="eevidence" value="urn:oasis:names:tc:ebcore:partyid-type:eevidence" />
+                <partyIdType name="ecodex" value="urn:oasis:names:tc:ebcore:partyid-type:ecodex" />
+            </partyIdTypes>
+
+            <party name="gw01" endpoint="https://ecx-gateway-lab01-ju-eu-ejustice-eqs.apps.a2.cp.cna.at/domibus/services/msh" allowChunking="false">
+                <identifier partyId="gw01" partyIdType="eevidence" />
+            </party>
+            <party name="gw02" endpoint="https://ecx-gateway-lab02-ju-eu-ejustice-eqs.apps.a2.cp.cna.at/domibus/services/msh" allowChunking="false">
+                <identifier partyId="gw02" partyIdType="eevidence" />
+            </party>
+            <party name="gw03" endpoint="https://ecx-gateway-lab03-ju-eu-ejustice-eqs.apps.a2.cp.cna.at/domibus/services/msh" allowChunking="false">
+                <identifier partyId="gw03" partyIdType="eevidence" />
+            </party>
+            <party name="gw04" endpoint="https://ecx-gateway-lab04-ju-eu-ejustice-eqs.apps.a2.cp.cna.at/domibus/services/msh" allowChunking="false">
+                <identifier partyId="gw04" partyIdType="eevidence" />
+            </party>
+
+
+            <party name="service_pt" endpoint="https://cjmpqld.ministeriopublico.pt/domibus/services/msh" allowChunking="false">
+                <identifier partyId="PT" partyIdType="eevidence" />
+            </party>
+            <party name="service_lv" endpoint="https://domibus-test.ta.gov.lv:8443/domibus/services/msh" allowChunking="false">
+                <identifier partyId="LV" partyIdType="eevidence" />
+            </party>
+            <party name="service_ee" endpoint="https://test-gw-ecodex.just.ee:4444/domibus/services/msh" allowChunking="false">
+                <identifier partyId="EE" partyIdType="eevidence" />
+            </party>
+            <party name="service_lu" endpoint="https://ecodex-gw-tst.ctie.etat.lu:8443/domibus/services/msh" allowChunking="false">
+                <identifier partyId="LU" partyIdType="eevidence" />
+            </party>
+            <party name="service_fi" endpoint="https://fiecdxgw-test.om.fi/domibus/services/msh" allowChunking="false">
+                <identifier partyId="FI" partyIdType="eevidence" />
+            </party>
+            <party name="service_ctp" endpoint="https://eioacceptance.ee.auth.gr:8443/domibus/services/msh" allowChunking="false">
+                <identifier partyId="CTP" partyIdType="eevidence" />
+            </party>
+            <party name="service_es" endpoint="https://intexec.justicia.es/domibus/services/msh" allowChunking="false">
+                <identifier partyId="ES" partyIdType="eevidence" />
+            </party>
+            <party name="service_gr" endpoint="https://ri-ecodex-criminal.justice.gr/domibus/services/msh" allowChunking="false">
+                <identifier partyId="GR" partyIdType="eevidence" />
+            </party>
+            <party name="service_de" endpoint="https://accept-exec.it.nrw.de/gateway" allowChunking="false">
+                <identifier partyId="DE" partyIdType="eevidence" />
+            </party>
+            <party name="service_ro" endpoint="https://ri-ro.demo.test.eedes.mpublic.ro:8443/domibus/services/msh" allowChunking="false">
+                <identifier partyId="RO" partyIdType="eevidence" />
+            </party>
+            <party name="service_qm" endpoint="https://eedes-qm.acceptance.tech.ec.europa.eu/eevidence/venus_gateway/services/msh" allowChunking="false">
+                <identifier partyId="QM" partyIdType="eevidence" />
+            </party>
+            <party name="service_xa" endpoint="https://site-xa.acceptance.eev.fsc.atos-services.net/domibus/services/msh" allowChunking="false">
+                <identifier partyId="XA" partyIdType="eevidence" />
+            </party>
+            <party name="service_ctp_t" endpoint="https://ejustice.ee.auth.gr:8443/domibus/services/msh" allowChunking="false">
+                <identifier partyId="CTP_T" partyIdType="eevidence" />
+            </party>
+            <party name="service_at" endpoint="https://execq.justiz.gv.at/domibus/services/msh" allowChunking="false">
+                <identifier partyId="AT" partyIdType="eevidence" />
+            </party>
+            <party name="service_qt" endpoint="https://testbed.acceptance.tech.ec.europa.eu/domibus/services/msh/" allowChunking="false">
+                <identifier partyId="QT" partyIdType="eevidence" />
+            </party>
+            <party name="service_fr" endpoint="https://gw.preprod.e-codex.justice.gouv.fr/domibus/services/msh" allowChunking="false">
+                <identifier partyId="FR" partyIdType="eevidence" />
+            </party>
+            <party name="service_si" endpoint="https://acc-e-edes.dt-rs.si/domibus/services/msh" allowChunking="false">
+                <identifier partyId="SI" partyIdType="eevidence" />
+            </party>
+            <party name="service_be" endpoint="https://ecodex-acc.just.fgov.be/domibus/services/msh" allowChunking="false">
+                <identifier partyId="BE" partyIdType="eevidence" />
+            </party>
+            <party name="service_qn_1" endpoint="https://eevidence-acceptance.eurojust.europa.eu/domibus/services/msh" allowChunking="false">
+                <identifier partyId="QN_1" partyIdType="eevidence" />
+            </party>
+            <party name="service_ro_1" endpoint="https://eev-node2.just.ro:8443/domibus/services/msh" allowChunking="false">
+                <identifier partyId="RO_1" partyIdType="eevidence" />
+            </party>
+            <party name="service_pt_1" endpoint="https://execqld.pj.pt/domibus/services/msh" allowChunking="false">
+                <identifier partyId="PT_1" partyIdType="eevidence" />
+            </party>
+            <party name="service_pl" endpoint="https://e-evidence.prokuraturatest.gov.pl:8443/domibus/services/msh" allowChunking="false">
+                <identifier partyId="PL" partyIdType="eevidence" />
+            </party>
+            <party name="service_lt" endpoint="https://exec.prokuraturos.lt:8080/domibus/services/msh" allowChunking="false">
+                <identifier partyId="LT" partyIdType="eevidence" />
+            </party>
+            <party name="service_se" endpoint="https://acc-ecodex.aklagare.se/domibus/services/msh" allowChunking="false">
+                <identifier partyId="SE" partyIdType="eevidence" />
+            </party>
+            <party name="service_bg" endpoint="https://edoc.prb.bg/domibus/services/msh" allowChunking="false">
+                <identifier partyId="BG" partyIdType="ecodex" />
+            </party>
+            <party name="service_bg_1" endpoint="https://eiovss.justice.bg/domibus/services/msh" allowChunking="false">
+                <identifier partyId="BG_1" partyIdType="ecodex" />
+            </party>
+            <party name="service_hu" endpoint="https://e-evidence-teszt.im.gov.hu/domibus/services/msh" allowChunking="false">
+                <identifier partyId="HU" partyIdType="eevidence" />
+            </party>
+            <party name="service_cz" endpoint="https://ecodex-gateway-test.justice.cz/domibus/services/msh" allowChunking="false">
+                <identifier partyId="CZ" partyIdType="eevidence" />
+            </party>
+            <party name="service_nl_ota" endpoint="https://acc.jubes.nl/exchange" allowChunking="false">
+                <identifier partyId="NL_OTA" partyIdType="ecodex" />
+            </party>
+            <party name="service_pl_1" endpoint="https://eu-ri-tst.wroclaw.sa.gov.pl/domibus/services/msh" allowChunking="false">
+                <identifier partyId="PL_1" partyIdType="eevidence" />
+            </party>
+        </parties>
+        <meps>
+            <mep name="oneway" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/oneWay" />
+            <mep name="twoway" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/twoWay" />
+            <binding name="pushAndPush" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/push-and-push" />
+            <binding name="push" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/push" />
+        </meps>
+        <properties>
+            <property name="originalSenderProperty" key="originalSender" datatype="string" required="true" />
+            <property name="finalRecipientProperty" key="finalRecipient" datatype="string" required="true" />
+            <propertySet name="eDeliveryPropertySet">
+                <propertyRef property="finalRecipientProperty" />
+                <propertyRef property="originalSenderProperty" />
+            </propertySet>
+        </properties>
+        <payloadProfiles>
+            <payload name="businessContentPayload" cid="cid:message" required="true" mimeType="text/xml" inBody="false" />
+            <payload name="businessContentAttachment" cid="cid:attachment" required="false" mimeType="application/octet-stream" inBody="false" />
+            <payloadProfile name="MessageProfile" maxSize="40894464">
+                <attachment name="businessContentPayload" />
+                <attachment name="businessContentAttachment" />
+            </payloadProfile>
+        </payloadProfiles>
+        <securities>
+            <security name="eDeliveryAS4Policy" policy="eDeliveryAS4Policy.xml" signatureMethod="RSA_SHA256" />
+        </securities>
+        <errorHandlings>
+            <errorHandling name="eCODEXErrorHandling" errorAsResponse="true" businessErrorNotifyProducer="true" businessErrorNotifyConsumer="true" deliveryFailureNotifyProducer="true" />
+        </errorHandlings>
+        <agreements>
+            <agreement name="agreementEmpty" value="" type="" />
+        </agreements>
+        <services>
+            <service name="EioService" value="Eio" type="urn:e-codex:services:" />
+            <service name="MlaService" value="Mla" type="urn:e-codex:services:" />
+            <service name="testService" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/service" type="tc1" />
+            <service name="ConTESTService" value="Connector-TEST" type="urn:e-codex:services:" />
+            <service name="ItnService" value="Itn" type="urn:e-codex:services:" />
+        </services>
+        <actions>
+            <action name="eCODEXEvidenceSubmissionAcceptanceRejection" value="SubmissionAcceptanceRejection" />
+            <action name="eCODEXEvidenceRelayREMMDAcceptanceRejection" value="RelayREMMDAcceptanceRejection" />
+            <action name="eCODEXEvidenceDeliveryNonDeliveryToRecipient" value="DeliveryNonDeliveryToRecipient" />
+            <action name="eCODEXEvidenceRetrievalNonRetrievalToRecipient" value="RetrievalNonRetrievalToRecipient" />
+            <action name="EioAnnexASubmissionAction" value="Eio_AnnexA_Submission" />
+            <action name="EioComplexAmendmentSubmissionAction" value="Eio_ComplexAmendment_Submission" />
+            <action name="EioAnnexBSubmissionAction" value="Eio_AnnexB_Submission" />
+            <action name="EioOutcomeSubmissionAction" value="Eio_Outcome_Submission" />
+            <action name="EioSimpleAmendmentSubmissionAction" value="Eio_SimpleAmendment_Submission" />
+            <action name="EioWithdrawalSubmissionAction" value="Eio_Withdrawal_Submission" />
+            <action name="EioTransactionEndConfirmationSubmissionAction" value="Eio_TransactionEndConfirmation_Submission" />
+            <action name="EioAdditionalInformationReplySubmissionAction" value="Eio_AdditionalInformationReply_Submission" />
+            <action name="EioLegalRemediesForEioIssuingNotificationSubmissionAction" value="Eio_LegalRemediesForEioIssuingNotification_Submission" />
+            <action name="EioServiceMessageSubmissionAction" value="Eio_ServiceMessage_Submission" />
+            <action name="EioReturnSubmissionAction" value="Eio_Return_Submission" />
+            <action name="EioAdditionalInformationRequestSubmissionAction" value="Eio_AdditionalInformationRequest_Submission" />
+            <action name="EioRejectionSubmissionAction" value="Eio_Rejection_Submission" />
+            <action name="EioDelayedDecisionNotificationSubmissionAction" value="Eio_DelayedDecisionNotification_Submission" />
+            <action name="EioDelayedInvestigativeMeasureNotificationSubmissionAction" value="Eio_DelayedInvestigativeMeasureNotification_Submission" />
+            <action name="EioPostponementNotificationSubmissionAction" value="Eio_PostponementNotification_Submission" />
+            <action name="EioExistingGroundForPostponementNotificationSubmissionAction" value="Eio_ExistingGroundForPostponementNotification_Submission" />
+            <action name="EioAssistanceImpossibleNotificationSubmissionAction" value="Eio_AssistanceImpossibleNotification_Submission" />
+            <action name="EioInvestigativeMeasureChangeNotificationSubmissionAction" value="Eio_InvestigativeMeasureChangeNotification_Submission" />
+            <action name="EioImpossibilityOfTakingDecisionNotificationSubmissionAction" value="Eio_ImpossibilityOfTakingDecisionNotification_Submission" />
+            <action name="EioOtherUnforeseenInvestigativeMeasuresNotificationSubmissionAction" value="Eio_OtherUnforeseenInvestigativeMeasuresNotification_Submission" />
+            <action name="EioFormalitiesComplianceImpossibleNotificationSubmissionAction" value="Eio_FormalitiesComplianceImpossibleNotification_Submission" />
+            <action name="EioLegalRemediesForEioExecutionNotificationSubmissionAction" value="Eio_LegalRemediesForEioExecutionNotification_Submission" />
+            <action name="EioConfidentialityComplianceImpossibleNotificationSubmissionAction" value="Eio_ConfidentialityComplianceImpossibleNotification_Submission" />
+            <action name="EioDecisionOnProvisionalMeasureNotificationSubmissionAction" value="Eio_DecisionOnProvisionalMeasureNotification_Submission" />
+            <action name="EioRecognitionSubmissionAction" value="Eio_Recognition_Submission" />
+            <action name="MlaRequestFormSubmissionAction" value="Mla_RequestForm_Submission" />
+            <action name="MlaOutcomeSubmissionAction" value="Mla_Outcome_Submission" />
+            <action name="MlaSimpleAmendmentSubmissionAction" value="Mla_SimpleAmendment_Submission" />
+            <action name="MlaWithdrawalSubmissionAction" value="Mla_Withdrawal_Submission" />
+            <action name="MlaTransactionEndConfirmationSubmissionAction" value="Mla_TransactionEndConfirmation_Submission" />
+            <action name="MlaServiceMessageSubmissionAction" value="Mla_ServiceMessage_Submission" />
+            <action name="MlaAdditionalInformationRequestSubmissionAction" value="Mla_AdditionalInformationRequest_Submission" />
+            <action name="MlaAdditionalInformationReplySubmissionAction" value="Mla_AdditionalInformationReply_Submission" />
+            <action name="MlaDecisionSubmissionAction" value="Mla_Decision_Submission" />
+            <action name="MlaAcknowledgeSubmissionAction" value="Mla_Acknowledge_Submission" />
+            <action name="testAction" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/test" />
+            <action name="ConTESTActionTestForm" value="ConTest_Form" />
+            <action name="ItnAnnexCSubmissionAction" value="Itn_AnnexC_Submission" />
+            <action name="ItnServiceMessageSubmissionAction" value="Itn_ServiceMessage_Submission" />
+            <action name="ItnAdditionalInformationRequestSubmissionAction" value="Itn_AdditionalInformationRequest_Submission" />
+            <action name="ItnAdditionalInformationReplySubmissionAction" value="Itn_AdditionalInformationReply_Submission" />
+            <action name="ItnReplyToAnnexCNotificationSubmissionAction" value="Itn_ReplyToAnnexCNotification_Submission" />
+        </actions>
+        <as4>
+            <receptionAwareness name="receptionAwareness" retry="1440;12;CONSTANT" duplicateDetection="true" />
+            <reliability name="AS4Reliability" nonRepudiation="true" replyPattern="response" />
+        </as4>
+        <legConfigurations>
+            <legConfiguration name="EioLegEioAnnexASubmissionAction" service="EioService" action="EioAnnexASubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioComplexAmendmentSubmissionAction" service="EioService" action="EioComplexAmendmentSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioAnnexBSubmissionAction" service="EioService" action="EioAnnexBSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioOutcomeSubmissionAction" service="EioService" action="EioOutcomeSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioSimpleAmendmentSubmissionAction" service="EioService" action="EioSimpleAmendmentSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioWithdrawalSubmissionAction" service="EioService" action="EioWithdrawalSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioTransactionEndConfirmationSubmissionAction" service="EioService" action="EioTransactionEndConfirmationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioAdditionalInformationReplySubmissionAction" service="EioService" action="EioAdditionalInformationReplySubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioLegalRemediesForEioIssuingNotificationSubmissionAction" service="EioService" action="EioLegalRemediesForEioIssuingNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioServiceMessageSubmissionAction" service="EioService" action="EioServiceMessageSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioReturnSubmissionAction" service="EioService" action="EioReturnSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioAdditionalInformationRequestSubmissionAction" service="EioService" action="EioAdditionalInformationRequestSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioRejectionSubmissionAction" service="EioService" action="EioRejectionSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioDelayedDecisionNotificationSubmissionAction" service="EioService" action="EioDelayedDecisionNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioDelayedInvestigativeMeasureNotificationSubmissionAction" service="EioService" action="EioDelayedInvestigativeMeasureNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioPostponementNotificationSubmissionAction" service="EioService" action="EioPostponementNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioExistingGroundForPostponementNotificationSubmissionAction" service="EioService" action="EioExistingGroundForPostponementNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioAssistanceImpossibleNotificationSubmissionAction" service="EioService" action="EioAssistanceImpossibleNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioInvestigativeMeasureChangeNotificationSubmissionAction" service="EioService" action="EioInvestigativeMeasureChangeNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioImpossibilityOfTakingDecisionNotificationSubmissionAction" service="EioService" action="EioImpossibilityOfTakingDecisionNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioOtherUnforeseenInvestigativeMeasuresNotificationSubmissionAction" service="EioService" action="EioOtherUnforeseenInvestigativeMeasuresNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioFormalitiesComplianceImpossibleNotificationSubmissionAction" service="EioService" action="EioFormalitiesComplianceImpossibleNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioLegalRemediesForEioExecutionNotificationSubmissionAction" service="EioService" action="EioLegalRemediesForEioExecutionNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioConfidentialityComplianceImpossibleNotificationSubmissionAction" service="EioService" action="EioConfidentialityComplianceImpossibleNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioDecisionOnProvisionalMeasureNotificationSubmissionAction" service="EioService" action="EioDecisionOnProvisionalMeasureNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegEioRecognitionSubmissionAction" service="EioService" action="EioRecognitionSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegeCODEXEvidenceSubmissionAcceptanceRejection" service="EioService" action="eCODEXEvidenceSubmissionAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegeCODEXEvidenceRelayREMMDAcceptanceRejection" service="EioService" action="eCODEXEvidenceRelayREMMDAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" service="EioService" action="eCODEXEvidenceDeliveryNonDeliveryToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="EioLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" service="EioService" action="eCODEXEvidenceRetrievalNonRetrievalToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ItnLegeCODEXEvidenceSubmissionAcceptanceRejection" service="ItnService" action="eCODEXEvidenceSubmissionAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ItnLegeCODEXEvidenceRelayREMMDAcceptanceRejection" service="ItnService" action="eCODEXEvidenceRelayREMMDAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ItnLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" service="ItnService" action="eCODEXEvidenceDeliveryNonDeliveryToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ItnLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" service="ItnService" action="eCODEXEvidenceRetrievalNonRetrievalToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ItnLegItnAnnexCSubmissionAction" service="ItnService" action="ItnAnnexCSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ItnLegItnServiceMessageSubmissionAction" service="ItnService" action="ItnServiceMessageSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ItnLegItnAdditionalInformationRequestSubmissionAction" service="ItnService" action="ItnAdditionalInformationRequestSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ItnLegItnAdditionalInformationReplySubmissionAction" service="ItnService" action="ItnAdditionalInformationReplySubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ItnLegItnReplyToAnnexCNotificationSubmissionAction" service="ItnService" action="ItnReplyToAnnexCNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegMlaRequestFormSubmissionAction" service="MlaService" action="MlaRequestFormSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegMlaOutcomeSubmissionAction" service="MlaService" action="MlaOutcomeSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegMlaSimpleAmendmentSubmissionAction" service="MlaService" action="MlaSimpleAmendmentSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegMlaWithdrawalSubmissionAction" service="MlaService" action="MlaWithdrawalSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegMlaTransactionEndConfirmationSubmissionAction" service="MlaService" action="MlaTransactionEndConfirmationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegMlaServiceMessageSubmissionAction" service="MlaService" action="MlaServiceMessageSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegMlaAdditionalInformationRequestSubmissionAction" service="MlaService" action="MlaAdditionalInformationRequestSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegMlaAdditionalInformationReplySubmissionAction" service="MlaService" action="MlaAdditionalInformationReplySubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegMlaDecisionSubmissionAction" service="MlaService" action="MlaDecisionSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegMlaAcknowledgeSubmissionAction" service="MlaService" action="MlaAcknowledgeSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegeCODEXEvidenceSubmissionAcceptanceRejection" service="MlaService" action="eCODEXEvidenceSubmissionAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegeCODEXEvidenceRelayREMMDAcceptanceRejection" service="MlaService" action="eCODEXEvidenceRelayREMMDAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" service="MlaService" action="eCODEXEvidenceDeliveryNonDeliveryToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="MlaLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" service="MlaService" action="eCODEXEvidenceRetrievalNonRetrievalToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="TestLegTwotestAction" service="testService" action="testAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" propertySet="eDeliveryPropertySet" payloadProfile="MessageProfile" errorHandling="eCODEXErrorHandling" compressPayloads="true" />
+            <legConfiguration name="ConTESTLegConTESTActionTestForm" service="ConTESTService" action="ConTESTActionTestForm" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ConTESTLegeCODEXEvidenceSubmissionAcceptanceRejection" service="ConTESTService" action="eCODEXEvidenceSubmissionAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ConTESTLegeCODEXEvidenceRelayREMMDAcceptanceRejection" service="ConTESTService" action="eCODEXEvidenceRelayREMMDAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ConTESTLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" service="ConTESTService" action="eCODEXEvidenceDeliveryNonDeliveryToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ConTESTLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" service="ConTESTService" action="eCODEXEvidenceRetrievalNonRetrievalToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+        </legConfigurations>
+        <process name="eioProcess" agreement="agreementEmpty" mep="twoway" binding="pushAndPush" initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
+            <initiatorParties>
+                <initiatorParty name="service_pt" />
+                <initiatorParty name="service_lv" />
+                <initiatorParty name="service_ee" />
+                <initiatorParty name="service_lu" />
+                <initiatorParty name="service_fi" />
+                <initiatorParty name="service_ctp" />
+                <initiatorParty name="service_es" />
+                <initiatorParty name="service_gr" />
+                <initiatorParty name="service_de" />
+                <initiatorParty name="service_ro" />
+                <initiatorParty name="service_qm" />
+                <initiatorParty name="service_xa" />
+                <initiatorParty name="service_ctp_t" />
+                <initiatorParty name="service_at" />
+                <initiatorParty name="service_qt" />
+                <initiatorParty name="service_fr" />
+                <initiatorParty name="service_si" />
+                <initiatorParty name="service_be" />
+                <initiatorParty name="service_qn_1" />
+                <initiatorParty name="service_ro_1" />
+                <initiatorParty name="service_pt_1" />
+                <initiatorParty name="service_pl" />
+                <initiatorParty name="service_lt" />
+                <initiatorParty name="service_se" />
+                <initiatorParty name="service_bg" />
+                <initiatorParty name="service_bg_1" />
+                <initiatorParty name="service_hu" />
+                <initiatorParty name="service_cz" />
+                <initiatorParty name="service_nl_ota" />
+                <initiatorParty name="service_pl_1" />
+
+                <initiatorParty name="gw01" />
+                <initiatorParty name="gw02" />
+                <initiatorParty name="gw03" />
+                <initiatorParty name="gw04" />
+            </initiatorParties>
+            <responderParties>
+                <responderParty name="service_pt" />
+                <responderParty name="service_lv" />
+                <responderParty name="service_ee" />
+                <responderParty name="service_lu" />
+                <responderParty name="service_fi" />
+                <responderParty name="service_ctp" />
+                <responderParty name="service_es" />
+                <responderParty name="service_gr" />
+                <responderParty name="service_de" />
+                <responderParty name="service_ro" />
+                <responderParty name="service_qm" />
+                <responderParty name="service_xa" />
+                <responderParty name="service_ctp_t" />
+                <responderParty name="service_at" />
+                <responderParty name="service_qt" />
+                <responderParty name="service_fr" />
+                <responderParty name="service_si" />
+                <responderParty name="service_be" />
+                <responderParty name="service_qn_1" />
+                <responderParty name="service_ro_1" />
+                <responderParty name="service_pt_1" />
+                <responderParty name="service_pl" />
+                <responderParty name="service_lt" />
+                <responderParty name="service_se" />
+                <responderParty name="service_bg" />
+                <responderParty name="service_bg_1" />
+                <responderParty name="service_hu" />
+                <responderParty name="service_cz" />
+                <responderParty name="service_nl_ota" />
+                <responderParty name="service_pl_1" />
+
+                <responderParty name="gw01" />
+                <responderParty name="gw02" />
+                <responderParty name="gw03" />
+                <responderParty name="gw04" />
+            </responderParties>
+            <legs>
+                <leg name="EioLegEioAnnexASubmissionAction" />
+                <leg name="EioLegEioComplexAmendmentSubmissionAction" />
+                <leg name="EioLegEioAnnexBSubmissionAction" />
+                <leg name="EioLegEioOutcomeSubmissionAction" />
+                <leg name="EioLegEioSimpleAmendmentSubmissionAction" />
+                <leg name="EioLegEioWithdrawalSubmissionAction" />
+                <leg name="EioLegEioTransactionEndConfirmationSubmissionAction" />
+                <leg name="EioLegEioAdditionalInformationReplySubmissionAction" />
+                <leg name="EioLegEioLegalRemediesForEioIssuingNotificationSubmissionAction" />
+                <leg name="EioLegEioServiceMessageSubmissionAction" />
+                <leg name="EioLegEioReturnSubmissionAction" />
+                <leg name="EioLegEioAdditionalInformationRequestSubmissionAction" />
+                <leg name="EioLegEioRejectionSubmissionAction" />
+                <leg name="EioLegEioDelayedDecisionNotificationSubmissionAction" />
+                <leg name="EioLegEioDelayedInvestigativeMeasureNotificationSubmissionAction" />
+                <leg name="EioLegEioPostponementNotificationSubmissionAction" />
+                <leg name="EioLegEioExistingGroundForPostponementNotificationSubmissionAction" />
+                <leg name="EioLegEioAssistanceImpossibleNotificationSubmissionAction" />
+                <leg name="EioLegEioInvestigativeMeasureChangeNotificationSubmissionAction" />
+                <leg name="EioLegEioImpossibilityOfTakingDecisionNotificationSubmissionAction" />
+                <leg name="EioLegEioOtherUnforeseenInvestigativeMeasuresNotificationSubmissionAction" />
+                <leg name="EioLegEioFormalitiesComplianceImpossibleNotificationSubmissionAction" />
+                <leg name="EioLegEioLegalRemediesForEioExecutionNotificationSubmissionAction" />
+                <leg name="EioLegEioConfidentialityComplianceImpossibleNotificationSubmissionAction" />
+                <leg name="EioLegEioDecisionOnProvisionalMeasureNotificationSubmissionAction" />
+                <leg name="EioLegEioRecognitionSubmissionAction" />
+                <leg name="EioLegeCODEXEvidenceSubmissionAcceptanceRejection" />
+                <leg name="EioLegeCODEXEvidenceRelayREMMDAcceptanceRejection" />
+                <leg name="EioLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" />
+                <leg name="EioLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" />
+                <leg name="ItnLegeCODEXEvidenceSubmissionAcceptanceRejection" />
+                <leg name="ItnLegeCODEXEvidenceRelayREMMDAcceptanceRejection" />
+                <leg name="ItnLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" />
+                <leg name="ItnLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" />
+                <leg name="ItnLegItnAnnexCSubmissionAction" />
+                <leg name="ItnLegItnServiceMessageSubmissionAction" />
+                <leg name="ItnLegItnAdditionalInformationRequestSubmissionAction" />
+                <leg name="ItnLegItnAdditionalInformationReplySubmissionAction" />
+                <leg name="ItnLegItnReplyToAnnexCNotificationSubmissionAction" />
+            </legs>
+        </process>
+        <process name="mlaProcess" agreement="agreementEmpty" mep="twoway" binding="pushAndPush" initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
+            <initiatorParties>
+                <initiatorParty name="service_pt" />
+                <initiatorParty name="service_lv" />
+                <initiatorParty name="service_ee" />
+                <initiatorParty name="service_lu" />
+                <initiatorParty name="service_fi" />
+                <initiatorParty name="service_ctp" />
+                <initiatorParty name="service_es" />
+                <initiatorParty name="service_gr" />
+                <initiatorParty name="service_de" />
+                <initiatorParty name="service_ro" />
+                <initiatorParty name="service_qm" />
+                <initiatorParty name="service_xa" />
+                <initiatorParty name="service_ctp_t" />
+                <initiatorParty name="service_at" />
+                <initiatorParty name="service_qt" />
+                <initiatorParty name="service_fr" />
+                <initiatorParty name="service_si" />
+                <initiatorParty name="service_be" />
+                <initiatorParty name="service_qn_1" />
+                <initiatorParty name="service_ro_1" />
+                <initiatorParty name="service_pt_1" />
+                <initiatorParty name="service_pl" />
+                <initiatorParty name="service_lt" />
+                <initiatorParty name="service_se" />
+                <initiatorParty name="service_bg" />
+                <initiatorParty name="service_bg_1" />
+                <initiatorParty name="service_hu" />
+                <initiatorParty name="service_cz" />
+                <initiatorParty name="service_nl_ota" />
+                <initiatorParty name="service_pl_1" />
+
+                <initiatorParty name="gw01" />
+                <initiatorParty name="gw02" />
+                <initiatorParty name="gw03" />
+                <initiatorParty name="gw04" />
+            </initiatorParties>
+            <responderParties>
+                <responderParty name="service_pt" />
+                <responderParty name="service_lv" />
+                <responderParty name="service_ee" />
+                <responderParty name="service_lu" />
+                <responderParty name="service_fi" />
+                <responderParty name="service_ctp" />
+                <responderParty name="service_es" />
+                <responderParty name="service_gr" />
+                <responderParty name="service_de" />
+                <responderParty name="service_ro" />
+                <responderParty name="service_qm" />
+                <responderParty name="service_xa" />
+                <responderParty name="service_ctp_t" />
+                <responderParty name="service_at" />
+                <responderParty name="service_qt" />
+                <responderParty name="service_fr" />
+                <responderParty name="service_si" />
+                <responderParty name="service_be" />
+                <responderParty name="service_qn_1" />
+                <responderParty name="service_ro_1" />
+                <responderParty name="service_pt_1" />
+                <responderParty name="service_pl" />
+                <responderParty name="service_lt" />
+                <responderParty name="service_se" />
+                <responderParty name="service_bg" />
+                <responderParty name="service_bg_1" />
+                <responderParty name="service_hu" />
+                <responderParty name="service_cz" />
+                <responderParty name="service_nl_ota" />
+                <responderParty name="service_pl_1" />
+
+                <responderParty name="gw01" />
+                <responderParty name="gw02" />
+                <responderParty name="gw03" />
+                <responderParty name="gw04" />
+            </responderParties>
+            <legs>
+                <leg name="MlaLegMlaRequestFormSubmissionAction" />
+                <leg name="MlaLegMlaOutcomeSubmissionAction" />
+                <leg name="MlaLegMlaSimpleAmendmentSubmissionAction" />
+                <leg name="MlaLegMlaWithdrawalSubmissionAction" />
+                <leg name="MlaLegMlaTransactionEndConfirmationSubmissionAction" />
+                <leg name="MlaLegMlaServiceMessageSubmissionAction" />
+                <leg name="MlaLegMlaAdditionalInformationRequestSubmissionAction" />
+                <leg name="MlaLegMlaAdditionalInformationReplySubmissionAction" />
+                <leg name="MlaLegMlaDecisionSubmissionAction" />
+                <leg name="MlaLegMlaAcknowledgeSubmissionAction" />
+                <leg name="MlaLegeCODEXEvidenceSubmissionAcceptanceRejection" />
+                <leg name="MlaLegeCODEXEvidenceRelayREMMDAcceptanceRejection" />
+                <leg name="MlaLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" />
+                <leg name="MlaLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" />
+            </legs>
+        </process>
+        <process name="testProcess" agreement="agreementEmpty" mep="oneway" binding="push" initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
+            <initiatorParties>
+                <initiatorParty name="service_pt" />
+                <initiatorParty name="service_lv" />
+                <initiatorParty name="service_ee" />
+                <initiatorParty name="service_lu" />
+                <initiatorParty name="service_fi" />
+                <initiatorParty name="service_ctp" />
+                <initiatorParty name="service_es" />
+                <initiatorParty name="service_gr" />
+                <initiatorParty name="service_de" />
+                <initiatorParty name="service_ro" />
+                <initiatorParty name="service_qm" />
+                <initiatorParty name="service_xa" />
+                <initiatorParty name="service_ctp_t" />
+                <initiatorParty name="service_at" />
+                <initiatorParty name="service_qt" />
+                <initiatorParty name="service_fr" />
+                <initiatorParty name="service_si" />
+                <initiatorParty name="service_be" />
+                <initiatorParty name="service_qn_1" />
+                <initiatorParty name="service_ro_1" />
+                <initiatorParty name="service_pt_1" />
+                <initiatorParty name="service_pl" />
+                <initiatorParty name="service_lt" />
+                <initiatorParty name="service_se" />
+                <initiatorParty name="service_bg" />
+                <initiatorParty name="service_bg_1" />
+                <initiatorParty name="service_hu" />
+                <initiatorParty name="service_cz" />
+                <initiatorParty name="service_nl_ota" />
+                <initiatorParty name="service_pl_1" />
+
+                <initiatorParty name="gw01" />
+                <initiatorParty name="gw02" />
+                <initiatorParty name="gw03" />
+                <initiatorParty name="gw04" />
+            </initiatorParties>
+            <responderParties>
+                <responderParty name="service_pt" />
+                <responderParty name="service_lv" />
+                <responderParty name="service_ee" />
+                <responderParty name="service_lu" />
+                <responderParty name="service_fi" />
+                <responderParty name="service_ctp" />
+                <responderParty name="service_es" />
+                <responderParty name="service_gr" />
+                <responderParty name="service_de" />
+                <responderParty name="service_ro" />
+                <responderParty name="service_qm" />
+                <responderParty name="service_xa" />
+                <responderParty name="service_ctp_t" />
+                <responderParty name="service_at" />
+                <responderParty name="service_qt" />
+                <responderParty name="service_fr" />
+                <responderParty name="service_si" />
+                <responderParty name="service_be" />
+                <responderParty name="service_qn_1" />
+                <responderParty name="service_ro_1" />
+                <responderParty name="service_pt_1" />
+                <responderParty name="service_pl" />
+                <responderParty name="service_lt" />
+                <responderParty name="service_se" />
+                <responderParty name="service_bg" />
+                <responderParty name="service_bg_1" />
+                <responderParty name="service_hu" />
+                <responderParty name="service_cz" />
+                <responderParty name="service_nl_ota" />
+                <responderParty name="service_pl_1" />
+
+                <responderParty name="gw01" />
+                <responderParty name="gw02" />
+                <responderParty name="gw03" />
+                <responderParty name="gw04" />
+            </responderParties>
+            <legs>
+                <leg name="TestLegTwotestAction" />
+            </legs>
+        </process>
+        <process name="ConTESTProcess" agreement="agreementEmpty" mep="twoway" binding="pushAndPush" initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
+            <initiatorParties>
+                <initiatorParty name="service_pt" />
+                <initiatorParty name="service_lv" />
+                <initiatorParty name="service_ee" />
+                <initiatorParty name="service_lu" />
+                <initiatorParty name="service_fi" />
+                <initiatorParty name="service_ctp" />
+                <initiatorParty name="service_es" />
+                <initiatorParty name="service_gr" />
+                <initiatorParty name="service_de" />
+                <initiatorParty name="service_ro" />
+                <initiatorParty name="service_qm" />
+                <initiatorParty name="service_xa" />
+                <initiatorParty name="service_ctp_t" />
+                <initiatorParty name="service_at" />
+                <initiatorParty name="service_qt" />
+                <initiatorParty name="service_fr" />
+                <initiatorParty name="service_si" />
+                <initiatorParty name="service_be" />
+                <initiatorParty name="service_qn_1" />
+                <initiatorParty name="service_ro_1" />
+                <initiatorParty name="service_pt_1" />
+                <initiatorParty name="service_pl" />
+                <initiatorParty name="service_lt" />
+                <initiatorParty name="service_se" />
+                <initiatorParty name="service_bg" />
+                <initiatorParty name="service_bg_1" />
+                <initiatorParty name="service_hu" />
+                <initiatorParty name="service_cz" />
+                <initiatorParty name="service_nl_ota" />
+                <initiatorParty name="service_pl_1" />
+
+                <initiatorParty name="gw01" />
+                <initiatorParty name="gw02" />
+                <initiatorParty name="gw03" />
+                <initiatorParty name="gw04" />
+            </initiatorParties>
+            <responderParties>
+                <responderParty name="service_pt" />
+                <responderParty name="service_lv" />
+                <responderParty name="service_ee" />
+                <responderParty name="service_lu" />
+                <responderParty name="service_fi" />
+                <responderParty name="service_ctp" />
+                <responderParty name="service_es" />
+                <responderParty name="service_gr" />
+                <responderParty name="service_de" />
+                <responderParty name="service_ro" />
+                <responderParty name="service_qm" />
+                <responderParty name="service_xa" />
+                <responderParty name="service_ctp_t" />
+                <responderParty name="service_at" />
+                <responderParty name="service_qt" />
+                <responderParty name="service_fr" />
+                <responderParty name="service_si" />
+                <responderParty name="service_be" />
+                <responderParty name="service_qn_1" />
+                <responderParty name="service_ro_1" />
+                <responderParty name="service_pt_1" />
+                <responderParty name="service_pl" />
+                <responderParty name="service_lt" />
+                <responderParty name="service_se" />
+                <responderParty name="service_bg" />
+                <responderParty name="service_bg_1" />
+                <responderParty name="service_hu" />
+                <responderParty name="service_cz" />
+                <responderParty name="service_nl_ota" />
+                <responderParty name="service_pl_1" />
+
+                <responderParty name="gw01" />
+                <responderParty name="gw02" />
+                <responderParty name="gw03" />
+                <responderParty name="gw04" />
+            </responderParties>
+            <legs>
+                <leg name="ConTESTLegConTESTActionTestForm" />
+                <leg name="ConTESTLegeCODEXEvidenceSubmissionAcceptanceRejection" />
+                <leg name="ConTESTLegeCODEXEvidenceRelayREMMDAcceptanceRejection" />
+                <leg name="ConTESTLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" />
+                <leg name="ConTESTLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" />
+            </legs>
+        </process>
+    </businessProcesses>
+</db:configuration>
