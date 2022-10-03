@@ -48,6 +48,8 @@ spec:
           env:
             - name: GW_PRIVATE_KEY_ALIAS
               value: gw${lab.id}
+            - name: GW_ID
+              value: gw${lab.id}
           image: ${gateway.image}
           imagePullPolicy: Always
           readinessProbe:
