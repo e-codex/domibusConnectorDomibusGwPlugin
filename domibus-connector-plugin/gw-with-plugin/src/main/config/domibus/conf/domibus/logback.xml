@@ -145,6 +145,7 @@
 
     <!--  In order to enable logging of request/responses please change the loglevel to INFO -->
     <logger name="org.apache.cxf" level="WARN"/>
+    <logger name="eu.domibus.core.pmode" level="DEBUG" />
 
     <root level="WARN">
         <appender-ref ref="file"/>

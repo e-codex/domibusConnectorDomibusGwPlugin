@@ -1,5 +1,6 @@
 package eu.domibus.core.pmode;
 
+import eu.domibus.api.pmode.PModeValidationException;
 import eu.domibus.api.property.DomibusPropertyProvider;
 import eu.domibus.core.pmode.provider.PModeProvider;
 import eu.domibus.logging.DomibusLogger;
@@ -14,6 +15,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.PropertyPlaceholderHelper;
 import org.springframework.util.StreamUtils;
 
@@ -30,16 +36,16 @@ public class PModeLoadFromFileService {
     public static final String PMODE_RESOURCE_URL_PROPERTY_NAME = "ext.load-pmodes.url";
     private final DomibusPropertyProvider domibusPropertyProvider;
     private final PModeProvider pModeProvider;
-
     private final ResourceLoader resourceLoader;
+    private final PlatformTransactionManager txManager;
 
     public PModeLoadFromFileService(DomibusPropertyProvider domibusPropertyProvider,
                                     PModeProvider pModeProvider,
-                                    ResourceLoader resourceLoader) {
+                                    ResourceLoader resourceLoader,
+                                    PlatformTransactionManager  txManager) {
         this.domibusPropertyProvider = domibusPropertyProvider;
         this.pModeProvider = pModeProvider;
-
-
+        this.txManager = txManager;
         this.resourceLoader = resourceLoader;
     }
 
@@ -64,6 +70,10 @@ public class PModeLoadFromFileService {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken("admin", "", Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
+        DefaultTransactionDefinition txDef = new DefaultTransactionDefinition();
+        txDef.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        TransactionStatus txState = txManager.getTransaction(txDef);
+
         if (pModeUrl != null) {
             LOG.warn("Automatic P-Mode import is activated because property [{}] exists! P-Modes will be updated from [{}]", PMODE_RESOURCE_URL_PROPERTY_NAME, pModeUrl);
             Resource resource = resourceLoader.getResource(pModeUrl);
@@ -79,10 +89,13 @@ public class PModeLoadFromFileService {
                 PropertyPlaceholderHelper propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}");
                 String replacedPModes = propertyPlaceholderHelper.replacePlaceholders(pModes, resolver);
 
+                LOG.debug("Updating p-Modes to: \n{}\n", replacedPModes);
                 pModeProvider.updatePModes(replacedPModes.getBytes(StandardCharsets.UTF_8), "Auto uploaded p-Modes during startup");
-            } catch (IOException | XmlProcessingException e) {
+                txManager.commit(txState);
+            } catch (IOException | XmlProcessingException | PModeValidationException e) {
                 String error = String.format("Cannot load resource from [%s], check property: [%s]", pModeUrl, PMODE_RESOURCE_URL_PROPERTY_NAME);
                 LOG.error(error, e);
+                txManager.rollback(txState);
             }
         }
 
