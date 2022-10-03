@@ -52,6 +52,36 @@
             <version>6.0.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-policy</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-features-logging</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-wsdl</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -133,6 +163,30 @@
                                     <groupId>eu.ecodex.labbox</groupId>
                                     <artifactId>ecodex-lab-box-config</artifactId>
                                     <classifier>gwtestkeystores</classifier>
+                                    <version>2022.09.1</version>
+                                    <type>zip</type>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>copy-ecodex-testkeystores-to-test</id>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <phase>process-test-resources</phase>
+                        <configuration>
+
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/test-classes</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <overWrite>true</overWrite>
+                                    <groupId>eu.ecodex.labbox</groupId>
+                                    <artifactId>ecodex-lab-box-config</artifactId>
+                                    <classifier>connectortestkeystores</classifier>
                                     <version>2022.09.1</version>
                                     <type>zip</type>
                                 </artifactItem>
