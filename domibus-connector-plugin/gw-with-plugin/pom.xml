@@ -12,6 +12,10 @@
 
     <artifactId>gw-with-plugin</artifactId>
 
+    <properties>
+        <lab.id>04</lab.id>
+    </properties>
+
 
     <dependencies>
         <dependency>
@@ -344,6 +348,41 @@
                                 <memory>1Gi</memory>
                             </limits>
                         </openshiftBuildConfig>
+
+                        <labels>
+                            <all>
+                                <propert>
+                                    <name>labboxid</name>
+                                    <value>04</value>
+                                </propert>
+                            </all>
+                        </labels>
+<!--                            <env>-->
+<!--                                <GW_PRIVATE_KEY_ALIAS>gw${lab.id}</GW_PRIVATE_KEY_ALIAS>-->
+<!--                            </env>-->
+<!--                            <controllerName>dpl-lab${lab.id}-ecx-gateway</controllerName> (2)-->
+<!--                            <imagePullPolicy>Always</imagePullPolicy>-->
+<!--                            <replicas>1</replicas> (5)-->
+<!--                            <liveness> (6)-->
+<!--                                <getUrl>http://:8080/domibus/services/msh</getUrl>-->
+<!--                                <tcpPort>8080</tcpPort>-->
+<!--                                <initialDelaySeconds>30</initialDelaySeconds>-->
+<!--                                <timeoutSeconds>300</timeoutSeconds>-->
+<!--                            </liveness>-->
+<!--                            <volumes>-->
+<!--                                <volume>-->
+<!--                                    <name>temp</name>-->
+<!--                                    <type>emptyDir</type>-->
+<!--                                    <medium>Memory</medium>-->
+<!--                                    <mounts>-->
+<!--                                        <mount>/app/domibus/work</mount>-->
+<!--                                        <mount>/app/domibus/logs</mount>-->
+<!--                                        <mount>/app/domibus/temp</mount>-->
+<!--                                        <mount>/app/domibus/webapps</mount>-->
+<!--                                    </mounts>-->
+<!--                                </volume>-->
+<!--                            </volumes>-->
+
                     </resources>
                     <images>
                         <image>

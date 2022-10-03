@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecx-gateway-lab04
+  namespace: ju-eu-ejustice-eqs
+  labels:
+    pod.cp.cna.at/ingress: allow
+    product: ju-eu-ejustice-eqs
+spec:
+  selector:
+    app: ecx-gateway-lab04
+  ports:
+    - name: ecx-gateway-lab04-port
+      targetPort: 8080
+      protocol: TCP
+      port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dpl-lab04-ecx-gateway
+  namespace: ju-eu-ejustice-eqs
+  labels:
+    pod.cp.cna.at/ingress: allow
+    product: ju-eu-ejustice-eqs
+    app: ecx-gateway-lab04
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecx-gateway-lab04
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        pod.cp.cna.at/ingress: allow
+        product: ju-eu-ejustice-eqs
+        app: ecx-gateway-lab04
+    spec:
+      volumes:
+        - name: temp
+          emptyDir: {}
+        - name: data
+          emptyDir: {}
+      containers:
+        - name: cnt-ecx-gateway
+          env:
+            - name: GW_PRIVATE_KEY_ALIAS
+              value: gw04
+          image: ${gateway.image}
+          imagePullPolicy: Always
+          readinessProbe:
+            initialDelaySeconds: 1
+            periodSeconds: 2
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 1
+            httpGet:
+              host:
+              scheme: HTTP
+              path: /domibus/services/msh
+              port: 8080
+          resources:
+            requests:
+              memory: 512M
+              cpu: 300m
+            limits:
+              memory: 1024M
+              cpu: 600m
+          volumeMounts:
+            - name: data
+              mountPath: /app/domibus/work
+              subPath: domibus/work
+            - name: temp
+              mountPath: /app/domibus/logs
+              subPath: domibus/logs
+            - name: temp
+              mountPath: /app/domibus/temp
+              subPath: domibus/temp
+            - name: temp
+              mountPath: /app/domibus/webapps
+              subPath: domibus/webapps
