@@ -1,319 +1,694 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<db:configuration xmlns:db="http://domibus.eu/configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://domibus.eu/configuration file:/C:/development/git-repos/domibus/Domibus-MSH/domibus-configuration.xsd" party="${gw.id}">
+<db:configuration xmlns:db="http://domibus.eu/configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://domibus.eu/configuration file:/C:/development/git-repos/domibus/Domibus-MSH/domibus-configuration.xsd"
+                  party="${gw.id}">
     <mpcs>
-        <mpc name="defaultMpc" qualifiedName="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/defaultMPC" enabled="true" default="true" retention_downloaded="0" retention_undownloaded="60" />
+        <mpc name="defaultMpc" qualifiedName="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/defaultMPC"
+             enabled="true" default="true" retention_downloaded="0" retention_undownloaded="60"/>
     </mpcs>
     <businessProcesses>
         <roles>
-            <role name="eCODEXRole" value="GW" />
-            <role name="defaultInitiatorRole" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator" />
-            <role name="defaultResponderRole" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/responder" />
+            <role name="eCODEXRole" value="GW"/>
+            <role name="defaultInitiatorRole"
+                  value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator"/>
+            <role name="defaultResponderRole"
+                  value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/responder"/>
         </roles>
         <parties>
             <partyIdTypes>
-                <partyIdType name="eevidence" value="urn:oasis:names:tc:ebcore:partyid-type:eevidence" />
-                <partyIdType name="ecodex" value="urn:oasis:names:tc:ebcore:partyid-type:ecodex" />
+                <partyIdType name="eevidence" value="urn:oasis:names:tc:ebcore:partyid-type:eevidence"/>
+                <partyIdType name="ecodex" value="urn:oasis:names:tc:ebcore:partyid-type:ecodex"/>
             </partyIdTypes>
 
-            <party name="gw01" endpoint="http://ecx-gateway-lab01.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh" allowChunking="false">
-                <identifier partyId="gw01" partyIdType="eevidence" />
+            <party name="gw01"
+                   endpoint="http://ecx-gateway-lab01.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh"
+                   allowChunking="false">
+                <identifier partyId="gw01" partyIdType="eevidence"/>
             </party>
-            <party name="gw02" endpoint="http://ecx-gateway-lab02.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh" allowChunking="false">
-                <identifier partyId="gw02" partyIdType="eevidence" />
+            <party name="gw02"
+                   endpoint="http://ecx-gateway-lab02.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh"
+                   allowChunking="false">
+                <identifier partyId="gw02" partyIdType="eevidence"/>
             </party>
-            <party name="gw03" endpoint="http://ecx-gateway-lab03.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh" allowChunking="false">
-                <identifier partyId="gw03" partyIdType="eevidence" />
+            <party name="gw03"
+                   endpoint="http://ecx-gateway-lab03.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh"
+                   allowChunking="false">
+                <identifier partyId="gw03" partyIdType="eevidence"/>
             </party>
-            <party name="gw04" endpoint="http://ecx-gateway-lab04.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh" allowChunking="false">
-                <identifier partyId="gw04" partyIdType="eevidence" />
+            <party name="gw04"
+                   endpoint="http://ecx-gateway-lab04.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh"
+                   allowChunking="false">
+                <identifier partyId="gw04" partyIdType="eevidence"/>
+            </party>
+            <party name="gw05"
+                   endpoint="http://ecx-gateway-lab05.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh"
+                   allowChunking="false">
+                <identifier partyId="gw05" partyIdType="eevidence"/>
+            </party>
+            <party name="gw06"
+                   endpoint="http://ecx-gateway-lab06.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh"
+                   allowChunking="false">
+                <identifier partyId="gw06" partyIdType="eevidence"/>
+            </party>
+            <party name="gw07"
+                   endpoint="http://ecx-gateway-lab07.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh"
+                   allowChunking="false">
+                <identifier partyId="gw07" partyIdType="eevidence"/>
+            </party>
+            <party name="gw08"
+                   endpoint="http://ecx-gateway-lab08.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh"
+                   allowChunking="false">
+                <identifier partyId="gw08" partyIdType="eevidence"/>
+            </party>
+            <party name="gw09"
+                   endpoint="http://ecx-gateway-lab09.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh"
+                   allowChunking="false">
+                <identifier partyId="gw09" partyIdType="eevidence"/>
             </party>
 
         </parties>
         <meps>
-            <mep name="oneway" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/oneWay" />
-            <binding name="push" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/push" />
+            <mep name="oneway" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/oneWay"/>
+            <binding name="push" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/push"/>
         </meps>
         <properties>
-            <property name="originalSenderProperty" key="originalSender" datatype="string" required="true" />
-            <property name="finalRecipientProperty" key="finalRecipient" datatype="string" required="true" />
+            <property name="originalSenderProperty" key="originalSender" datatype="string" required="true"/>
+            <property name="finalRecipientProperty" key="finalRecipient" datatype="string" required="true"/>
             <propertySet name="eDeliveryPropertySet">
-                <propertyRef property="finalRecipientProperty" />
-                <propertyRef property="originalSenderProperty" />
+                <propertyRef property="finalRecipientProperty"/>
+                <propertyRef property="originalSenderProperty"/>
             </propertySet>
         </properties>
         <payloadProfiles>
-            <payload name="businessContentPayload" cid="cid:message" required="true" mimeType="text/xml" inBody="false" />
-            <payload name="businessContentAttachment" cid="cid:attachment" required="false" mimeType="application/octet-stream" inBody="false" />
+            <payload name="businessContentPayload" cid="cid:message" required="true" mimeType="text/xml"
+                     inBody="false"/>
+            <payload name="businessContentAttachment" cid="cid:attachment" required="false"
+                     mimeType="application/octet-stream" inBody="false"/>
             <payloadProfile name="MessageProfile" maxSize="40894464">
-                <attachment name="businessContentPayload" />
-                <attachment name="businessContentAttachment" />
+                <attachment name="businessContentPayload"/>
+                <attachment name="businessContentAttachment"/>
             </payloadProfile>
         </payloadProfiles>
         <securities>
-            <security name="eDeliveryAS4Policy" policy="eDeliveryAS4Policy.xml" signatureMethod="RSA_SHA256" />
+            <security name="eDeliveryAS4Policy" policy="eDeliveryAS4Policy.xml" signatureMethod="RSA_SHA256"/>
         </securities>
         <errorHandlings>
-            <errorHandling name="eCODEXErrorHandling" errorAsResponse="true" businessErrorNotifyProducer="true" businessErrorNotifyConsumer="true" deliveryFailureNotifyProducer="true" />
+            <errorHandling name="eCODEXErrorHandling" errorAsResponse="true" businessErrorNotifyProducer="true"
+                           businessErrorNotifyConsumer="true" deliveryFailureNotifyProducer="true"/>
         </errorHandlings>
         <agreements>
-            <agreement name="agreementEmpty" value="" type="" />
+            <agreement name="agreementEmpty" value="" type=""/>
         </agreements>
         <services>
-            <service name="EioService" value="Eio" type="urn:e-codex:services:" />
-            <service name="MlaService" value="Mla" type="urn:e-codex:services:" />
-            <service name="testService" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/service" type="tc1" />
-            <service name="ConTESTService" value="Connector-TEST" type="urn:e-codex:services:" />
-            <service name="ItnService" value="Itn" type="urn:e-codex:services:" />
+            <service name="EioService" value="Eio" type="urn:e-codex:services:"/>
+            <service name="MlaService" value="Mla" type="urn:e-codex:services:"/>
+            <service name="testService" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/service"
+                     type="tc1"/>
+            <service name="ConTESTService" value="Connector-TEST" type="urn:e-codex:services:"/>
+            <service name="ItnService" value="Itn" type="urn:e-codex:services:"/>
+            <service name="ExampleService1" value="service1" type="urn:e-codex:services:"/>
         </services>
         <actions>
-            <action name="eCODEXEvidenceSubmissionAcceptanceRejection" value="SubmissionAcceptanceRejection" />
-            <action name="eCODEXEvidenceRelayREMMDAcceptanceRejection" value="RelayREMMDAcceptanceRejection" />
-            <action name="eCODEXEvidenceDeliveryNonDeliveryToRecipient" value="DeliveryNonDeliveryToRecipient" />
-            <action name="eCODEXEvidenceRetrievalNonRetrievalToRecipient" value="RetrievalNonRetrievalToRecipient" />
-            <action name="EioAnnexASubmissionAction" value="Eio_AnnexA_Submission" />
-            <action name="EioComplexAmendmentSubmissionAction" value="Eio_ComplexAmendment_Submission" />
-            <action name="EioAnnexBSubmissionAction" value="Eio_AnnexB_Submission" />
-            <action name="EioOutcomeSubmissionAction" value="Eio_Outcome_Submission" />
-            <action name="EioSimpleAmendmentSubmissionAction" value="Eio_SimpleAmendment_Submission" />
-            <action name="EioWithdrawalSubmissionAction" value="Eio_Withdrawal_Submission" />
-            <action name="EioTransactionEndConfirmationSubmissionAction" value="Eio_TransactionEndConfirmation_Submission" />
-            <action name="EioAdditionalInformationReplySubmissionAction" value="Eio_AdditionalInformationReply_Submission" />
-            <action name="EioLegalRemediesForEioIssuingNotificationSubmissionAction" value="Eio_LegalRemediesForEioIssuingNotification_Submission" />
-            <action name="EioServiceMessageSubmissionAction" value="Eio_ServiceMessage_Submission" />
-            <action name="EioReturnSubmissionAction" value="Eio_Return_Submission" />
-            <action name="EioAdditionalInformationRequestSubmissionAction" value="Eio_AdditionalInformationRequest_Submission" />
-            <action name="EioRejectionSubmissionAction" value="Eio_Rejection_Submission" />
-            <action name="EioDelayedDecisionNotificationSubmissionAction" value="Eio_DelayedDecisionNotification_Submission" />
-            <action name="EioDelayedInvestigativeMeasureNotificationSubmissionAction" value="Eio_DelayedInvestigativeMeasureNotification_Submission" />
-            <action name="EioPostponementNotificationSubmissionAction" value="Eio_PostponementNotification_Submission" />
-            <action name="EioExistingGroundForPostponementNotificationSubmissionAction" value="Eio_ExistingGroundForPostponementNotification_Submission" />
-            <action name="EioAssistanceImpossibleNotificationSubmissionAction" value="Eio_AssistanceImpossibleNotification_Submission" />
-            <action name="EioInvestigativeMeasureChangeNotificationSubmissionAction" value="Eio_InvestigativeMeasureChangeNotification_Submission" />
-            <action name="EioImpossibilityOfTakingDecisionNotificationSubmissionAction" value="Eio_ImpossibilityOfTakingDecisionNotification_Submission" />
-            <action name="EioOtherUnforeseenInvestigativeMeasuresNotificationSubmissionAction" value="Eio_OtherUnforeseenInvestigativeMeasuresNotification_Submission" />
-            <action name="EioFormalitiesComplianceImpossibleNotificationSubmissionAction" value="Eio_FormalitiesComplianceImpossibleNotification_Submission" />
-            <action name="EioLegalRemediesForEioExecutionNotificationSubmissionAction" value="Eio_LegalRemediesForEioExecutionNotification_Submission" />
-            <action name="EioConfidentialityComplianceImpossibleNotificationSubmissionAction" value="Eio_ConfidentialityComplianceImpossibleNotification_Submission" />
-            <action name="EioDecisionOnProvisionalMeasureNotificationSubmissionAction" value="Eio_DecisionOnProvisionalMeasureNotification_Submission" />
-            <action name="EioRecognitionSubmissionAction" value="Eio_Recognition_Submission" />
-            <action name="MlaRequestFormSubmissionAction" value="Mla_RequestForm_Submission" />
-            <action name="MlaOutcomeSubmissionAction" value="Mla_Outcome_Submission" />
-            <action name="MlaSimpleAmendmentSubmissionAction" value="Mla_SimpleAmendment_Submission" />
-            <action name="MlaWithdrawalSubmissionAction" value="Mla_Withdrawal_Submission" />
-            <action name="MlaTransactionEndConfirmationSubmissionAction" value="Mla_TransactionEndConfirmation_Submission" />
-            <action name="MlaServiceMessageSubmissionAction" value="Mla_ServiceMessage_Submission" />
-            <action name="MlaAdditionalInformationRequestSubmissionAction" value="Mla_AdditionalInformationRequest_Submission" />
-            <action name="MlaAdditionalInformationReplySubmissionAction" value="Mla_AdditionalInformationReply_Submission" />
-            <action name="MlaDecisionSubmissionAction" value="Mla_Decision_Submission" />
-            <action name="MlaAcknowledgeSubmissionAction" value="Mla_Acknowledge_Submission" />
-            <action name="testAction" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/test" />
-            <action name="ConTESTActionTestForm" value="ConTest_Form" />
-            <action name="ItnAnnexCSubmissionAction" value="Itn_AnnexC_Submission" />
-            <action name="ItnServiceMessageSubmissionAction" value="Itn_ServiceMessage_Submission" />
-            <action name="ItnAdditionalInformationRequestSubmissionAction" value="Itn_AdditionalInformationRequest_Submission" />
-            <action name="ItnAdditionalInformationReplySubmissionAction" value="Itn_AdditionalInformationReply_Submission" />
-            <action name="ItnReplyToAnnexCNotificationSubmissionAction" value="Itn_ReplyToAnnexCNotification_Submission" />
+            <action name="action1" value="action1"/>
+            <action name="action2" value="action1"/>
+            <action name="eCODEXEvidenceSubmissionAcceptanceRejection" value="SubmissionAcceptanceRejection"/>
+            <action name="eCODEXEvidenceRelayREMMDAcceptanceRejection" value="RelayREMMDAcceptanceRejection"/>
+            <action name="eCODEXEvidenceDeliveryNonDeliveryToRecipient" value="DeliveryNonDeliveryToRecipient"/>
+            <action name="eCODEXEvidenceRetrievalNonRetrievalToRecipient" value="RetrievalNonRetrievalToRecipient"/>
+            <action name="EioAnnexASubmissionAction" value="Eio_AnnexA_Submission"/>
+            <action name="EioComplexAmendmentSubmissionAction" value="Eio_ComplexAmendment_Submission"/>
+            <action name="EioAnnexBSubmissionAction" value="Eio_AnnexB_Submission"/>
+            <action name="EioOutcomeSubmissionAction" value="Eio_Outcome_Submission"/>
+            <action name="EioSimpleAmendmentSubmissionAction" value="Eio_SimpleAmendment_Submission"/>
+            <action name="EioWithdrawalSubmissionAction" value="Eio_Withdrawal_Submission"/>
+            <action name="EioTransactionEndConfirmationSubmissionAction"
+                    value="Eio_TransactionEndConfirmation_Submission"/>
+            <action name="EioAdditionalInformationReplySubmissionAction"
+                    value="Eio_AdditionalInformationReply_Submission"/>
+            <action name="EioLegalRemediesForEioIssuingNotificationSubmissionAction"
+                    value="Eio_LegalRemediesForEioIssuingNotification_Submission"/>
+            <action name="EioServiceMessageSubmissionAction" value="Eio_ServiceMessage_Submission"/>
+            <action name="EioReturnSubmissionAction" value="Eio_Return_Submission"/>
+            <action name="EioAdditionalInformationRequestSubmissionAction"
+                    value="Eio_AdditionalInformationRequest_Submission"/>
+            <action name="EioRejectionSubmissionAction" value="Eio_Rejection_Submission"/>
+            <action name="EioDelayedDecisionNotificationSubmissionAction"
+                    value="Eio_DelayedDecisionNotification_Submission"/>
+            <action name="EioDelayedInvestigativeMeasureNotificationSubmissionAction"
+                    value="Eio_DelayedInvestigativeMeasureNotification_Submission"/>
+            <action name="EioPostponementNotificationSubmissionAction" value="Eio_PostponementNotification_Submission"/>
+            <action name="EioExistingGroundForPostponementNotificationSubmissionAction"
+                    value="Eio_ExistingGroundForPostponementNotification_Submission"/>
+            <action name="EioAssistanceImpossibleNotificationSubmissionAction"
+                    value="Eio_AssistanceImpossibleNotification_Submission"/>
+            <action name="EioInvestigativeMeasureChangeNotificationSubmissionAction"
+                    value="Eio_InvestigativeMeasureChangeNotification_Submission"/>
+            <action name="EioImpossibilityOfTakingDecisionNotificationSubmissionAction"
+                    value="Eio_ImpossibilityOfTakingDecisionNotification_Submission"/>
+            <action name="EioOtherUnforeseenInvestigativeMeasuresNotificationSubmissionAction"
+                    value="Eio_OtherUnforeseenInvestigativeMeasuresNotification_Submission"/>
+            <action name="EioFormalitiesComplianceImpossibleNotificationSubmissionAction"
+                    value="Eio_FormalitiesComplianceImpossibleNotification_Submission"/>
+            <action name="EioLegalRemediesForEioExecutionNotificationSubmissionAction"
+                    value="Eio_LegalRemediesForEioExecutionNotification_Submission"/>
+            <action name="EioConfidentialityComplianceImpossibleNotificationSubmissionAction"
+                    value="Eio_ConfidentialityComplianceImpossibleNotification_Submission"/>
+            <action name="EioDecisionOnProvisionalMeasureNotificationSubmissionAction"
+                    value="Eio_DecisionOnProvisionalMeasureNotification_Submission"/>
+            <action name="EioRecognitionSubmissionAction" value="Eio_Recognition_Submission"/>
+            <action name="MlaRequestFormSubmissionAction" value="Mla_RequestForm_Submission"/>
+            <action name="MlaOutcomeSubmissionAction" value="Mla_Outcome_Submission"/>
+            <action name="MlaSimpleAmendmentSubmissionAction" value="Mla_SimpleAmendment_Submission"/>
+            <action name="MlaWithdrawalSubmissionAction" value="Mla_Withdrawal_Submission"/>
+            <action name="MlaTransactionEndConfirmationSubmissionAction"
+                    value="Mla_TransactionEndConfirmation_Submission"/>
+            <action name="MlaServiceMessageSubmissionAction" value="Mla_ServiceMessage_Submission"/>
+            <action name="MlaAdditionalInformationRequestSubmissionAction"
+                    value="Mla_AdditionalInformationRequest_Submission"/>
+            <action name="MlaAdditionalInformationReplySubmissionAction"
+                    value="Mla_AdditionalInformationReply_Submission"/>
+            <action name="MlaDecisionSubmissionAction" value="Mla_Decision_Submission"/>
+            <action name="MlaAcknowledgeSubmissionAction" value="Mla_Acknowledge_Submission"/>
+            <action name="testAction" value="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/test"/>
+            <action name="ConTESTActionTestForm" value="ConTest_Form"/>
+            <action name="ItnAnnexCSubmissionAction" value="Itn_AnnexC_Submission"/>
+            <action name="ItnServiceMessageSubmissionAction" value="Itn_ServiceMessage_Submission"/>
+            <action name="ItnAdditionalInformationRequestSubmissionAction"
+                    value="Itn_AdditionalInformationRequest_Submission"/>
+            <action name="ItnAdditionalInformationReplySubmissionAction"
+                    value="Itn_AdditionalInformationReply_Submission"/>
+            <action name="ItnReplyToAnnexCNotificationSubmissionAction"
+                    value="Itn_ReplyToAnnexCNotification_Submission"/>
         </actions>
         <as4>
-            <receptionAwareness name="receptionAwareness" retry="1440;12;CONSTANT" duplicateDetection="true" />
-            <reliability name="AS4Reliability" nonRepudiation="true" replyPattern="response" />
+            <receptionAwareness name="receptionAwareness" retry="1440;12;CONSTANT" duplicateDetection="true"/>
+            <reliability name="AS4Reliability" nonRepudiation="true" replyPattern="response"/>
         </as4>
         <legConfigurations>
-            <legConfiguration name="EioLegEioAnnexASubmissionAction" service="EioService" action="EioAnnexASubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioComplexAmendmentSubmissionAction" service="EioService" action="EioComplexAmendmentSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioAnnexBSubmissionAction" service="EioService" action="EioAnnexBSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioOutcomeSubmissionAction" service="EioService" action="EioOutcomeSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioSimpleAmendmentSubmissionAction" service="EioService" action="EioSimpleAmendmentSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioWithdrawalSubmissionAction" service="EioService" action="EioWithdrawalSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioTransactionEndConfirmationSubmissionAction" service="EioService" action="EioTransactionEndConfirmationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioAdditionalInformationReplySubmissionAction" service="EioService" action="EioAdditionalInformationReplySubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioLegalRemediesForEioIssuingNotificationSubmissionAction" service="EioService" action="EioLegalRemediesForEioIssuingNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioServiceMessageSubmissionAction" service="EioService" action="EioServiceMessageSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioReturnSubmissionAction" service="EioService" action="EioReturnSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioAdditionalInformationRequestSubmissionAction" service="EioService" action="EioAdditionalInformationRequestSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioRejectionSubmissionAction" service="EioService" action="EioRejectionSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioDelayedDecisionNotificationSubmissionAction" service="EioService" action="EioDelayedDecisionNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioDelayedInvestigativeMeasureNotificationSubmissionAction" service="EioService" action="EioDelayedInvestigativeMeasureNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioPostponementNotificationSubmissionAction" service="EioService" action="EioPostponementNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioExistingGroundForPostponementNotificationSubmissionAction" service="EioService" action="EioExistingGroundForPostponementNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioAssistanceImpossibleNotificationSubmissionAction" service="EioService" action="EioAssistanceImpossibleNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioInvestigativeMeasureChangeNotificationSubmissionAction" service="EioService" action="EioInvestigativeMeasureChangeNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioImpossibilityOfTakingDecisionNotificationSubmissionAction" service="EioService" action="EioImpossibilityOfTakingDecisionNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioOtherUnforeseenInvestigativeMeasuresNotificationSubmissionAction" service="EioService" action="EioOtherUnforeseenInvestigativeMeasuresNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioFormalitiesComplianceImpossibleNotificationSubmissionAction" service="EioService" action="EioFormalitiesComplianceImpossibleNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioLegalRemediesForEioExecutionNotificationSubmissionAction" service="EioService" action="EioLegalRemediesForEioExecutionNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioConfidentialityComplianceImpossibleNotificationSubmissionAction" service="EioService" action="EioConfidentialityComplianceImpossibleNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioDecisionOnProvisionalMeasureNotificationSubmissionAction" service="EioService" action="EioDecisionOnProvisionalMeasureNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegEioRecognitionSubmissionAction" service="EioService" action="EioRecognitionSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegeCODEXEvidenceSubmissionAcceptanceRejection" service="EioService" action="eCODEXEvidenceSubmissionAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegeCODEXEvidenceRelayREMMDAcceptanceRejection" service="EioService" action="eCODEXEvidenceRelayREMMDAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" service="EioService" action="eCODEXEvidenceDeliveryNonDeliveryToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="EioLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" service="EioService" action="eCODEXEvidenceRetrievalNonRetrievalToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ItnLegeCODEXEvidenceSubmissionAcceptanceRejection" service="ItnService" action="eCODEXEvidenceSubmissionAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ItnLegeCODEXEvidenceRelayREMMDAcceptanceRejection" service="ItnService" action="eCODEXEvidenceRelayREMMDAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ItnLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" service="ItnService" action="eCODEXEvidenceDeliveryNonDeliveryToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ItnLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" service="ItnService" action="eCODEXEvidenceRetrievalNonRetrievalToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ItnLegItnAnnexCSubmissionAction" service="ItnService" action="ItnAnnexCSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ItnLegItnServiceMessageSubmissionAction" service="ItnService" action="ItnServiceMessageSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ItnLegItnAdditionalInformationRequestSubmissionAction" service="ItnService" action="ItnAdditionalInformationRequestSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ItnLegItnAdditionalInformationReplySubmissionAction" service="ItnService" action="ItnAdditionalInformationReplySubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ItnLegItnReplyToAnnexCNotificationSubmissionAction" service="ItnService" action="ItnReplyToAnnexCNotificationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegMlaRequestFormSubmissionAction" service="MlaService" action="MlaRequestFormSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegMlaOutcomeSubmissionAction" service="MlaService" action="MlaOutcomeSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegMlaSimpleAmendmentSubmissionAction" service="MlaService" action="MlaSimpleAmendmentSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegMlaWithdrawalSubmissionAction" service="MlaService" action="MlaWithdrawalSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegMlaTransactionEndConfirmationSubmissionAction" service="MlaService" action="MlaTransactionEndConfirmationSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegMlaServiceMessageSubmissionAction" service="MlaService" action="MlaServiceMessageSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegMlaAdditionalInformationRequestSubmissionAction" service="MlaService" action="MlaAdditionalInformationRequestSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegMlaAdditionalInformationReplySubmissionAction" service="MlaService" action="MlaAdditionalInformationReplySubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegMlaDecisionSubmissionAction" service="MlaService" action="MlaDecisionSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegMlaAcknowledgeSubmissionAction" service="MlaService" action="MlaAcknowledgeSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegeCODEXEvidenceSubmissionAcceptanceRejection" service="MlaService" action="eCODEXEvidenceSubmissionAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegeCODEXEvidenceRelayREMMDAcceptanceRejection" service="MlaService" action="eCODEXEvidenceRelayREMMDAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" service="MlaService" action="eCODEXEvidenceDeliveryNonDeliveryToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="MlaLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" service="MlaService" action="eCODEXEvidenceRetrievalNonRetrievalToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="TestLegTwotestAction" service="testService" action="testAction" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" propertySet="eDeliveryPropertySet" payloadProfile="MessageProfile" errorHandling="eCODEXErrorHandling" compressPayloads="true" />
-            <legConfiguration name="ConTESTLegConTESTActionTestForm" service="ConTESTService" action="ConTESTActionTestForm" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ConTESTLegeCODEXEvidenceSubmissionAcceptanceRejection" service="ConTESTService" action="eCODEXEvidenceSubmissionAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ConTESTLegeCODEXEvidenceRelayREMMDAcceptanceRejection" service="ConTESTService" action="eCODEXEvidenceRelayREMMDAcceptanceRejection" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ConTESTLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" service="ConTESTService" action="eCODEXEvidenceDeliveryNonDeliveryToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
-            <legConfiguration name="ConTESTLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" service="ConTESTService" action="eCODEXEvidenceRetrievalNonRetrievalToRecipient" defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling" compressPayloads="false" />
+            <legConfiguration name="ExampleService1LegAction1"
+                              service="ExampleService1"
+                              action="action1"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ExampleService1Action2"
+                              service="ExampleService1"
+                              action="action2"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+
+            <legConfiguration name="ExampleService1LegeCODEXEvidenceSubmissionAcceptanceRejection"
+                              service="ExampleService1" action="eCODEXEvidenceSubmissionAcceptanceRejection"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ExampleService1LegeCODEXEvidenceRelayREMMDAcceptanceRejection"
+                              service="ExampleService1" action="eCODEXEvidenceRelayREMMDAcceptanceRejection"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ExampleService1LegeCODEXEvidenceDeliveryNonDeliveryToRecipient"
+                              service="ExampleService1" action="eCODEXEvidenceDeliveryNonDeliveryToRecipient"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ExampleService1LegeCODEXEvidenceRetrievalNonRetrievalToRecipient"
+                              service="ExampleService1" action="eCODEXEvidenceRetrievalNonRetrievalToRecipient"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+
+            <legConfiguration name="EioLegEioAnnexASubmissionAction" service="EioService"
+                              action="EioAnnexASubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability"
+                              security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness"
+                              errorHandling="eCODEXErrorHandling" compressPayloads="false"/>
+            <legConfiguration name="EioLegEioComplexAmendmentSubmissionAction" service="EioService"
+                              action="EioComplexAmendmentSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioAnnexBSubmissionAction" service="EioService"
+                              action="EioAnnexBSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability"
+                              security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness"
+                              errorHandling="eCODEXErrorHandling" compressPayloads="false"/>
+            <legConfiguration name="EioLegEioOutcomeSubmissionAction" service="EioService"
+                              action="EioOutcomeSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability"
+                              security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness"
+                              errorHandling="eCODEXErrorHandling" compressPayloads="false"/>
+            <legConfiguration name="EioLegEioSimpleAmendmentSubmissionAction" service="EioService"
+                              action="EioSimpleAmendmentSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioWithdrawalSubmissionAction" service="EioService"
+                              action="EioWithdrawalSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioTransactionEndConfirmationSubmissionAction" service="EioService"
+                              action="EioTransactionEndConfirmationSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioAdditionalInformationReplySubmissionAction" service="EioService"
+                              action="EioAdditionalInformationReplySubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioLegalRemediesForEioIssuingNotificationSubmissionAction"
+                              service="EioService" action="EioLegalRemediesForEioIssuingNotificationSubmissionAction"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioServiceMessageSubmissionAction" service="EioService"
+                              action="EioServiceMessageSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioReturnSubmissionAction" service="EioService"
+                              action="EioReturnSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability"
+                              security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness"
+                              errorHandling="eCODEXErrorHandling" compressPayloads="false"/>
+            <legConfiguration name="EioLegEioAdditionalInformationRequestSubmissionAction" service="EioService"
+                              action="EioAdditionalInformationRequestSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioRejectionSubmissionAction" service="EioService"
+                              action="EioRejectionSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability"
+                              security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness"
+                              errorHandling="eCODEXErrorHandling" compressPayloads="false"/>
+            <legConfiguration name="EioLegEioDelayedDecisionNotificationSubmissionAction" service="EioService"
+                              action="EioDelayedDecisionNotificationSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioDelayedInvestigativeMeasureNotificationSubmissionAction"
+                              service="EioService" action="EioDelayedInvestigativeMeasureNotificationSubmissionAction"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioPostponementNotificationSubmissionAction" service="EioService"
+                              action="EioPostponementNotificationSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioExistingGroundForPostponementNotificationSubmissionAction"
+                              service="EioService" action="EioExistingGroundForPostponementNotificationSubmissionAction"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioAssistanceImpossibleNotificationSubmissionAction" service="EioService"
+                              action="EioAssistanceImpossibleNotificationSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioInvestigativeMeasureChangeNotificationSubmissionAction"
+                              service="EioService" action="EioInvestigativeMeasureChangeNotificationSubmissionAction"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioImpossibilityOfTakingDecisionNotificationSubmissionAction"
+                              service="EioService" action="EioImpossibilityOfTakingDecisionNotificationSubmissionAction"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioOtherUnforeseenInvestigativeMeasuresNotificationSubmissionAction"
+                              service="EioService"
+                              action="EioOtherUnforeseenInvestigativeMeasuresNotificationSubmissionAction"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioFormalitiesComplianceImpossibleNotificationSubmissionAction"
+                              service="EioService"
+                              action="EioFormalitiesComplianceImpossibleNotificationSubmissionAction"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioLegalRemediesForEioExecutionNotificationSubmissionAction"
+                              service="EioService" action="EioLegalRemediesForEioExecutionNotificationSubmissionAction"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioConfidentialityComplianceImpossibleNotificationSubmissionAction"
+                              service="EioService"
+                              action="EioConfidentialityComplianceImpossibleNotificationSubmissionAction"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioDecisionOnProvisionalMeasureNotificationSubmissionAction"
+                              service="EioService" action="EioDecisionOnProvisionalMeasureNotificationSubmissionAction"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegEioRecognitionSubmissionAction" service="EioService"
+                              action="EioRecognitionSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegeCODEXEvidenceSubmissionAcceptanceRejection" service="EioService"
+                              action="eCODEXEvidenceSubmissionAcceptanceRejection" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegeCODEXEvidenceRelayREMMDAcceptanceRejection" service="EioService"
+                              action="eCODEXEvidenceRelayREMMDAcceptanceRejection" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" service="EioService"
+                              action="eCODEXEvidenceDeliveryNonDeliveryToRecipient" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="EioLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" service="EioService"
+                              action="eCODEXEvidenceRetrievalNonRetrievalToRecipient" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ItnLegeCODEXEvidenceSubmissionAcceptanceRejection" service="ItnService"
+                              action="eCODEXEvidenceSubmissionAcceptanceRejection" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ItnLegeCODEXEvidenceRelayREMMDAcceptanceRejection" service="ItnService"
+                              action="eCODEXEvidenceRelayREMMDAcceptanceRejection" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ItnLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" service="ItnService"
+                              action="eCODEXEvidenceDeliveryNonDeliveryToRecipient" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ItnLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" service="ItnService"
+                              action="eCODEXEvidenceRetrievalNonRetrievalToRecipient" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ItnLegItnAnnexCSubmissionAction" service="ItnService"
+                              action="ItnAnnexCSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability"
+                              security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness"
+                              errorHandling="eCODEXErrorHandling" compressPayloads="false"/>
+            <legConfiguration name="ItnLegItnServiceMessageSubmissionAction" service="ItnService"
+                              action="ItnServiceMessageSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ItnLegItnAdditionalInformationRequestSubmissionAction" service="ItnService"
+                              action="ItnAdditionalInformationRequestSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ItnLegItnAdditionalInformationReplySubmissionAction" service="ItnService"
+                              action="ItnAdditionalInformationReplySubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ItnLegItnReplyToAnnexCNotificationSubmissionAction" service="ItnService"
+                              action="ItnReplyToAnnexCNotificationSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="MlaLegMlaRequestFormSubmissionAction" service="MlaService"
+                              action="MlaRequestFormSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="MlaLegMlaOutcomeSubmissionAction" service="MlaService"
+                              action="MlaOutcomeSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability"
+                              security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness"
+                              errorHandling="eCODEXErrorHandling" compressPayloads="false"/>
+            <legConfiguration name="MlaLegMlaSimpleAmendmentSubmissionAction" service="MlaService"
+                              action="MlaSimpleAmendmentSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="MlaLegMlaWithdrawalSubmissionAction" service="MlaService"
+                              action="MlaWithdrawalSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="MlaLegMlaTransactionEndConfirmationSubmissionAction" service="MlaService"
+                              action="MlaTransactionEndConfirmationSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="MlaLegMlaServiceMessageSubmissionAction" service="MlaService"
+                              action="MlaServiceMessageSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="MlaLegMlaAdditionalInformationRequestSubmissionAction" service="MlaService"
+                              action="MlaAdditionalInformationRequestSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="MlaLegMlaAdditionalInformationReplySubmissionAction" service="MlaService"
+                              action="MlaAdditionalInformationReplySubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="MlaLegMlaDecisionSubmissionAction" service="MlaService"
+                              action="MlaDecisionSubmissionAction" defaultMpc="defaultMpc" reliability="AS4Reliability"
+                              security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness"
+                              errorHandling="eCODEXErrorHandling" compressPayloads="false"/>
+            <legConfiguration name="MlaLegMlaAcknowledgeSubmissionAction" service="MlaService"
+                              action="MlaAcknowledgeSubmissionAction" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="MlaLegeCODEXEvidenceSubmissionAcceptanceRejection" service="MlaService"
+                              action="eCODEXEvidenceSubmissionAcceptanceRejection" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="MlaLegeCODEXEvidenceRelayREMMDAcceptanceRejection" service="MlaService"
+                              action="eCODEXEvidenceRelayREMMDAcceptanceRejection" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="MlaLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" service="MlaService"
+                              action="eCODEXEvidenceDeliveryNonDeliveryToRecipient" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="MlaLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" service="MlaService"
+                              action="eCODEXEvidenceRetrievalNonRetrievalToRecipient" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="TestLegTwotestAction" service="testService" action="testAction"
+                              defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" propertySet="eDeliveryPropertySet"
+                              payloadProfile="MessageProfile" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="true"/>
+            <legConfiguration name="ConTESTLegConTESTActionTestForm" service="ConTESTService"
+                              action="ConTESTActionTestForm" defaultMpc="defaultMpc" reliability="AS4Reliability"
+                              security="eDeliveryAS4Policy" receptionAwareness="receptionAwareness"
+                              errorHandling="eCODEXErrorHandling" compressPayloads="false"/>
+            <legConfiguration name="ConTESTLegeCODEXEvidenceSubmissionAcceptanceRejection" service="ConTESTService"
+                              action="eCODEXEvidenceSubmissionAcceptanceRejection" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ConTESTLegeCODEXEvidenceRelayREMMDAcceptanceRejection" service="ConTESTService"
+                              action="eCODEXEvidenceRelayREMMDAcceptanceRejection" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ConTESTLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" service="ConTESTService"
+                              action="eCODEXEvidenceDeliveryNonDeliveryToRecipient" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
+            <legConfiguration name="ConTESTLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" service="ConTESTService"
+                              action="eCODEXEvidenceRetrievalNonRetrievalToRecipient" defaultMpc="defaultMpc"
+                              reliability="AS4Reliability" security="eDeliveryAS4Policy"
+                              receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
+                              compressPayloads="false"/>
         </legConfigurations>
-        <process name="eioProcess" agreement="agreementEmpty" mep="oneway" binding="push" initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
+        <process name="eioProcess" agreement="agreementEmpty" mep="oneway" binding="push"
+                 initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
             <initiatorParties>
 
 
-                <initiatorParty name="gw01" />
-                <initiatorParty name="gw02" />
-                <initiatorParty name="gw03" />
-                <initiatorParty name="gw04" />
+                <initiatorParty name="gw01"/>
+                <initiatorParty name="gw02"/>
+                <initiatorParty name="gw03"/>
+                <initiatorParty name="gw04"/>
+                <initiatorParty name="gw05"/>
+                <initiatorParty name="gw06"/>
+                <initiatorParty name="gw07"/>
+                <initiatorParty name="gw08"/>
+                <initiatorParty name="gw09"/>
             </initiatorParties>
             <responderParties>
 
-                <responderParty name="gw01" />
-                <responderParty name="gw02" />
-                <responderParty name="gw03" />
-                <responderParty name="gw04" />
+                <responderParty name="gw01"/>
+                <responderParty name="gw02"/>
+                <responderParty name="gw03"/>
+                <responderParty name="gw04"/>
+                <responderParty name="gw05"/>
+                <responderParty name="gw06"/>
+                <responderParty name="gw07"/>
+                <responderParty name="gw08"/>
+                <responderParty name="gw09"/>
             </responderParties>
             <legs>
-                <leg name="EioLegEioAnnexASubmissionAction" />
-                <leg name="EioLegEioComplexAmendmentSubmissionAction" />
-                <leg name="EioLegEioAnnexBSubmissionAction" />
-                <leg name="EioLegEioOutcomeSubmissionAction" />
-                <leg name="EioLegEioSimpleAmendmentSubmissionAction" />
-                <leg name="EioLegEioWithdrawalSubmissionAction" />
-                <leg name="EioLegEioTransactionEndConfirmationSubmissionAction" />
-                <leg name="EioLegEioAdditionalInformationReplySubmissionAction" />
-                <leg name="EioLegEioLegalRemediesForEioIssuingNotificationSubmissionAction" />
-                <leg name="EioLegEioServiceMessageSubmissionAction" />
-                <leg name="EioLegEioReturnSubmissionAction" />
-                <leg name="EioLegEioAdditionalInformationRequestSubmissionAction" />
-                <leg name="EioLegEioRejectionSubmissionAction" />
-                <leg name="EioLegEioDelayedDecisionNotificationSubmissionAction" />
-                <leg name="EioLegEioDelayedInvestigativeMeasureNotificationSubmissionAction" />
-                <leg name="EioLegEioPostponementNotificationSubmissionAction" />
-                <leg name="EioLegEioExistingGroundForPostponementNotificationSubmissionAction" />
-                <leg name="EioLegEioAssistanceImpossibleNotificationSubmissionAction" />
-                <leg name="EioLegEioInvestigativeMeasureChangeNotificationSubmissionAction" />
-                <leg name="EioLegEioImpossibilityOfTakingDecisionNotificationSubmissionAction" />
-                <leg name="EioLegEioOtherUnforeseenInvestigativeMeasuresNotificationSubmissionAction" />
-                <leg name="EioLegEioFormalitiesComplianceImpossibleNotificationSubmissionAction" />
-                <leg name="EioLegEioLegalRemediesForEioExecutionNotificationSubmissionAction" />
-                <leg name="EioLegEioConfidentialityComplianceImpossibleNotificationSubmissionAction" />
-                <leg name="EioLegEioDecisionOnProvisionalMeasureNotificationSubmissionAction" />
-                <leg name="EioLegEioRecognitionSubmissionAction" />
-                <leg name="EioLegeCODEXEvidenceSubmissionAcceptanceRejection" />
-                <leg name="EioLegeCODEXEvidenceRelayREMMDAcceptanceRejection" />
-                <leg name="EioLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" />
-                <leg name="EioLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" />
-                <leg name="ItnLegeCODEXEvidenceSubmissionAcceptanceRejection" />
-                <leg name="ItnLegeCODEXEvidenceRelayREMMDAcceptanceRejection" />
-                <leg name="ItnLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" />
-                <leg name="ItnLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" />
-                <leg name="ItnLegItnAnnexCSubmissionAction" />
-                <leg name="ItnLegItnServiceMessageSubmissionAction" />
-                <leg name="ItnLegItnAdditionalInformationRequestSubmissionAction" />
-                <leg name="ItnLegItnAdditionalInformationReplySubmissionAction" />
-                <leg name="ItnLegItnReplyToAnnexCNotificationSubmissionAction" />
+                <leg name="EioLegEioAnnexASubmissionAction"/>
+                <leg name="EioLegEioComplexAmendmentSubmissionAction"/>
+                <leg name="EioLegEioAnnexBSubmissionAction"/>
+                <leg name="EioLegEioOutcomeSubmissionAction"/>
+                <leg name="EioLegEioSimpleAmendmentSubmissionAction"/>
+                <leg name="EioLegEioWithdrawalSubmissionAction"/>
+                <leg name="EioLegEioTransactionEndConfirmationSubmissionAction"/>
+                <leg name="EioLegEioAdditionalInformationReplySubmissionAction"/>
+                <leg name="EioLegEioLegalRemediesForEioIssuingNotificationSubmissionAction"/>
+                <leg name="EioLegEioServiceMessageSubmissionAction"/>
+                <leg name="EioLegEioReturnSubmissionAction"/>
+                <leg name="EioLegEioAdditionalInformationRequestSubmissionAction"/>
+                <leg name="EioLegEioRejectionSubmissionAction"/>
+                <leg name="EioLegEioDelayedDecisionNotificationSubmissionAction"/>
+                <leg name="EioLegEioDelayedInvestigativeMeasureNotificationSubmissionAction"/>
+                <leg name="EioLegEioPostponementNotificationSubmissionAction"/>
+                <leg name="EioLegEioExistingGroundForPostponementNotificationSubmissionAction"/>
+                <leg name="EioLegEioAssistanceImpossibleNotificationSubmissionAction"/>
+                <leg name="EioLegEioInvestigativeMeasureChangeNotificationSubmissionAction"/>
+                <leg name="EioLegEioImpossibilityOfTakingDecisionNotificationSubmissionAction"/>
+                <leg name="EioLegEioOtherUnforeseenInvestigativeMeasuresNotificationSubmissionAction"/>
+                <leg name="EioLegEioFormalitiesComplianceImpossibleNotificationSubmissionAction"/>
+                <leg name="EioLegEioLegalRemediesForEioExecutionNotificationSubmissionAction"/>
+                <leg name="EioLegEioConfidentialityComplianceImpossibleNotificationSubmissionAction"/>
+                <leg name="EioLegEioDecisionOnProvisionalMeasureNotificationSubmissionAction"/>
+                <leg name="EioLegEioRecognitionSubmissionAction"/>
+                <leg name="EioLegeCODEXEvidenceSubmissionAcceptanceRejection"/>
+                <leg name="EioLegeCODEXEvidenceRelayREMMDAcceptanceRejection"/>
+                <leg name="EioLegeCODEXEvidenceDeliveryNonDeliveryToRecipient"/>
+                <leg name="EioLegeCODEXEvidenceRetrievalNonRetrievalToRecipient"/>
+                <leg name="ItnLegeCODEXEvidenceSubmissionAcceptanceRejection"/>
+                <leg name="ItnLegeCODEXEvidenceRelayREMMDAcceptanceRejection"/>
+                <leg name="ItnLegeCODEXEvidenceDeliveryNonDeliveryToRecipient"/>
+                <leg name="ItnLegeCODEXEvidenceRetrievalNonRetrievalToRecipient"/>
+                <leg name="ItnLegItnAnnexCSubmissionAction"/>
+                <leg name="ItnLegItnServiceMessageSubmissionAction"/>
+                <leg name="ItnLegItnAdditionalInformationRequestSubmissionAction"/>
+                <leg name="ItnLegItnAdditionalInformationReplySubmissionAction"/>
+                <leg name="ItnLegItnReplyToAnnexCNotificationSubmissionAction"/>
             </legs>
         </process>
-        <process name="mlaProcess" agreement="agreementEmpty" mep="oneway" binding="push" initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
+        <process name="mlaProcess" agreement="agreementEmpty" mep="oneway" binding="push"
+                 initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
             <initiatorParties>
 
 
-                <initiatorParty name="gw01" />
-                <initiatorParty name="gw02" />
-                <initiatorParty name="gw03" />
-                <initiatorParty name="gw04" />
+                <initiatorParty name="gw01"/>
+                <initiatorParty name="gw02"/>
+                <initiatorParty name="gw03"/>
+                <initiatorParty name="gw04"/>
+                <initiatorParty name="gw05"/>
+                <initiatorParty name="gw06"/>
+                <initiatorParty name="gw07"/>
+                <initiatorParty name="gw08"/>
+                <initiatorParty name="gw09"/>
+
             </initiatorParties>
             <responderParties>
 
 
-                <responderParty name="gw01" />
-                <responderParty name="gw02" />
-                <responderParty name="gw03" />
-                <responderParty name="gw04" />
+                <responderParty name="gw01"/>
+                <responderParty name="gw02"/>
+                <responderParty name="gw03"/>
+                <responderParty name="gw04"/>
+                <responderParty name="gw05"/>
+                <responderParty name="gw06"/>
+                <responderParty name="gw07"/>
+                <responderParty name="gw08"/>
+                <responderParty name="gw09"/>
             </responderParties>
             <legs>
-                <leg name="MlaLegMlaRequestFormSubmissionAction" />
-                <leg name="MlaLegMlaOutcomeSubmissionAction" />
-                <leg name="MlaLegMlaSimpleAmendmentSubmissionAction" />
-                <leg name="MlaLegMlaWithdrawalSubmissionAction" />
-                <leg name="MlaLegMlaTransactionEndConfirmationSubmissionAction" />
-                <leg name="MlaLegMlaServiceMessageSubmissionAction" />
-                <leg name="MlaLegMlaAdditionalInformationRequestSubmissionAction" />
-                <leg name="MlaLegMlaAdditionalInformationReplySubmissionAction" />
-                <leg name="MlaLegMlaDecisionSubmissionAction" />
-                <leg name="MlaLegMlaAcknowledgeSubmissionAction" />
-                <leg name="MlaLegeCODEXEvidenceSubmissionAcceptanceRejection" />
-                <leg name="MlaLegeCODEXEvidenceRelayREMMDAcceptanceRejection" />
-                <leg name="MlaLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" />
-                <leg name="MlaLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" />
+                <leg name="MlaLegMlaRequestFormSubmissionAction"/>
+                <leg name="MlaLegMlaOutcomeSubmissionAction"/>
+                <leg name="MlaLegMlaSimpleAmendmentSubmissionAction"/>
+                <leg name="MlaLegMlaWithdrawalSubmissionAction"/>
+                <leg name="MlaLegMlaTransactionEndConfirmationSubmissionAction"/>
+                <leg name="MlaLegMlaServiceMessageSubmissionAction"/>
+                <leg name="MlaLegMlaAdditionalInformationRequestSubmissionAction"/>
+                <leg name="MlaLegMlaAdditionalInformationReplySubmissionAction"/>
+                <leg name="MlaLegMlaDecisionSubmissionAction"/>
+                <leg name="MlaLegMlaAcknowledgeSubmissionAction"/>
+                <leg name="MlaLegeCODEXEvidenceSubmissionAcceptanceRejection"/>
+                <leg name="MlaLegeCODEXEvidenceRelayREMMDAcceptanceRejection"/>
+                <leg name="MlaLegeCODEXEvidenceDeliveryNonDeliveryToRecipient"/>
+                <leg name="MlaLegeCODEXEvidenceRetrievalNonRetrievalToRecipient"/>
             </legs>
         </process>
-        <process name="testProcess" agreement="agreementEmpty" mep="oneway" binding="push" initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
+        <process name="testProcess" agreement="agreementEmpty" mep="oneway" binding="push"
+                 initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
             <initiatorParties>
 
 
-                <initiatorParty name="gw01" />
-                <initiatorParty name="gw02" />
-                <initiatorParty name="gw03" />
-                <initiatorParty name="gw04" />
+                <initiatorParty name="gw01"/>
+                <initiatorParty name="gw02"/>
+                <initiatorParty name="gw03"/>
+                <initiatorParty name="gw04"/>
+                <initiatorParty name="gw05"/>
+                <initiatorParty name="gw06"/>
+                <initiatorParty name="gw07"/>
+                <initiatorParty name="gw08"/>
+                <initiatorParty name="gw09"/>
             </initiatorParties>
             <responderParties>
 
 
-                <responderParty name="gw01" />
-                <responderParty name="gw02" />
-                <responderParty name="gw03" />
-                <responderParty name="gw04" />
+                <responderParty name="gw01"/>
+                <responderParty name="gw02"/>
+                <responderParty name="gw03"/>
+                <responderParty name="gw04"/>
+                <responderParty name="gw05"/>
+                <responderParty name="gw06"/>
+                <responderParty name="gw07"/>
+                <responderParty name="gw08"/>
+                <responderParty name="gw09"/>
             </responderParties>
             <legs>
-                <leg name="TestLegTwotestAction" />
+                <leg name="TestLegTwotestAction"/>
             </legs>
         </process>
-        <process name="ConTESTProcess" agreement="agreementEmpty" mep="oneway" binding="push" initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
+        <process name="ConTESTProcess" agreement="agreementEmpty" mep="oneway" binding="push"
+                 initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
             <initiatorParties>
 
-                <initiatorParty name="gw01" />
-                <initiatorParty name="gw02" />
-                <initiatorParty name="gw03" />
-                <initiatorParty name="gw04" />
+                <initiatorParty name="gw01"/>
+                <initiatorParty name="gw02"/>
+                <initiatorParty name="gw03"/>
+                <initiatorParty name="gw04"/>
+                <initiatorParty name="gw05"/>
+                <initiatorParty name="gw06"/>
+                <initiatorParty name="gw07"/>
+                <initiatorParty name="gw08"/>
+                <initiatorParty name="gw09"/>
             </initiatorParties>
             <responderParties>
 
 
-                <responderParty name="gw01" />
-                <responderParty name="gw02" />
-                <responderParty name="gw03" />
-                <responderParty name="gw04" />
+                <responderParty name="gw01"/>
+                <responderParty name="gw02"/>
+                <responderParty name="gw03"/>
+                <responderParty name="gw04"/>
+                <responderParty name="gw05"/>
+                <responderParty name="gw06"/>
+                <responderParty name="gw07"/>
+                <responderParty name="gw08"/>
+                <responderParty name="gw09"/>
             </responderParties>
             <legs>
-                <leg name="ConTESTLegConTESTActionTestForm" />
-                <leg name="ConTESTLegeCODEXEvidenceSubmissionAcceptanceRejection" />
-                <leg name="ConTESTLegeCODEXEvidenceRelayREMMDAcceptanceRejection" />
-                <leg name="ConTESTLegeCODEXEvidenceDeliveryNonDeliveryToRecipient" />
-                <leg name="ConTESTLegeCODEXEvidenceRetrievalNonRetrievalToRecipient" />
+                <leg name="ConTESTLegConTESTActionTestForm"/>
+                <leg name="ConTESTLegeCODEXEvidenceSubmissionAcceptanceRejection"/>
+                <leg name="ConTESTLegeCODEXEvidenceRelayREMMDAcceptanceRejection"/>
+                <leg name="ConTESTLegeCODEXEvidenceDeliveryNonDeliveryToRecipient"/>
+                <leg name="ConTESTLegeCODEXEvidenceRetrievalNonRetrievalToRecipient"/>
             </legs>
         </process>
     </businessProcesses>
