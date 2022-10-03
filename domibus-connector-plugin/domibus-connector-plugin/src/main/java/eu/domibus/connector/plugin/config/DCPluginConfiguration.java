@@ -25,7 +25,7 @@ public class DCPluginConfiguration {
 
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DCPluginConfiguration.class);
 
-    public static final String MODULE_NAME = "DOMIBUS_CONNECTOR_PLUGIN";
+//    public static final String MODULE_NAME = "DOMIBUS_CONNECTOR_PLUGIN";
 
     public static final String WEB_SERVICE_PROPERTIES_BEAN_NAME = "dcWebServiceProperties";
     public static final String POLICY_FEATURE_BEAN_NAME = "dcPolicyFeature";

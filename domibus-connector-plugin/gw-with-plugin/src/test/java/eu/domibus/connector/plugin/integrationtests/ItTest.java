@@ -6,7 +6,6 @@ import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.PropertyPlaceholderHelper;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class PushPluginIntegrationTest {
+public class ItTest {
 
     @BeforeAll
     public static void startContainer() {
@@ -78,10 +77,7 @@ public class PushPluginIntegrationTest {
         }
     }
 
-    @Test
-    public void runTest() {
-        //todo get GW connection!!
-    }
+
 
 
 

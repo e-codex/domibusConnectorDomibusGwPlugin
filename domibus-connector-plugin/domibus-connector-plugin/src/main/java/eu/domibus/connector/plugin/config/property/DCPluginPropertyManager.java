@@ -54,26 +54,25 @@ public abstract class DCPluginPropertyManager extends DomibusPropertyExtServiceD
         return "dc-plugin.properties";
     }
 
-    public DCPluginPropertyManager(List<DomibusPropertyMetadataDTO> properties) {
+    public DCPluginPropertyManager(List<DomibusPropertyMetadataDTO> properties, String moduleName) {
         List<DomibusPropertyMetadataDTO> allProperties = Arrays.asList(
-                new DomibusPropertyMetadataDTO(CXF_DELIVERY_ENDPOINT_ADDRESS, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(CXF_ENCRYPT_ALIAS, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(CXF_KEY_STORE_PASSWORD, Type.PASSWORD, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(CXF_KEY_STORE_PATH_PROPERTY_NAME, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(CXF_KEY_STORE_TYPE, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(CXF_PRIVATE_KEY_ALIAS, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(CXF_PRIVATE_KEY_PASSWORD, Type.PASSWORD, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(CXF_TRUST_STORE_TYPE_PROPERTY_NAME, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(CXF_TRUST_STORE_PATH_PROPERTY_NAME, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME, Type.PASSWORD, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(CXF_SECURITY_POLICY, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(PLUGIN_DELIVERY_MODE, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(CXF_LOGGING_FEATURE_PROPERTY_NAME, Type.BOOLEAN, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-//                new DomibusPropertyMetadataDTO(CXF_PUBLISH_URL, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME, Type.COMMA_SEPARATED_LIST, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(DC_PLUGIN_MAX_MESSAGE_LIST, Type.NUMERIC, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL)
+                new DomibusPropertyMetadataDTO(CXF_DELIVERY_ENDPOINT_ADDRESS, Type.STRING, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(CXF_ENCRYPT_ALIAS, Type.STRING, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(CXF_KEY_STORE_PASSWORD, Type.PASSWORD, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(CXF_KEY_STORE_PATH_PROPERTY_NAME, Type.STRING, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(CXF_KEY_STORE_TYPE, Type.STRING, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(CXF_PRIVATE_KEY_ALIAS, Type.STRING, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(CXF_PRIVATE_KEY_PASSWORD, Type.PASSWORD, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(CXF_TRUST_STORE_TYPE_PROPERTY_NAME, Type.STRING, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(CXF_TRUST_STORE_PATH_PROPERTY_NAME, Type.STRING, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME, Type.PASSWORD, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(CXF_SECURITY_POLICY, Type.STRING, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(PLUGIN_DELIVERY_MODE, Type.STRING, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(CXF_LOGGING_FEATURE_PROPERTY_NAME, Type.BOOLEAN, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME, Type.STRING, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME, Type.STRING, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME, Type.COMMA_SEPARATED_LIST, moduleName, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(DC_PLUGIN_MAX_MESSAGE_LIST, Type.NUMERIC, moduleName, Usage.GLOBAL)
 
         );
 

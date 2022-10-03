@@ -12,6 +12,7 @@ import org.apache.cxf.feature.Feature;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
@@ -21,8 +22,10 @@ import static eu.domibus.connector.plugin.config.DCPluginConfiguration.DC_PLUGIN
 import static eu.domibus.connector.plugin.config.DCPluginConfiguration.JAXWS_PROPERTIES_BEAN_NAME;
 
 @Configuration
+@Conditional(PullPluginEnabledCondition.class)
 public class DCPullPluginConfiguration {
 
+    public static final String MODULE_NAME = "DC_PULL_PLUGIN" ;
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DCPullPluginConfiguration.class);
 
     @Bean

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
@@ -29,8 +30,10 @@ import java.util.Map;
 import static eu.domibus.connector.plugin.config.DCPluginConfiguration.*;
 
 @Configuration
+@Conditional(PushPluginEnabledCondition.class)
 public class DCPushPluginConfiguration {
 
+    public static final String MODULE_NAME = "DC_PUSH_PLUGIN";
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DCPushPluginConfiguration.class);
 
 
