@@ -3,18 +3,14 @@
     <id>gw-with-plugin</id>
     <formats>
         <format>dir</format>
+        <format>zip</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
-    <dependencySets>
-        <dependencySet>
-            <includes>
-                <include>${project.groupId}:domibus-connector-push-plugin:*</include>
-<!--                <include>${project.groupId}:domibus-connector-pull-plugin:*</include>-->
-            </includes>
-<!--            <directory>${html.docu.output.directory}</directory>-->
-
-            <outputDirectory>conf/domibus/conf/plugins/lib/</outputDirectory>
-        </dependencySet>
-    </dependencySets>
+    <fileSets>
+        <fileSet>
+            <directory>target/gw/domibus</directory>
+            <outputDirectory>domibus</outputDirectory>
+        </fileSet>
+    </fileSets>
 
 </assembly>
