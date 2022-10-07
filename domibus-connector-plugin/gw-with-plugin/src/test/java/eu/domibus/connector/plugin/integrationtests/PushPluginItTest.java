@@ -3,30 +3,16 @@ package eu.domibus.connector.plugin.integrationtests;
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
 import eu.domibus.connector.plugin.config.DefaultWsCallbackHandler;
 import eu.domibus.connector.plugin.config.WsPolicyLoader;
-import eu.domibus.connector.plugin.config.property.DCPluginPropertyManager;
-import eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWSService;
-import eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService;
 import eu.domibus.connector.ws.gateway.submission.webservice.DomibusConnectorGatewaySubmissionWSService;
 import eu.domibus.connector.ws.gateway.submission.webservice.DomibusConnectorGatewaySubmissionWebService;
-import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.ext.logging.LoggingFeature;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
-import java.io.IOException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 import java.util.*;
 
 public class PushPluginItTest {
@@ -71,14 +57,17 @@ public class PushPluginItTest {
     public List<Feature> featureList() {
         List<Feature> featureList = new ArrayList<>();
         featureList.add(wsPolicyFeature());
-        featureList.add(loggingFeature());
-        featureList.add(new WSAddressingFeature());
+//        featureList.add(loggingFeature());
+//        featureList.add(new WSAddressingFeature());
         return featureList;
     }
 
     public WSPolicyFeature wsPolicyFeature() {
 
         ClassPathResource resource = new ClassPathResource("/wsdl/backend.policy.xml");
+        if (!resource.exists()) {
+            throw new RuntimeException("error");
+        }
         WSPolicyFeature wsPolicyFeature = WsPolicyLoader.loadPolicyFeature(resource);
         return wsPolicyFeature;
 
