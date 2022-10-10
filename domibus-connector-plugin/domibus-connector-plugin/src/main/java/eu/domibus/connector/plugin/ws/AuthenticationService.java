@@ -1,6 +1,6 @@
 package eu.domibus.connector.plugin.ws;
 
-import eu.domibus.connector.plugin.config.property.DCPluginPropertyManager;
+import eu.domibus.connector.plugin.config.property.AbstractDCPluginPropertyManager;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
 import org.apache.cxf.binding.soap.SoapMessage;
@@ -52,25 +52,25 @@ public class AuthenticationService extends AbstractPhaseInterceptor {
         DN;
     }
 
-    public AuthenticationService(DCPluginPropertyManager dcPluginPropertyManager,
+    public AuthenticationService(AbstractDCPluginPropertyManager abstractDcPluginPropertyManager,
                                  ApplicationContext ctx) {
         super(Phase.PRE_INVOKE);
 
-        String usernameFrom = dcPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME);
+        String usernameFrom = abstractDcPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME);
         this.usernameSource = UseUsernameFrom.valueOf(usernameFrom);
-        this.defaultUsername = dcPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME);
+        this.defaultUsername = abstractDcPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME);
         if (usernameSource == UseUsernameFrom.DEFAULT && !StringUtils.hasText(defaultUsername)) {
-            throw new IllegalArgumentException(String.format("If Username Source is [%s] then default username property [%s] must not be empty", usernameSource, DCPluginPropertyManager.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME));
+            throw new IllegalArgumentException(String.format("If Username Source is [%s] then default username property [%s] must not be empty", usernameSource, AbstractDCPluginPropertyManager.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME));
         }
-        String roles = dcPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME);
+        String roles = abstractDcPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME);
         this.defaultRoles = Stream.of(roles.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
         if (usernameSource == UseUsernameFrom.ALIAS) {
-            String storeType = dcPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.CXF_TRUST_STORE_TYPE_PROPERTY_NAME);
-            String location = dcPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.CXF_TRUST_STORE_PATH_PROPERTY_NAME);
-            String password = dcPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME);
+            String storeType = abstractDcPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_TRUST_STORE_TYPE_PROPERTY_NAME);
+            String location = abstractDcPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_TRUST_STORE_PATH_PROPERTY_NAME);
+            String password = abstractDcPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME);
             try {
                 KeyStore ks = KeyStore.getInstance(storeType);
                 Resource resource = ctx.getResource(location);
@@ -78,7 +78,7 @@ public class AuthenticationService extends AbstractPhaseInterceptor {
                 this.keyStore = ks;
 
             } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
-                String error = String.format("Property: [%s] is invalid:Failed to load KeyStore from location [%s]", DCPluginPropertyManager.CXF_TRUST_STORE, location);
+                String error = String.format("Property: [%s] is invalid:Failed to load KeyStore from location [%s]", AbstractDCPluginPropertyManager.CXF_TRUST_STORE, location);
                 throw new RuntimeException(error, e);
             }
         } else {

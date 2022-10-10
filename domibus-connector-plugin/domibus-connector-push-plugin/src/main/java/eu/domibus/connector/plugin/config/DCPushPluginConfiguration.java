@@ -1,6 +1,6 @@
 package eu.domibus.connector.plugin.config;
 
-import eu.domibus.connector.plugin.config.property.DCPluginPropertyManager;
+import eu.domibus.connector.plugin.config.property.AbstractDCPluginPropertyManager;
 import eu.domibus.connector.plugin.config.property.DCPushPluginPropertyManager;
 import eu.domibus.connector.plugin.ws.AuthenticationService;
 import eu.domibus.connector.plugin.ws.DomibusConnectorPushWebservice;
@@ -53,7 +53,7 @@ public class DCPushPluginConfiguration {
     }
 
     @Bean
-    public DCPluginPropertyManager dcPluginPropertyManager() {
+    public AbstractDCPluginPropertyManager dcPluginPropertyManager() {
         return new DCPushPluginPropertyManager();
     }
 
@@ -66,7 +66,7 @@ public class DCPushPluginConfiguration {
     public EndpointImpl pushBackendInterfaceEndpoint(@Qualifier(Bus.DEFAULT_BUS_ID) Bus bus,
                                                      DomibusConnectorGatewaySubmissionWebService backendWebService,
                                                      AuthenticationService authenticationService,
-                                                     DCPluginPropertyManager wsPluginPropertyManager,
+                                                     AbstractDCPluginPropertyManager wsPluginPropertyManager,
                                                      @Qualifier(DC_PLUGIN_CXF_FEATURE) List<Feature> featureList,
                                                      @Qualifier(JAXWS_PROPERTIES_BEAN_NAME) Map<String, Object> jaxWsProperties
 
@@ -85,8 +85,8 @@ public class DCPushPluginConfiguration {
         if (authenticationService != null) {
             endpoint.getInInterceptors().add(authenticationService);
         }
-        LOGGER.info("Publish URL for DC PushPlugin is: [{}]", wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PUSH_PLUGIN_CXF_PUBLISH_URL));
-        endpoint.publish(wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PUSH_PLUGIN_CXF_PUBLISH_URL));
+        LOGGER.info("Publish URL for DC PushPlugin is: [{}]", wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.DC_PUSH_PLUGIN_CXF_PUBLISH_URL));
+        endpoint.publish(wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.DC_PUSH_PLUGIN_CXF_PUBLISH_URL));
         return endpoint;
     }
 
@@ -95,7 +95,7 @@ public class DCPushPluginConfiguration {
     @Bean
     public DomibusConnectorGatewayDeliveryWebService domibusConnectorGatewayDeliveryWebService(
             @Qualifier(DC_PLUGIN_CXF_FEATURE) List<Feature> featureList,
-            DCPluginPropertyManager wsPluginPropertyManager,
+            AbstractDCPluginPropertyManager wsPluginPropertyManager,
             @Qualifier(JAXWS_PROPERTIES_BEAN_NAME) Map<String, Object> jaxWsProperties
     ) {
         JaxWsProxyFactoryBean jaxWsProxyFactoryBean = new JaxWsProxyFactoryBean();
@@ -107,7 +107,7 @@ public class DCPushPluginConfiguration {
         jaxWsProxyFactoryBean.setEndpointName(DomibusConnectorGatewayDeliveryWSService.DomibusConnectorGatewayDeliveryWebService);
         jaxWsProxyFactoryBean.setWsdlLocation(DomibusConnectorGatewayDeliveryWSService.WSDL_LOCATION.toString());
 
-        String cxfDeliveryAddr = wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.CXF_DELIVERY_ENDPOINT_ADDRESS);
+        String cxfDeliveryAddr = wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_DELIVERY_ENDPOINT_ADDRESS);
         Map<String, Object> properties = jaxWsProperties;
         LOGGER.info("Sending push messages to [{}]", cxfDeliveryAddr);
         LOGGER.debug("Setting properties [{}] for DC-Plugin ClientProxy", properties);
@@ -132,7 +132,7 @@ public class DCPushPluginConfiguration {
     }
 
     @Bean
-    public AuthenticationService certAuthenticationService(DCPluginPropertyManager wsPluginPropertyManager,
+    public AuthenticationService certAuthenticationService(AbstractDCPluginPropertyManager wsPluginPropertyManager,
                                                            ApplicationContext ctx) {
         return new AuthenticationService(wsPluginPropertyManager, ctx);
     }

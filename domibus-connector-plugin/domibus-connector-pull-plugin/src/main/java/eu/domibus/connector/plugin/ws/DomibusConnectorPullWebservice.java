@@ -3,7 +3,7 @@ package eu.domibus.connector.plugin.ws;
 import eu.domibus.common.DeliverMessageEvent;
 import eu.domibus.connector.domain.transition.DomibsConnectorAcknowledgementType;
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
-import eu.domibus.connector.plugin.config.property.DCPluginPropertyManager;
+import eu.domibus.connector.plugin.config.property.AbstractDCPluginPropertyManager;
 import eu.domibus.connector.plugin.dao.DCMessageLogDao;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
 import eu.domibus.connector.plugin.entity.DCMessageLogEntity;
@@ -32,7 +32,7 @@ public class DomibusConnectorPullWebservice extends AbstractDcPluginBackendConne
     DCMessageLogDao dcMessageLogDao;
 
     @Autowired
-    DCPluginPropertyManager wsPluginPropertyManager;
+    AbstractDCPluginPropertyManager wsPluginPropertyManager;
 
     public DomibusConnectorPullWebservice() {
         super(PLUGIN_NAME);
@@ -49,7 +49,7 @@ public class DomibusConnectorPullWebservice extends AbstractDcPluginBackendConne
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ListPendingMessageIdsResponse listPendingMessageIds(ListPendingMessageIdsRequest listPendingMessageIdsRequest) {
 
-        Integer knownIntegerPropertyValue = wsPluginPropertyManager.getKnownIntegerPropertyValue(DCPluginPropertyManager.DC_PLUGIN_MAX_MESSAGE_LIST);
+        Integer knownIntegerPropertyValue = wsPluginPropertyManager.getKnownIntegerPropertyValue(AbstractDCPluginPropertyManager.DC_PLUGIN_MAX_MESSAGE_LIST);
         List<DCMessageLogEntity> all = dcMessageLogDao.findAll(knownIntegerPropertyValue);
         List<String> pendingMessageIds = all.stream().map(e -> e.getMessageId()).collect(Collectors.toList());
 

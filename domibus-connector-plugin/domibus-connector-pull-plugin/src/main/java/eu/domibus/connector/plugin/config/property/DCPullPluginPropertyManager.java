@@ -1,13 +1,11 @@
 package eu.domibus.connector.plugin.config.property;
 
-import eu.domibus.connector.plugin.config.DCPluginConfiguration;
 import eu.domibus.connector.plugin.config.DCPullPluginConfiguration;
 import eu.domibus.ext.domain.DomibusPropertyMetadataDTO;
 
 import java.util.Arrays;
-import java.util.List;
 
-public class DCPullPluginPropertyManager extends DCPluginPropertyManager {
+public class DCPullPluginPropertyManager extends AbstractDCPluginPropertyManager {
 
     public static final String DC_PULL_PLUGIN_ENABLED_PROPERTY_NAME = "dcplugin.pull.enabled";
 

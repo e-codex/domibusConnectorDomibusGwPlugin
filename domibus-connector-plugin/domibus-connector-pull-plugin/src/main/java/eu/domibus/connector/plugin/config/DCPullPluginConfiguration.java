@@ -1,6 +1,6 @@
 package eu.domibus.connector.plugin.config;
 
-import eu.domibus.connector.plugin.config.property.DCPluginPropertyManager;
+import eu.domibus.connector.plugin.config.property.AbstractDCPluginPropertyManager;
 import eu.domibus.connector.plugin.config.property.DCPullPluginPropertyManager;
 import eu.domibus.connector.plugin.ws.AuthenticationService;
 import eu.domibus.connector.plugin.ws.DomibusConnectorPullWebservice;
@@ -36,7 +36,7 @@ public class DCPullPluginConfiguration {
 
 
     @Bean
-    public DCPluginPropertyManager dcPluginPropertyManager() {
+    public AbstractDCPluginPropertyManager dcPluginPropertyManager() {
         return new DCPullPluginPropertyManager();
     }
 
@@ -54,7 +54,7 @@ public class DCPullPluginConfiguration {
     public EndpointImpl pushBackendInterfaceEndpoint(@Qualifier(Bus.DEFAULT_BUS_ID) Bus bus,
                                                      DomibusConnectorPullWebservice backendWebService,
                                                      AuthenticationService authenticationService,
-                                                     DCPluginPropertyManager wsPluginPropertyManager,
+                                                     AbstractDCPluginPropertyManager wsPluginPropertyManager,
                                                      @Qualifier(DC_PLUGIN_CXF_FEATURE) List<Feature> featureList,
                                                      @Qualifier(JAXWS_PROPERTIES_BEAN_NAME) Map<String, Object> jaxWsProperties
 
@@ -73,8 +73,8 @@ public class DCPullPluginConfiguration {
         if (authenticationService != null) {
             endpoint.getInInterceptors().add(authenticationService);
         }
-        LOGGER.info("Publish URL for DC PullPlugin is: [{}]", wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PULL_PLUGIN_CXF_PUBLISH_URL));
-        endpoint.publish(wsPluginPropertyManager.getKnownPropertyValue(DCPluginPropertyManager.DC_PULL_PLUGIN_CXF_PUBLISH_URL));
+        LOGGER.info("Publish URL for DC PullPlugin is: [{}]", wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.DC_PULL_PLUGIN_CXF_PUBLISH_URL));
+        endpoint.publish(wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.DC_PULL_PLUGIN_CXF_PUBLISH_URL));
         return endpoint;
     }
 
