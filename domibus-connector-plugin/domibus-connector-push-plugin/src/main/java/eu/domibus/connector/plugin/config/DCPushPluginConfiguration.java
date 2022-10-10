@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,11 @@ public class DCPushPluginConfiguration {
 
     @Autowired
     ApplicationContext ctx;
+
+    @PostConstruct
+    public static void postConstruct() {
+        LOGGER.info("Pull Plugin is enabled");
+    }
 
 
     @Bean

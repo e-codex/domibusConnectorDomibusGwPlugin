@@ -30,7 +30,7 @@ public class DCPullPluginConfiguration {
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DCPullPluginConfiguration.class);
 
     @PostConstruct
-    public void postConstruct() {
+    public static void postConstruct() {
         LOGGER.info("Push Plugin is enabled");
     }
 
