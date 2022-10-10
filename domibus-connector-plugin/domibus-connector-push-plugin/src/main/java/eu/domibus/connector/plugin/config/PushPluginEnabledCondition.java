@@ -18,7 +18,7 @@ public class PushPluginEnabledCondition implements Condition {
         final Environment environment = conditionContext.getEnvironment();
         String dcPluginEnabled = environment.getProperty(DCPushPluginPropertyManager.DC_PUSH_PLUGIN_ENABLED_PROPERTY_NAME);
         boolean isEnabled = "true".equalsIgnoreCase(dcPluginEnabled);
-        LOGGER.info("PushPluginEnabledCondition is [{}]", isEnabled);
+        LOGGER.debug("PushPluginEnabledCondition is [{}]", isEnabled);
         return isEnabled;
     }
 

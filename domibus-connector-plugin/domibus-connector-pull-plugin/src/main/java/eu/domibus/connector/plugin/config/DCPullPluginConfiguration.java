@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,12 @@ public class DCPullPluginConfiguration {
 
     public static final String MODULE_NAME = "DC_PULL_PLUGIN" ;
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DCPullPluginConfiguration.class);
+
+    @PostConstruct
+    public void postConstruct() {
+        LOGGER.info("Push Plugin is enabled");
+    }
+
 
     @Bean
     public DCPluginPropertyManager dcPluginPropertyManager() {
