@@ -24,7 +24,8 @@ public class PushPluginItTest {
 
         //todo get GW connection!!
 
-        String GW_URL = "https://ecx-gateway-lab04-ju-eu-ejustice-eqs.apps.a2.cp.cna.at/domibus/services/dcpushplugin";
+//        String GW_URL = "https://ecx-gateway-lab04-ju-eu-ejustice-eqs.apps.a2.cp.cna.at/domibus/services/dcpushplugin";
+        String GW_URL = "http://localhost:8080/domibus/services/dcpushplugin";
 
         JaxWsProxyFactoryBean jaxWsProxyFactoryBean = new JaxWsProxyFactoryBean();
         jaxWsProxyFactoryBean.setServiceClass(DomibusConnectorGatewaySubmissionWebService.class);
@@ -57,7 +58,7 @@ public class PushPluginItTest {
     public List<Feature> featureList() {
         List<Feature> featureList = new ArrayList<>();
         featureList.add(wsPolicyFeature());
-//        featureList.add(loggingFeature());
+        featureList.add(loggingFeature());
 //        featureList.add(new WSAddressingFeature());
         return featureList;
     }
@@ -85,9 +86,9 @@ public class PushPluginItTest {
 
         props.put("mtom-enabled", true);
         props.put("security.encryption.properties", gwWsLinkEncryptProperties());
-        props.put("security.encryption.username",  "gw");
+        props.put("security.encryption.username",  "test");
         props.put("security.signature.properties", gwWsLinkEncryptProperties());
-        props.put("security.callback-handler", new DefaultWsCallbackHandler());
+//        props.put("security.callback-handler", new DefaultWsCallbackHandler());
 
         return props;
     }
@@ -95,15 +96,15 @@ public class PushPluginItTest {
     public Properties gwWsLinkEncryptProperties() {
         Properties props = new Properties();
 
-        props.put("org.apache.wss4j.crypto.provider", "org.apache.wss4j.common.crypto.Merlin");
-        props.put("org.apache.wss4j.crypto.merlin.keystore.type", "JKS");
-        props.put("org.apache.wss4j.crypto.merlin.keystore.file", "keystores/connector-gwlink-keystore.jks");
-        props.put("org.apache.wss4j.crypto.merlin.keystore.password", "12345");
-        props.put("org.apache.wss4j.crypto.merlin.keystore.alias", "connector");
-        props.put("org.apache.wss4j.crypto.merlin.keystore.private.password", "12345");
-        props.put("org.apache.wss4j.crypto.merlin.truststore.type", "JKS");
-        props.put("org.apache.wss4j.crypto.merlin.truststore.file", "keystores/connector-gwlink-truststore.jks");
-        props.put("org.apache.wss4j.crypto.merlin.truststore.password", "12345");
+//        props.put("org.apache.wss4j.crypto.provider", "org.apache.wss4j.common.crypto.Merlin");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.type", "PKCS12");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.file", "file:///C:/Entwicklung/test.pcks");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.password", "test");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.alias", "test");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.private.password", "test");
+        props.put("org.apache.wss4j.crypto.merlin.truststore.type", "PKCS12");
+        props.put("org.apache.wss4j.crypto.merlin.truststore.file", "file:///C:/Entwicklung/test.pcks");
+        props.put("org.apache.wss4j.crypto.merlin.truststore.password", "test");
 
         return props;
     }

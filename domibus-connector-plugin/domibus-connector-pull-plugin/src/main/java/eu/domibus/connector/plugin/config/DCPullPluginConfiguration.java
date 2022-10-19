@@ -19,8 +19,6 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
-import static eu.domibus.connector.plugin.config.DCPluginConfiguration.DC_PLUGIN_CXF_FEATURE;
-import static eu.domibus.connector.plugin.config.DCPluginConfiguration.JAXWS_PROPERTIES_BEAN_NAME;
 
 @Configuration
 @Conditional(PullPluginEnabledCondition.class)
@@ -28,6 +26,10 @@ public class DCPullPluginConfiguration {
 
     public static final String MODULE_NAME = "DC_PULL_PLUGIN" ;
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DCPullPluginConfiguration.class);
+
+    public static final String DC_PUSH_PLUGIN_CXF_FEATURE = "pullPluginFeatures";
+    public static final String DC_PUSH_PLUGIN_JAXWS_PROPERTIES_BEAN_NAME = "pullPluginJaxwsProperties";
+
 
     @PostConstruct
     public static void postConstruct() {
@@ -55,8 +57,8 @@ public class DCPullPluginConfiguration {
                                                      DomibusConnectorPullWebservice backendWebService,
                                                      AuthenticationService authenticationService,
                                                      AbstractDCPluginPropertyManager wsPluginPropertyManager,
-                                                     @Qualifier(DC_PLUGIN_CXF_FEATURE) List<Feature> featureList,
-                                                     @Qualifier(JAXWS_PROPERTIES_BEAN_NAME) Map<String, Object> jaxWsProperties
+                                                     @Qualifier(DC_PUSH_PLUGIN_CXF_FEATURE) List<Feature> featureList,
+                                                     @Qualifier(DC_PUSH_PLUGIN_JAXWS_PROPERTIES_BEAN_NAME) Map<String, Object> jaxWsProperties
 
     ) {
         EndpointImpl endpoint = new EndpointImpl(bus, backendWebService); //NOSONAR

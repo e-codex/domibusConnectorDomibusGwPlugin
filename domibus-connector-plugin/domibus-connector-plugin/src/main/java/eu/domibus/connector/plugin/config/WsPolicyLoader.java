@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class WsPolicyLoader {
@@ -24,25 +25,21 @@ public class WsPolicyLoader {
         WSPolicyFeature policyFeature = new WSPolicyFeature();
         policyFeature.setEnabled(true);
 
-        InputStream is = null;
-        try {
-            is = wsPolicy.getInputStream();
+
+        try (InputStream is = wsPolicy.getInputStream()) {
+
+//            List<Element> policyElements = new ArrayList<Element>();
+            try {
+                Element policyElement = StaxUtils.read(is).getDocumentElement();
+                LOGGER.debug("adding policy element [{}]", policyElement.getNodeName());
+    //            policyElements.add(policyElement);
+                policyFeature.setPolicyElements(Collections.singletonList(policyElement));
+            } catch (XMLStreamException ex) {
+                throw new RuntimeException("cannot parse policy " + wsPolicy, ex);
+            }
         } catch (IOException ioe) {
             throw new UncheckedIOException(String.format("ws policy [%s] cannot be read!", wsPolicy), ioe);
         }
-        if (is == null) {
-            throw new RuntimeException(String.format("ws policy [%s] cannot be read! InputStream is nulL!", wsPolicy));
-        }
-        List<Element> policyElements = new ArrayList<Element>();
-        try {
-            Element e = StaxUtils.read(is).getDocumentElement();
-            LOGGER.debug("adding policy element [{}]", e.getNodeName());
-            policyElements.add(e);
-        } catch (XMLStreamException ex) {
-            throw new RuntimeException("cannot parse policy " + wsPolicy, ex);
-        }
-//        policyFeature.getPolicyElements().addAll(policyElements);
-        policyFeature.setPolicyElements(policyElements);
         return policyFeature;
     }
 

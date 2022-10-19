@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>connector-gwlink-stores</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>src/main/keystores</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>connector-*</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+
+</assembly>

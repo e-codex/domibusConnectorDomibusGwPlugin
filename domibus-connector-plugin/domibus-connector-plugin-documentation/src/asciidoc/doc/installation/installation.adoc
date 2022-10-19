@@ -16,9 +16,17 @@ endif::mvnbasedir[]
 
 = Plugin installation Guide
 
+== Known Issues
+
+CAUTION: The current 4.4.x-GW5 Plugin cannot use WS-security.
+
+So the only security policy which can be used is classpath:/wsdl/no-security.policy.xml. This means
+any message is transported as a simple soap message. So you have to use transport layer security (TLS)
+to protect the message exchange between GW and connector.
+
 == Preconditions
 
-* Domibus Gateway setup is complete and domibus is running
+* Domibus Gateway (5.x) setup is complete and domibus is running
 * Domibus UI is reachable under $UI-URL
 * Domibus is reachable under $DOMIBUS-URL
 * Domibus-config folder is located under $DOMIBUS-CONFIG-LOCATION

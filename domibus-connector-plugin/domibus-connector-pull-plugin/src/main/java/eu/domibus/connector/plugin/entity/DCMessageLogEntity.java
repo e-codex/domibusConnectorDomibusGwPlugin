@@ -26,6 +26,9 @@ public class DCMessageLogEntity {
     @Column(name = "MESSAGE_ID")
     private String messageId;
 
+    @Column(name = "TENANT")
+    private String tenant;
+
     @Column(name = "RECEIVED")
     @Temporal(TemporalType.TIMESTAMP)
     private Date received;
@@ -62,4 +65,11 @@ public class DCMessageLogEntity {
         this.received = received;
     }
 
+    public String getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(String tenant) {
+        this.tenant = tenant;
+    }
 }

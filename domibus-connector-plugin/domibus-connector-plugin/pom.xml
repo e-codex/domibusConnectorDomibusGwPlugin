@@ -135,6 +135,22 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptorSourceDirectory>src/assembly</descriptorSourceDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>create-distribution-package</id>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>

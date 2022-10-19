@@ -29,7 +29,7 @@ public class DomibusDbInitListener implements LifecycleListener {
         Lifecycle lifecycle = event.getLifecycle();
         LifecycleState state = lifecycle.getState();
 
-        if (LifecycleState.STARTING_PREP == state) {
+        if (Lifecycle.BEFORE_START_EVENT.equals(event.getType())) {
             LOGGER.info("Running DB init");
 
             ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader(); //save classloader

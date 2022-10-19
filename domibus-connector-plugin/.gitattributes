@@ -10,5 +10,6 @@
 *.asics binary
 *.asic-s binary
 *.pdf binary
+*.p12 binary
 
 

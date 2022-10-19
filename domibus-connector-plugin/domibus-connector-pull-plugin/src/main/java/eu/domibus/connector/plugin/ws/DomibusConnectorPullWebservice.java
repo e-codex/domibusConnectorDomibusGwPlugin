@@ -64,6 +64,7 @@ public class DomibusConnectorPullWebservice extends AbstractDcPluginBackendConne
     public void deliverMessage(final DeliverMessageEvent event) {
         String messageId = event.getMessageId();
         LOGGER.debug("Download message " + messageId + " from Queue.");
+
         DCMessageLogEntity dcMessageLogEntity = new DCMessageLogEntity(messageId, new Date());
         dcMessageLogDao.create(dcMessageLogEntity);
     }
