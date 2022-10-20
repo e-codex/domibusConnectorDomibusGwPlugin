@@ -61,6 +61,12 @@ public class DCMessageLogDao extends DCBasicDao<DCMessageLogEntity> {
         return query.getResultList();
     }
 
+    public List<DCMessageLogEntity> findAllByDomainCode(String domainCode) {
+        TypedQuery<DCMessageLogEntity> query = em.createNamedQuery("DCMessageLogEntity.findAllByDomainCode", DCMessageLogEntity.class);
+        query.setParameter("DOMAIN_CODE", domainCode);
+        return query.getResultList();
+    }
+
     /**
      * Delete the entry related to a given MessageId.
      *

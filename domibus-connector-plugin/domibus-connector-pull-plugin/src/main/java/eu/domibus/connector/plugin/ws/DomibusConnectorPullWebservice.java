@@ -11,6 +11,9 @@ import eu.domibus.connector.ws.gateway.webservice.DomibusConnectorGatewayWebServ
 import eu.domibus.connector.ws.gateway.webservice.GetMessageByIdRequest;
 import eu.domibus.connector.ws.gateway.webservice.ListPendingMessageIdsRequest;
 import eu.domibus.connector.ws.gateway.webservice.ListPendingMessageIdsResponse;
+import eu.domibus.ext.domain.DomainDTO;
+import eu.domibus.ext.services.DomainContextExtService;
+import eu.domibus.ext.services.DomibusConfigurationExtService;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.messaging.MessageNotFoundException;
@@ -34,6 +37,12 @@ public class DomibusConnectorPullWebservice extends AbstractDcPluginBackendConne
     @Autowired
     AbstractDCPluginPropertyManager wsPluginPropertyManager;
 
+    @Autowired
+    protected DomibusConfigurationExtService domibusConfigurationExtService;
+
+    @Autowired
+    private DomainContextExtService domainContextExtService;
+
     public DomibusConnectorPullWebservice() {
         super(PLUGIN_NAME);
     }
@@ -56,7 +65,6 @@ public class DomibusConnectorPullWebservice extends AbstractDcPluginBackendConne
         ListPendingMessageIdsResponse listPendingMessageIdsResponse = new ListPendingMessageIdsResponse();
         listPendingMessageIdsResponse.getMessageIds().addAll(pendingMessageIds);
         return listPendingMessageIdsResponse;
-
     }
 
     @Override
@@ -65,7 +73,13 @@ public class DomibusConnectorPullWebservice extends AbstractDcPluginBackendConne
         String messageId = event.getMessageId();
         LOGGER.debug("Download message " + messageId + " from Queue.");
 
-        DCMessageLogEntity dcMessageLogEntity = new DCMessageLogEntity(messageId, new Date());
+        String domainCode = "";
+        if (domibusConfigurationExtService.isMultiTenantAware()) {
+            DomainDTO currentDomainSafely = domainContextExtService.getCurrentDomainSafely();
+            domainCode = currentDomainSafely.getCode();
+        }
+
+        DCMessageLogEntity dcMessageLogEntity = new DCMessageLogEntity(messageId, new Date(), domainCode);
         dcMessageLogDao.create(dcMessageLogEntity);
     }
 
@@ -84,23 +98,6 @@ public class DomibusConnectorPullWebservice extends AbstractDcPluginBackendConne
             throw new RuntimeException("Message could not be found!");
         }
     }
-
-//
-//    @Override
-//    public MessageSubmissionTransformer<DomibusConnectorMessage> getMessageSubmissionTransformer() {
-//        return this.messageSubmissionTransformer;
-//    }
-//
-//    @Override
-//    public MessageRetrievalTransformer<DomibusConnectorMessage> getMessageRetrievalTransformer() {
-//        return this.messageRetrievalTransformer;
-//    }
-//
-//    @Override
-//    public void messageSendFailed(MessageSendFailedEvent event) {
-//        LOGGER.warn("Message send failed [{}]", event.getMessageId());
-//    }
-
 
 
 }

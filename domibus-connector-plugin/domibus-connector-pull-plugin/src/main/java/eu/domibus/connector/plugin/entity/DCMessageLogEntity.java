@@ -11,12 +11,15 @@ import java.util.Date;
                 query = "select DCMessageLogEntity from DCMessageLogEntity DCMessageLogEntity where DCMessageLogEntity.messageId=:MESSAGE_ID"),
         @NamedQuery(name = "DCMessageLogEntity.findAll",
                 query = "select DCMessageLogEntity from DCMessageLogEntity DCMessageLogEntity order by DCMessageLogEntity.received asc"),
+        @NamedQuery(name = "DCMessageLogEntity.findAllByDomainCode",
+                query = "select DCMessageLogEntity from DCMessageLogEntity DCMessageLogEntity where DCMessageLogEntity.domainCode=:DOMAIN_CODE order by DCMessageLogEntity.received asc"),
         @NamedQuery(name = "DCMessageLogEntity.deleteByMessageId",
                 query = "DELETE FROM DCMessageLogEntity DCMessageLogEntity where DCMessageLogEntity.messageId=:MESSAGE_ID"),
         @NamedQuery(name = "DCMessageLogEntity.deleteByMessageIds",
                 query = "DELETE FROM DCMessageLogEntity DCMessageLogEntity where DCMessageLogEntity.messageId in :MESSAGE_IDS")
 })
 public class DCMessageLogEntity {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,8 +29,8 @@ public class DCMessageLogEntity {
     @Column(name = "MESSAGE_ID")
     private String messageId;
 
-    @Column(name = "TENANT")
-    private String tenant;
+    @Column(name = "DOMAIN_CODE")
+    private String domainCode;
 
     @Column(name = "RECEIVED")
     @Temporal(TemporalType.TIMESTAMP)
@@ -36,9 +39,10 @@ public class DCMessageLogEntity {
     public DCMessageLogEntity() {
     }
 
-    public DCMessageLogEntity(String messageId, Date received) {
+    public DCMessageLogEntity(String messageId, Date received, String domainCode) {
         this.messageId = messageId;
         this.received = new Date();
+        this.domainCode = domainCode;
     }
 
     public long getEntityId() {
@@ -65,11 +69,11 @@ public class DCMessageLogEntity {
         this.received = received;
     }
 
-    public String getTenant() {
-        return tenant;
+    public String getDomainCode() {
+        return domainCode;
     }
 
-    public void setTenant(String tenant) {
-        this.tenant = tenant;
+    public void setDomainCode(String tenant) {
+        this.domainCode = tenant;
     }
 }

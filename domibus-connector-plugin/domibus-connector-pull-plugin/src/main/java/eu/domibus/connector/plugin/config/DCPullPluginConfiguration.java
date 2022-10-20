@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Configuration
 @Conditional(PullPluginEnabledCondition.class)
-public class DCPullPluginConfiguration {
+public class DCPullPluginConfiguration extends DCPluginConfiguration {
 
     public static final String MODULE_NAME = "DC_PULL_PLUGIN" ;
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DCPullPluginConfiguration.class);

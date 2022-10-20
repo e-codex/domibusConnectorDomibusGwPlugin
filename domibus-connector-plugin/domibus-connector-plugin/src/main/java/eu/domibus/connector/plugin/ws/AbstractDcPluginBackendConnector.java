@@ -35,34 +35,6 @@ public abstract class AbstractDcPluginBackendConnector extends AbstractBackendCo
     protected static final ObjectFactory objectFactory = new ObjectFactory();
 
 
-//    @Override
-//    public DomibsConnectorAcknowledgementType submitMessage(DomibusConnectorMessageType submitMessageRequest) {
-//        return new SubmitMessage(submitMessageRequest, this).invoke();
-//    }
-
-
-//    protected boolean isMessageValid(DomibusConnectorMessage message) {
-//        DomibusConnectorMessageType msg = message.getConnectorMessage();
-//        if (msg == null) {
-//            LOGGER.error("Message is null!");
-//            return false;
-//        }
-//        if (msg.getMessageDetails() == null) {
-//            LOGGER.error("Message contains no Message Details!");
-//            return false;
-//        }
-//        if (msg.getMessageContent() != null) {
-//            LOGGER.info("Message is a business message");
-//            return true;
-//        }
-//        if (msg.getMessageContent() == null && msg.getMessageConfirmations().size() > 0) {
-//            LOGGER.info("Message is a confirmation message!");
-//            return true;
-//        }
-//        LOGGER.error("Message has neither a content or a confirmation - message is empty!");
-//        return false;
-//    }
-
     @Override
     public MessageRetrievalTransformer<DomibusConnectorMessage> getMessageRetrievalTransformer() {
         return this.messageRetrievalTransformer;
