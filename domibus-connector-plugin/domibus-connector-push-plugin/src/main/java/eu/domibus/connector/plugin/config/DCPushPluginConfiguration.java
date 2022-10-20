@@ -24,6 +24,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 
@@ -89,8 +90,7 @@ public class DCPushPluginConfiguration {
         LOGGER.debug("Activating the following features for DC-Plugin PushPlugin Endpoint: [{}]", featureList);
         endpoint.setFeatures(featureList);
         LOGGER.debug("Setting properties for DC PushPlugin: [{}]", jaxWsProperties);
-//        endpoint.setProperties(jaxWsProperties);
-        endpoint.getProperties().putAll(jaxWsProperties);
+        endpoint.setProperties(jaxWsProperties);
         if (authenticationService != null) {
             endpoint.getInInterceptors().add(authenticationService);
         }
@@ -149,6 +149,7 @@ public class DCPushPluginConfiguration {
     }
 
     @Bean
+    @Scope("prototype")
     @Qualifier(PUSH_PLUGIN_JAXWS_PROPERTIES_BEAN_NAME)
     public Map<String, Object> getWssProperties(
             AbstractDCPluginPropertyManager wsPluginPropertyManager,
@@ -171,6 +172,7 @@ public class DCPushPluginConfiguration {
 
 
     @Bean
+    @Scope("prototype")
     @Qualifier(PUSH_PLUGIN_WSS4J_ENC_PROPERTIES_BEAN_NAME)
     public Properties gwWsLinkEncryptProperties(
             ApplicationContext ctx,

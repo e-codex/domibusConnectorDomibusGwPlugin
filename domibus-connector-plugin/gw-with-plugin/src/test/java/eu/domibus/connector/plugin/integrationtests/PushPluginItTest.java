@@ -88,7 +88,7 @@ public class PushPluginItTest {
 
         props.put("mtom-enabled", true);
         props.put("security.encryption.properties", gwWsLinkEncryptProperties());
-        props.put("security.encryption.username",  "test");
+        props.put("security.encryption.username",  "gw");
         props.put("security.signature.properties", gwWsLinkEncryptProperties());
         props.put("security.callback-handler", new DefaultWsCallbackHandler());
 
