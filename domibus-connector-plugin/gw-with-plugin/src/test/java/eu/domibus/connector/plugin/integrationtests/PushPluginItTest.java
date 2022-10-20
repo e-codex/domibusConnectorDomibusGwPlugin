@@ -99,22 +99,14 @@ public class PushPluginItTest {
         Properties props = new Properties();
 
         props.put("org.apache.wss4j.crypto.merlin.keystore.type", "PKCS12");
-        props.put("org.apache.wss4j.crypto.merlin.keystore.file", "keystores/gw-gwlink-keystore.p12");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.file", "keystores/connector-gwlink-keystore.p12");
         props.put("org.apache.wss4j.crypto.merlin.keystore.password", "12345");
-        props.put("org.apache.wss4j.crypto.merlin.keystore.alias", "gw");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.alias", "connector");
         props.put("org.apache.wss4j.crypto.merlin.keystore.private.password", "12345");
         props.put("org.apache.wss4j.crypto.merlin.truststore.type", "PKCS12");
-        props.put("org.apache.wss4j.crypto.merlin.truststore.file", "keystores/gw-gwlink-keystore.p12");
+        props.put("org.apache.wss4j.crypto.merlin.truststore.file", "keystores/connector-gwlink-truststore.p12");
         props.put("org.apache.wss4j.crypto.merlin.truststore.password", "12345");
 
-//        props.put("org.apache.wss4j.crypto.merlin.keystore.type", "PKCS12");
-//        props.put("org.apache.wss4j.crypto.merlin.keystore.file", "file:///C:/Entwicklung/test.p12");
-//        props.put("org.apache.wss4j.crypto.merlin.keystore.password", "test");
-//        props.put("org.apache.wss4j.crypto.merlin.keystore.alias", "test");
-//        props.put("org.apache.wss4j.crypto.merlin.keystore.private.password", "test");
-//        props.put("org.apache.wss4j.crypto.merlin.truststore.type", "PKCS12");
-//        props.put("org.apache.wss4j.crypto.merlin.truststore.file", "file:///C:/Entwicklung/test.p12");
-//        props.put("org.apache.wss4j.crypto.merlin.truststore.password", "test");
 
         return props;
     }
