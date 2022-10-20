@@ -13,17 +13,13 @@ import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.plugin.environment.DomibusEnvironmentUtil;
 import eu.domibus.plugin.notification.PluginAsyncNotificationConfiguration;
 import org.apache.cxf.Bus;
-import org.apache.cxf.bus.CXFBusFactory;
 import org.apache.cxf.ext.logging.LoggingFeature;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.apache.cxf.transport.servlet.CXFNonSpringServlet;
-import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
@@ -93,7 +89,8 @@ public class DCPushPluginConfiguration {
         LOGGER.debug("Activating the following features for DC-Plugin PushPlugin Endpoint: [{}]", featureList);
         endpoint.setFeatures(featureList);
         LOGGER.debug("Setting properties for DC PushPlugin: [{}]", jaxWsProperties);
-        endpoint.setProperties(jaxWsProperties);
+//        endpoint.setProperties(jaxWsProperties);
+        endpoint.getProperties().putAll(jaxWsProperties);
         if (authenticationService != null) {
             endpoint.getInInterceptors().add(authenticationService);
         }
@@ -108,8 +105,8 @@ public class DCPushPluginConfiguration {
     @Bean
     public DomibusConnectorGatewayDeliveryWebService domibusConnectorGatewayDeliveryWebService(
             @Qualifier(DC_PUSH_PLUGIN_CXF_FEATURES) List<Feature> featureList,
-            AbstractDCPluginPropertyManager wsPluginPropertyManager
-//            @Qualifier(PUSH_PLUGIN_JAXWS_PROPERTIES_BEAN_NAME) Map<String, Object> jaxWsProperties
+            AbstractDCPluginPropertyManager wsPluginPropertyManager,
+            @Qualifier(PUSH_PLUGIN_JAXWS_PROPERTIES_BEAN_NAME) Map<String, Object> jaxWsProperties
     ) {
         JaxWsProxyFactoryBean jaxWsProxyFactoryBean = new JaxWsProxyFactoryBean();
         jaxWsProxyFactoryBean.setServiceClass(DomibusConnectorGatewayDeliveryWebService.class);
@@ -122,9 +119,9 @@ public class DCPushPluginConfiguration {
 
         String cxfDeliveryAddr = wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_DELIVERY_ENDPOINT_ADDRESS);
         LOGGER.info("Sending push messages to [{}]", cxfDeliveryAddr);
-        Map<String, Object> wssProperties = getWssProperties(wsPluginPropertyManager);
-        LOGGER.debug("Setting properties [{}] for DC-Plugin ClientProxy", wssProperties);
-        jaxWsProxyFactoryBean.setProperties(wssProperties);
+
+        LOGGER.debug("Setting properties [{}] for DC-Plugin ClientProxy", jaxWsProperties);
+        jaxWsProxyFactoryBean.setProperties(jaxWsProperties);
         jaxWsProxyFactoryBean.setAddress(cxfDeliveryAddr);
 
 
@@ -154,18 +151,18 @@ public class DCPushPluginConfiguration {
     @Bean
     @Qualifier(PUSH_PLUGIN_JAXWS_PROPERTIES_BEAN_NAME)
     public Map<String, Object> getWssProperties(
-            AbstractDCPluginPropertyManager wsPluginPropertyManager
+            AbstractDCPluginPropertyManager wsPluginPropertyManager,
             @Qualifier(PUSH_PLUGIN_WSS4J_ENC_PROPERTIES_BEAN_NAME) Properties wss4jEncProperties
     ) {
         HashMap<String, Object> props = new HashMap<>();
 
-        String encryptionUsername = wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_ENCRYPT_ALIAS);
+//        String encryptionUsername = wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_ENCRYPT_ALIAS);
 
         props.put("mtom-enabled", true);
-        props.put("security.encryption.properties", gwWsLinkEncryptProperties(ctx, wsPluginPropertyManager));
-        props.put("security.encryption.username",  encryptionUsername);
-        props.put("security.signature.properties", gwWsLinkEncryptProperties(ctx, wsPluginPropertyManager));
-        props.put("security.callback-handler", new DefaultWsCallbackHandler());
+        props.put("security.encryption.properties", wss4jEncProperties);
+        props.put("security.encryption.username",  "test");
+        props.put("security.signature.properties", wss4jEncProperties);
+//        props.put("security.callback-handler", new DefaultWsCallbackHandler());
 
         LOGGER.debug("{} now are [{}]", PUSH_PLUGIN_JAXWS_PROPERTIES_BEAN_NAME, props);
 
@@ -251,28 +248,5 @@ public class DCPushPluginConfiguration {
         return loggingFeature;
     }
 
-
-//    @Bean(DC_CXF_BUS_BEAN_NAME)
-//    @Qualifier(DC_CXF_BUS_BEAN_NAME)
-//    public Bus dcCxfBus() {
-//        CXFBusFactory cxfBusFactory = new CXFBusFactory();
-//        Bus b = cxfBusFactory.createBus();
-//        return b;
-//    }
-//
-//    public static final String DC_CXF_SERVLET_BEAN_NAME = "dcCxfServlet";
-//    @Bean(DC_CXF_SERVLET_BEAN_NAME)
-//    @Qualifier(DC_CXF_SERVLET_BEAN_NAME)
-//    public CXFNonSpringServlet dcCxfServlet(@Qualifier(DC_CXF_BUS_BEAN_NAME) Bus bus) {
-//        CXFNonSpringServlet cxfServlet = new CXFNonSpringServlet();
-//        cxfServlet.setBus(bus);
-//        return cxfServlet;
-//    }
-//
-//    @Bean
-//    public ServletRegistrationBean dcCxfServletRegistration(@Qualifier(DC_CXF_SERVLET_BEAN_NAME) CXFNonSpringServlet cxfServlet) {
-//        ServletRegistrationBean bean = new ServletRegistrationBean(cxfServlet, "/dcservices");
-//        return bean;
-//    }
 
 }

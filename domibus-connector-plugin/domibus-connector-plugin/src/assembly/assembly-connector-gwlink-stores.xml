@@ -4,10 +4,11 @@
     <formats>
         <format>zip</format>
     </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
     <fileSets>
         <fileSet>
             <directory>src/main/keystores</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>keystores</outputDirectory>
             <includes>
                 <include>connector-*</include>
             </includes>

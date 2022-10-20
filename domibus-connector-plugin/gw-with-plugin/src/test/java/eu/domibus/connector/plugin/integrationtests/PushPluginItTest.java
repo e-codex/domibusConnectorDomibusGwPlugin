@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class PushPluginItTest {
@@ -88,7 +90,7 @@ public class PushPluginItTest {
         props.put("security.encryption.properties", gwWsLinkEncryptProperties());
         props.put("security.encryption.username",  "test");
         props.put("security.signature.properties", gwWsLinkEncryptProperties());
-//        props.put("security.callback-handler", new DefaultWsCallbackHandler());
+        props.put("security.callback-handler", new DefaultWsCallbackHandler());
 
         return props;
     }
@@ -96,15 +98,23 @@ public class PushPluginItTest {
     public Properties gwWsLinkEncryptProperties() {
         Properties props = new Properties();
 
-//        props.put("org.apache.wss4j.crypto.provider", "org.apache.wss4j.common.crypto.Merlin");
         props.put("org.apache.wss4j.crypto.merlin.keystore.type", "PKCS12");
-        props.put("org.apache.wss4j.crypto.merlin.keystore.file", "file:///C:/Entwicklung/test.pcks");
-        props.put("org.apache.wss4j.crypto.merlin.keystore.password", "test");
-        props.put("org.apache.wss4j.crypto.merlin.keystore.alias", "test");
-        props.put("org.apache.wss4j.crypto.merlin.keystore.private.password", "test");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.file", "keystores/gw-gwlink-keystore.p12");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.password", "12345");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.alias", "gw");
+        props.put("org.apache.wss4j.crypto.merlin.keystore.private.password", "12345");
         props.put("org.apache.wss4j.crypto.merlin.truststore.type", "PKCS12");
-        props.put("org.apache.wss4j.crypto.merlin.truststore.file", "file:///C:/Entwicklung/test.pcks");
-        props.put("org.apache.wss4j.crypto.merlin.truststore.password", "test");
+        props.put("org.apache.wss4j.crypto.merlin.truststore.file", "keystores/gw-gwlink-keystore.p12");
+        props.put("org.apache.wss4j.crypto.merlin.truststore.password", "12345");
+
+//        props.put("org.apache.wss4j.crypto.merlin.keystore.type", "PKCS12");
+//        props.put("org.apache.wss4j.crypto.merlin.keystore.file", "file:///C:/Entwicklung/test.p12");
+//        props.put("org.apache.wss4j.crypto.merlin.keystore.password", "test");
+//        props.put("org.apache.wss4j.crypto.merlin.keystore.alias", "test");
+//        props.put("org.apache.wss4j.crypto.merlin.keystore.private.password", "test");
+//        props.put("org.apache.wss4j.crypto.merlin.truststore.type", "PKCS12");
+//        props.put("org.apache.wss4j.crypto.merlin.truststore.file", "file:///C:/Entwicklung/test.p12");
+//        props.put("org.apache.wss4j.crypto.merlin.truststore.password", "test");
 
         return props;
     }

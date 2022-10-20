@@ -45,9 +45,9 @@ public abstract class AbstractDCPluginPropertyManager extends DomibusPropertyExt
     public static final String DEFAULT_DC_PULL_PLUGIN_NOTIFICATIONS_QUEUE_NAME = "domibus.dcplugin.pull.notifications.queue";
     private final Map<String, DomibusPropertyMetadataDTO> knownProperties;
 
-    protected String getPropertiesFileName() {
-        return "dc-plugin.properties";
-    }
+//    protected String getPropertiesFileName() {
+//        return "dc-plugin.properties";
+//    }
 
     public AbstractDCPluginPropertyManager(List<DomibusPropertyMetadataDTO> properties, String moduleName) {
         List<DomibusPropertyMetadataDTO> allProperties = Arrays.asList(

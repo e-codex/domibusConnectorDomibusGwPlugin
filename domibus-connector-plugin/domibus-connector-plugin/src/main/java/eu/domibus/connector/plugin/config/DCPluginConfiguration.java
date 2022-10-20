@@ -16,6 +16,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
+import java.net.URL;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -46,18 +47,20 @@ public class DCPluginConfiguration {
         if (storeType == null) {
             throw new IllegalArgumentException(String.format("Property: [%s] is invalid: storeType is not allowed to be empty!", propName));
         }
-        try {
-            KeyStore ks = KeyStore.getInstance(storeType);
-            Resource resource = ctx.getResource(location);
-
-            ks.load(resource.getInputStream(), password.toCharArray());
-
-            return resource.getFile().toURI().toURL().toString();
-
-        } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
-            String error = String.format("Property: [%s] is invalid:Failed to load KeyStore from location [%s]", propName, location);
-            throw new RuntimeException(error, e);
-        }
+        return location;
+//        try {
+//            KeyStore ks = KeyStore.getInstance(storeType);
+//            Resource resource = ctx.getResource(location);
+//            URL url = resource.getFile().toURI().toURL();
+//
+//            ks.load(url.openStream(), password.toCharArray());
+//
+//            return url.toString();
+//
+//        } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
+//            String error = String.format("Property: [%s] is invalid:Failed to load KeyStore from location [%s]", propName, location);
+//            throw new RuntimeException(error, e);
+//        }
     }
 
 

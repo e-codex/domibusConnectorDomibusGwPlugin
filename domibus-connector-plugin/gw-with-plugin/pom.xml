@@ -157,14 +157,14 @@
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/conf/domibus</outputDirectory>
                             <artifactItems>
-<!--                                <artifactItem>-->
-<!--                                    <overWrite>true</overWrite>-->
-<!--                                    <groupId>eu.ecodex.labbox</groupId>-->
-<!--                                    <artifactId>ecodex-lab-box-config</artifactId>-->
-<!--                                    <classifier>gwtestkeystores</classifier>-->
-<!--                                    <version>2022.09.1</version>-->
-<!--                                    <type>zip</type>-->
-<!--                                </artifactItem>-->
+                                <artifactItem>
+                                    <overWrite>true</overWrite>
+                                    <groupId>eu.ecodex.labbox</groupId>
+                                    <artifactId>ecodex-lab-box-config</artifactId>
+                                    <classifier>gwtestkeystores</classifier>
+                                    <version>2022.09.1</version>
+                                    <type>zip</type>
+                                </artifactItem>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
                                     <groupId>${project.groupId}</groupId>

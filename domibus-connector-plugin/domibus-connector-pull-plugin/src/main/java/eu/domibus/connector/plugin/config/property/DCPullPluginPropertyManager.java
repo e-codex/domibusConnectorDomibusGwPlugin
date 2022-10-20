@@ -18,4 +18,9 @@ public class DCPullPluginPropertyManager extends AbstractDCPluginPropertyManager
 
     }
 
+    @Override
+    protected String getPropertiesFileName() {
+        return "dc-pull-plugin";
+    }
+
 }
