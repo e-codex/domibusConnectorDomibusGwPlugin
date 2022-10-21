@@ -144,10 +144,9 @@
     </logger>
 
     <!--  In order to enable logging of request/responses please change the loglevel to INFO -->
-<!--    <logger name="org.apache.cxf" level="DEBUG"/>-->
+    <logger name="org.apache.cxf" level="INFO"/>
     <logger name="eu.domibus.core.pmode" level="DEBUG" />
     <logger name="eu.domibus.connector" level="DEBUG" />
-<!--    <logger name="org.apache.wss4j" level="TRACE"/>-->
 
     <root level="WARN">
         <appender-ref ref="file"/>
