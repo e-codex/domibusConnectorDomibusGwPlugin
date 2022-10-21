@@ -9,3 +9,5 @@
 * Rearranged project setup: Plugins is splitted between PUSH and PULL plugin
 * Documentation cleaned up
 * Upgrade to domibus 5.0 plugin API
+* Created additional modules to support Integration Testing
+* Created Domibus GW example
