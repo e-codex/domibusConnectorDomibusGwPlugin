@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>domibus-connector-plugin-parent</artifactId>
-        <groupId>eu.domibus.connector.plugin</groupId>
-        <version>4.4.x-GW5.0-ALPHA3-SNAPSHOT</version>
-    </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
-
+    <parent>
+        <groupId>eu.domibus.connector.plugin</groupId>
+        <artifactId>domibus-connector-plugin-parent</artifactId>
+        <version>4.4.0-ALPHA3</version>
+    </parent>
     <artifactId>gw-with-plugin</artifactId>
-
+    <packaging>pom</packaging>
     <properties>
         <lab.id>04</lab.id>
     </properties>
-
-
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -82,23 +76,20 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-
                     <!-- download domibus AS4 gw -->
                     <execution>
                         <id>copy-domibus</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
-                        <phase>process-resources</phase>
                         <configuration>
-
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw</outputDirectory>
@@ -110,27 +101,22 @@
                                     <classifier>tomcat-full</classifier>
                                     <version>${domibus-gw.version}</version>
                                     <type>zip</type>
-                                    <excludes>
-                                        domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**,domibus/webapps/**
-                                    </excludes>
+                                    <excludes>domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**,domibus/webapps/**</excludes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
-
                     <!-- download domibus AS4 gw .war -->
                     <execution>
                         <id>copy-domibus-war</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
-                        <phase>process-resources</phase>
                         <configuration>
-
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/deployments/</outputDirectory>
-
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -143,16 +129,13 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-
-
                     <execution>
                         <id>copy-ecodex-testkeystores</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
-                        <phase>process-resources</phase>
                         <configuration>
-
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/conf/domibus</outputDirectory>
@@ -176,35 +159,33 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-
                     <execution>
                         <id>copy-ecodex-testkeystores-to-test</id>
+                        <phase>process-test-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
-                        <phase>process-test-resources</phase>
                         <configuration>
-
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/test-classes</outputDirectory>
                             <artifactItems>
-<!--                                <artifactItem>-->
-<!--                                    <overWrite>true</overWrite>-->
-<!--                                    <groupId>eu.ecodex.labbox</groupId>-->
-<!--                                    <artifactId>ecodex-lab-box-config</artifactId>-->
-<!--                                    <classifier>connectortestkeystores</classifier>-->
-<!--                                    <version>2022.09.1</version>-->
-<!--                                    <type>zip</type>-->
-<!--                                </artifactItem>-->
-<!--                                <artifactItem>-->
-<!--                                    <overWrite>true</overWrite>-->
-<!--                                    <groupId>eu.ecodex.labbox</groupId>-->
-<!--                                    <artifactId>ecodex-lab-box-config</artifactId>-->
-<!--                                    <classifier>gwtestkeystores</classifier>-->
-<!--                                    <version>2022.09.1</version>-->
-<!--                                    <type>zip</type>-->
-<!--                                </artifactItem>-->
+                                <!--                                <artifactItem>-->
+                                <!--                                    <overWrite>true</overWrite>-->
+                                <!--                                    <groupId>eu.ecodex.labbox</groupId>-->
+                                <!--                                    <artifactId>ecodex-lab-box-config</artifactId>-->
+                                <!--                                    <classifier>connectortestkeystores</classifier>-->
+                                <!--                                    <version>2022.09.1</version>-->
+                                <!--                                    <type>zip</type>-->
+                                <!--                                </artifactItem>-->
+                                <!--                                <artifactItem>-->
+                                <!--                                    <overWrite>true</overWrite>-->
+                                <!--                                    <groupId>eu.ecodex.labbox</groupId>-->
+                                <!--                                    <artifactId>ecodex-lab-box-config</artifactId>-->
+                                <!--                                    <classifier>gwtestkeystores</classifier>-->
+                                <!--                                    <version>2022.09.1</version>-->
+                                <!--                                    <type>zip</type>-->
+                                <!--                                </artifactItem>-->
                                 <artifactItem>
                                     <overWrite>true</overWrite>
                                     <groupId>${project.groupId}</groupId>
@@ -224,32 +205,29 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-
-
                     <!-- download domibus connector gateway plugin -->
                     <execution>
                         <id>copy-domibus-connector-gw-plugin</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
-                        <phase>process-resources</phase>
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/conf/domibus/plugins/lib/</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
                             <includeScope>compile</includeScope>
-                            <includeArtifactIds>domibus-connector-pull-plugin,domibus-connector-push-plugin
-                            </includeArtifactIds>
+                            <includeArtifactIds>domibus-connector-pull-plugin,domibus-connector-push-plugin</includeArtifactIds>
                         </configuration>
                     </execution>
                     <!-- download extension -->
                     <execution>
                         <id>copy-domibus-additional-libs</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
-                        <phase>process-resources</phase>
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
@@ -257,17 +235,17 @@
                             <excludeTransitive>true</excludeTransitive>
                             <includeScope>compile</includeScope>
                             <includeArtifactIds>gw-tomcat-db-init-lifecycle-hook</includeArtifactIds>
-<!--                            <excludeArtifactIds>domibus-connector-pull-plugin,domibus-connector-push-plugin-->
-<!--                            </excludeArtifactIds>-->
+                            <!--                            <excludeArtifactIds>domibus-connector-pull-plugin,domibus-connector-push-plugin-->
+                            <!--                            </excludeArtifactIds>-->
                         </configuration>
                     </execution>
                     <!-- download mysql driver -->
                     <execution>
                         <id>copy-mysql-driver</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
-                        <phase>process-resources</phase>
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
@@ -285,10 +263,10 @@
                     <!-- download mariadb driver -->
                     <execution>
                         <id>copy-mariadb-driver</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
-                        <phase>process-resources</phase>
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
@@ -306,10 +284,10 @@
                     <!-- download h2 driver -->
                     <execution>
                         <id>copy-sql-drivers</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
-                        <phase>process-resources</phase>
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
@@ -329,32 +307,29 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-
                     <!-- download custom gw extensions -->
                     <execution>
                         <id>copy-custom-gw-libs</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
-                        <phase>process-resources</phase>
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/additional-libs/</outputDirectory>
                             <excludeTransitive>true</excludeTransitive>
-<!--                            <includeScope>compile</includeScope>-->
+                            <!--                            <includeScope>compile</includeScope>-->
                             <includeArtifactIds>gw-extension</includeArtifactIds>
                         </configuration>
                     </execution>
-
-
                     <!-- download tomcat lifecycle listener -->
                     <execution>
                         <id>copy-tomcat-lifecycle-listener</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
-                        <phase>process-resources</phase>
                         <configuration>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
@@ -380,7 +355,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <inherited>true</inherited>
                 <executions>
                     <execution>
                         <id>copy-test-resources</id>
@@ -415,6 +389,7 @@
                         </configuration>
                     </execution>
                 </executions>
+                <inherited>true</inherited>
             </plugin>
             <plugin>
                 <groupId>org.eclipse.jkube</groupId>
@@ -433,7 +408,6 @@
                                 <memory>1Gi</memory>
                             </limits>
                         </openshiftBuildConfig>
-
                         <labels>
                             <all>
                                 <propert>
@@ -442,32 +416,31 @@
                                 </propert>
                             </all>
                         </labels>
-<!--                            <env>-->
-<!--                                <GW_PRIVATE_KEY_ALIAS>gw${lab.id}</GW_PRIVATE_KEY_ALIAS>-->
-<!--                            </env>-->
-<!--                            <controllerName>dpl-lab${lab.id}-ecx-gateway</controllerName> (2)-->
-<!--                            <imagePullPolicy>Always</imagePullPolicy>-->
-<!--                            <replicas>1</replicas> (5)-->
-<!--                            <liveness> (6)-->
-<!--                                <getUrl>http://:8080/domibus/services/msh</getUrl>-->
-<!--                                <tcpPort>8080</tcpPort>-->
-<!--                                <initialDelaySeconds>30</initialDelaySeconds>-->
-<!--                                <timeoutSeconds>300</timeoutSeconds>-->
-<!--                            </liveness>-->
-<!--                            <volumes>-->
-<!--                                <volume>-->
-<!--                                    <name>temp</name>-->
-<!--                                    <type>emptyDir</type>-->
-<!--                                    <medium>Memory</medium>-->
-<!--                                    <mounts>-->
-<!--                                        <mount>/app/domibus/work</mount>-->
-<!--                                        <mount>/app/domibus/logs</mount>-->
-<!--                                        <mount>/app/domibus/temp</mount>-->
-<!--                                        <mount>/app/domibus/webapps</mount>-->
-<!--                                    </mounts>-->
-<!--                                </volume>-->
-<!--                            </volumes>-->
-
+                        <!--                            <env>-->
+                        <!--                                <GW_PRIVATE_KEY_ALIAS>gw${lab.id}</GW_PRIVATE_KEY_ALIAS>-->
+                        <!--                            </env>-->
+                        <!--                            <controllerName>dpl-lab${lab.id}-ecx-gateway</controllerName> (2)-->
+                        <!--                            <imagePullPolicy>Always</imagePullPolicy>-->
+                        <!--                            <replicas>1</replicas> (5)-->
+                        <!--                            <liveness> (6)-->
+                        <!--                                <getUrl>http://:8080/domibus/services/msh</getUrl>-->
+                        <!--                                <tcpPort>8080</tcpPort>-->
+                        <!--                                <initialDelaySeconds>30</initialDelaySeconds>-->
+                        <!--                                <timeoutSeconds>300</timeoutSeconds>-->
+                        <!--                            </liveness>-->
+                        <!--                            <volumes>-->
+                        <!--                                <volume>-->
+                        <!--                                    <name>temp</name>-->
+                        <!--                                    <type>emptyDir</type>-->
+                        <!--                                    <medium>Memory</medium>-->
+                        <!--                                    <mounts>-->
+                        <!--                                        <mount>/app/domibus/work</mount>-->
+                        <!--                                        <mount>/app/domibus/logs</mount>-->
+                        <!--                                        <mount>/app/domibus/temp</mount>-->
+                        <!--                                        <mount>/app/domibus/webapps</mount>-->
+                        <!--                                    </mounts>-->
+                        <!--                                </volume>-->
+                        <!--                            </volumes>-->
                     </resources>
                     <images>
                         <image>
@@ -493,8 +466,7 @@
                                             <id>domibusTomcat</id>
                                             <fileSets>
                                                 <fileSet>
-<!--                                                    <outputDirectory>./</outputDirectory>-->
-
+                                                    <!--                                                    <outputDirectory>./</outputDirectory>-->
                                                     <directory>target/gw/domibus/</directory>
                                                 </fileSet>
                                             </fileSets>
@@ -506,28 +478,25 @@
                     </images>
                 </configuration>
             </plugin>
-
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>create-distribution-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
                     <descriptors>
                         <descriptor>src/main/assembly/assembly-gw-with-plugin.xml</descriptor>
                     </descriptors>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>create-distribution-package</id>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.eclipse.jkube</groupId>
                 <artifactId>kubernetes-maven-plugin</artifactId>
@@ -548,10 +517,8 @@
                                 <!--                                <from>adoptopenjdk/openjdk11:centos</from>-->
                                 <!--                                <from>${image.registry}/adoptopenjdk/openjdk11:centos@sha256:97bee9a6e166444c95ded7d7dc97021feada8228a9152def6b8806c8fbd516f2</from>-->
                                 <from>${image.registry}/library/tomcat:9.0</from>
-
                                 <cmd>/app/domibus/bin/catalina.sh run</cmd>
                                 <entryPoint>/bin/bash</entryPoint>
-
                                 <ports>
                                     <port>8080</port>
                                 </ports>
@@ -560,20 +527,15 @@
                                     <volume>/app/logs</volume>
                                     <volume>/app/data</volume>
                                 </volumes>
-
                                 <env>
                                     <!--                                    <CATALINA_HOME>/app/domibus</CATALINA_HOME>-->
                                     <!--                                    <DOMIBUS_CONFIG_LOCATION>/app/domibus/conf/domibus</DOMIBUS_CONFIG_LOCATION>-->
                                     <!--                                    <DOMIBUS_WORK_LOCATION>/app/data/work</DOMIBUS_WORK_LOCATION>-->
                                     <!--                                    <CATALINA_TMPDIR>/app/temp/temp</CATALINA_TMPDIR>-->
-
                                     <DOMIBUS_DATABASE_SERVER_NAME>localhost</DOMIBUS_DATABASE_SERVER_NAME>
                                     <DOMIBUS_DATABASE_PORT>3306</DOMIBUS_DATABASE_PORT>
                                     <DOMIBUS_DATABASE_SCHEMA>domibus</DOMIBUS_DATABASE_SCHEMA>
-
-
                                 </env>
-
                                 <assembly>
                                     <name>test</name>
                                     <mode>dir</mode>
@@ -595,7 +557,6 @@
                     </images>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -606,7 +567,6 @@
                     </environmentVariables>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -621,8 +581,6 @@
                     </arguments>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
-
 </project>

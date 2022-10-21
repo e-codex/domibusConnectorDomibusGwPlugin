@@ -1,15 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <parent>
-        <artifactId>domibus-connector-plugin-parent</artifactId>
-        <groupId>eu.domibus.connector.plugin</groupId>
-        <version>4.4.x-GW5.0-ALPHA3-SNAPSHOT</version>
-    </parent>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>eu.domibus.connector.plugin</groupId>
+        <artifactId>domibus-connector-plugin-parent</artifactId>
+        <version>4.4.0-ALPHA3</version>
+    </parent>
     <artifactId>gw-extension</artifactId>
-
-
-
     <dependencies>
         <dependency>
             <groupId>eu.domibus</groupId>
@@ -18,8 +15,8 @@
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
-                    <groupId>org.roda-project</groupId>
                     <artifactId>commons-ip2</artifactId>
+                    <groupId>org.roda-project</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -30,12 +27,11 @@
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
-                    <groupId>org.roda-project</groupId>
                     <artifactId>commons-ip2</artifactId>
+                    <groupId>org.roda-project</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
-
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -70,7 +66,5 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
         <!-- End Spring -->
-
     </dependencies>
-
 </project>

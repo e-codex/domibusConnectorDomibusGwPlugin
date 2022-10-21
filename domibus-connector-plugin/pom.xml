@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.domibus.connector.plugin</groupId>
     <artifactId>domibus-connector-plugin-parent</artifactId>
-    <version>4.4.x-GW5.0-ALPHA3-SNAPSHOT</version>
+    <version>4.4.0-ALPHA3</version>
     <packaging>pom</packaging>
     <description>Parent project for all domibus gw plugins</description>
     <modules>
@@ -19,8 +18,7 @@
         <module>gw-tomcat-db-init-lifecycle-hook</module>
     </modules>
     <scm>
-        <developerConnection>scm:git:https://www.git.e-codex.eu/ecodex.git/domibus-connector-plugin
-        </developerConnection>
+        <developerConnection>scm:git:https://www.git.e-codex.eu/ecodex.git/domibus-connector-plugin</developerConnection>
     </scm>
     <distributionManagement>
         <repository>
@@ -53,24 +51,17 @@
         <liquibase.version>4.15.0</liquibase.version>
         <tomcat.version>9.0.65</tomcat.version>
         <image.registry>centralrepo.apps.a3.cp.cna.at/brz-ju-eu-services-docker</image.registry>
-        <project.build.outputTimestamp>10</project.build.outputTimestamp>
+        <project.build.outputTimestamp>1666351240</project.build.outputTimestamp>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-    <repositories>
-        <repository>
-            <id>eu.domibus</id>
-            <name>CEF domibus repository</name>
-            <url>https://ec.europa.eu/cefdigital/artifact/content/groups/public/</url>
-        </repository>
-    </repositories>
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>eu.domibus</groupId>
                 <artifactId>domibus</artifactId>
-                <type>pom</type>
                 <version>${domibus-gw.version}</version>
+                <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
@@ -92,37 +83,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <repositories>
+        <repository>
+            <id>eu.domibus</id>
+            <name>CEF domibus repository</name>
+            <url>https://ec.europa.eu/cefdigital/artifact/content/groups/public/</url>
+        </repository>
+    </repositories>
     <build>
-        <plugins>
-<!--            <plugin>-->
-<!--                <groupId>io.github.git-commit-id</groupId>-->
-<!--                <artifactId>git-commit-id-maven-plugin</artifactId>-->
-<!--                <version>5.0.0</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>get-the-git-infos</id>-->
-<!--                        <goals>-->
-<!--                            <goal>revision</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>initialize</phase>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <generateGitPropertiesFile>true</generateGitPropertiesFile>-->
-<!--                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties-->
-<!--                    </generateGitPropertiesFilename>-->
-<!--                    <includeOnlyProperties>-->
-<!--                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>-->
-<!--                        <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>-->
-<!--                    </includeOnlyProperties>-->
-<!--                    <commitIdGenerationMode>full</commitIdGenerationMode>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-            <plugin>
-                <groupId>com.github.ekryd.sortpom</groupId>
-                <artifactId>sortpom-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -139,7 +107,6 @@
                         <executable>cmd.exe</executable>
                     </configuration>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -223,6 +190,35 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <!--            <plugin>-->
+            <!--                <groupId>io.github.git-commit-id</groupId>-->
+            <!--                <artifactId>git-commit-id-maven-plugin</artifactId>-->
+            <!--                <version>5.0.0</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>get-the-git-infos</id>-->
+            <!--                        <goals>-->
+            <!--                            <goal>revision</goal>-->
+            <!--                        </goals>-->
+            <!--                        <phase>initialize</phase>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--                <configuration>-->
+            <!--                    <generateGitPropertiesFile>true</generateGitPropertiesFile>-->
+            <!--                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties-->
+            <!--                    </generateGitPropertiesFilename>-->
+            <!--                    <includeOnlyProperties>-->
+            <!--                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>-->
+            <!--                        <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>-->
+            <!--                    </includeOnlyProperties>-->
+            <!--                    <commitIdGenerationMode>full</commitIdGenerationMode>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
+            <plugin>
+                <groupId>com.github.ekryd.sortpom</groupId>
+                <artifactId>sortpom-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
-
 </project>

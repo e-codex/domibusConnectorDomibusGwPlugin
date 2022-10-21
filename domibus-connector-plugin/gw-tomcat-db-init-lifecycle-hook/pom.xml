@@ -1,13 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <parent>
-        <artifactId>domibus-connector-plugin-parent</artifactId>
-        <groupId>eu.domibus.connector.plugin</groupId>
-        <version>4.4.x-GW5.0-ALPHA3-SNAPSHOT</version>
-    </parent>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>eu.domibus.connector.plugin</groupId>
+        <artifactId>domibus-connector-plugin-parent</artifactId>
+        <version>4.4.0-ALPHA3</version>
+    </parent>
     <artifactId>gw-tomcat-db-init-lifecycle-hook</artifactId>
-
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -24,7 +23,6 @@
             <artifactId>commons-io</artifactId>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -38,36 +36,34 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-
-                <!-- download domibus AS4 gw -->
-                <execution>
-                    <id>copy-domibus</id>
-                    <goals>
-                        <goal>copy-dependencies</goal>
-                    </goals>
-                    <phase>process-resources</phase>
-                    <configuration>
-
-                        <overWriteSnapshots>true</overWriteSnapshots>
-                        <overWriteReleases>true</overWriteReleases>
-                        <outputDirectory>target/classes</outputDirectory>
-                        <includeArtifactIds>spring-boot-loader,gw-liquibase-db-init</includeArtifactIds>
-                        <stripVersion>true</stripVersion>
-<!--                        <artifactItems>-->
-<!--                            <artifactItem>-->
-<!--                                <overWrite>true</overWrite>-->
-<!--                                <groupId>eu.domibus</groupId>-->
-<!--                                <artifactId>domibus-distribution</artifactId>-->
-<!--                                <classifier>tomcat-full</classifier>-->
-<!--                                <version>${domibus-gw.version}</version>-->
-<!--                                <type>zip</type>-->
-<!--                                <excludes>-->
-<!--                                    domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**-->
-<!--                                </excludes>-->
-<!--                            </artifactItem>-->
-<!--                        </artifactItems>-->
-                    </configuration>
-                </execution>
+                    <!-- download domibus AS4 gw -->
+                    <execution>
+                        <id>copy-domibus</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteReleases>true</overWriteReleases>
+                            <outputDirectory>target/classes</outputDirectory>
+                            <includeArtifactIds>spring-boot-loader,gw-liquibase-db-init</includeArtifactIds>
+                            <stripVersion>true</stripVersion>
+                            <!--                        <artifactItems>-->
+                            <!--                            <artifactItem>-->
+                            <!--                                <overWrite>true</overWrite>-->
+                            <!--                                <groupId>eu.domibus</groupId>-->
+                            <!--                                <artifactId>domibus-distribution</artifactId>-->
+                            <!--                                <classifier>tomcat-full</classifier>-->
+                            <!--                                <version>${domibus-gw.version}</version>-->
+                            <!--                                <type>zip</type>-->
+                            <!--                                <excludes>-->
+                            <!--                                    domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**-->
+                            <!--                                </excludes>-->
+                            <!--                            </artifactItem>-->
+                            <!--                        </artifactItems>-->
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -75,10 +71,10 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <executions>
                     <execution>
+                        <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <phase>package</phase>
                         <configuration>
                             <artifactSet>
                                 <includes>
@@ -87,7 +83,7 @@
                                 </includes>
                             </artifactSet>
                             <shadedArtifactAttached>false</shadedArtifactAttached>
-<!--                            <shadedClassifierName></shadedClassifierName>-->
+                            <!--                            <shadedClassifierName></shadedClassifierName>-->
                         </configuration>
                     </execution>
                 </executions>
