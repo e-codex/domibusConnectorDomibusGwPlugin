@@ -4,7 +4,7 @@
     <parent>
         <groupId>eu.domibus.connector.plugin</groupId>
         <artifactId>domibus-connector-plugin-parent</artifactId>
-        <version>4.4.0-ALPHA3</version>
+        <version>4.4.0-ALPHA4-SNAPSHOT</version>
     </parent>
     <artifactId>gw-liquibase-db-init</artifactId>
     <dependencies>
