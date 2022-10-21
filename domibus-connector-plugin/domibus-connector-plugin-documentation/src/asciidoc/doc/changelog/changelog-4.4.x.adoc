@@ -11,3 +11,9 @@
 * Upgrade to domibus 5.0 plugin API
 * Created additional modules to support Integration Testing
 * Created Domibus GW example
+
+
+==== ALPHA3
+
+* Only Push-Plugin has been tested yet
+* Pull Plugin might not work yet
