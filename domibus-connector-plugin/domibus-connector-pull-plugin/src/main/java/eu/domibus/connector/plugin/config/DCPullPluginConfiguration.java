@@ -11,6 +11,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
@@ -57,9 +58,7 @@ public class DCPullPluginConfiguration extends DCPluginConfiguration {
                                                      DomibusConnectorPullWebservice backendWebService,
                                                      AuthenticationService authenticationService,
                                                      AbstractDCPluginPropertyManager wsPluginPropertyManager,
-                                                     @Qualifier(DC_PUSH_PLUGIN_CXF_FEATURE) List<Feature> featureList,
-                                                     @Qualifier(DC_PUSH_PLUGIN_JAXWS_PROPERTIES_BEAN_NAME) Map<String, Object> jaxWsProperties
-
+                                                     ApplicationContext ctx
     ) {
         EndpointImpl endpoint = new EndpointImpl(bus, backendWebService); //NOSONAR
 
@@ -67,9 +66,10 @@ public class DCPullPluginConfiguration extends DCPluginConfiguration {
         endpoint.setEndpointName(DomibusConnectorGatewaySubmissionWSService.DomibusConnectorGatewaySubmissionWebService);
         endpoint.setWsdlLocation(DomibusConnectorGatewaySubmissionWSService.WSDL_LOCATION.toString());
 
+        List<Feature> featureList = getFeatureList(ctx, wsPluginPropertyManager);
         LOGGER.debug("Activating the following features for DC-Plugin PullPlugin: [{}]", featureList);
         endpoint.setFeatures(featureList);
-        Map<String, Object> properties = jaxWsProperties;
+        Map<String, Object> properties = getWssProperties(ctx, wsPluginPropertyManager);
         LOGGER.debug("Setting properties for DC PullPlugin: [{}]", properties);
         endpoint.setProperties(properties);
         if (authenticationService != null) {

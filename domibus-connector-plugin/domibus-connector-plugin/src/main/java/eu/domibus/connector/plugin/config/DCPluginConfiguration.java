@@ -67,11 +67,7 @@ public abstract class DCPluginConfiguration {
         }
     }
 
-    @Bean
-    public AuthenticationService certAuthenticationService(AbstractDCPluginPropertyManager wsPluginPropertyManager,
-                                                           ApplicationContext ctx) {
-        return new AuthenticationService(wsPluginPropertyManager, ctx);
-    }
+
 
 
     public static HashMap<String, Object> getWssProperties(
@@ -93,7 +89,7 @@ public abstract class DCPluginConfiguration {
     }
 
 
-    public static Properties gwWsLinkEncryptProperties(
+    private static Properties gwWsLinkEncryptProperties(
             ApplicationContext ctx,
             AbstractDCPluginPropertyManager wsPluginPropertyManager
     ) {
@@ -131,22 +127,17 @@ public abstract class DCPluginConfiguration {
         return props;
     }
 
-    @Bean
-    @Qualifier(PLUGIN_CXF_FEATURES_BEAN_NAME)
-    public List<Feature> featureList(AbstractDCPluginPropertyManager wsPluginPropertyManager,
-                                     @Autowired WSPolicyFeature wsPolicyFeature,
-                                     @Autowired(required = false) LoggingFeature loggingFeature) {
+
+    public static List<Feature> getFeatureList(ApplicationContext ctx, AbstractDCPluginPropertyManager wsPluginPropertyManager) {
         List<Feature> featureList = new ArrayList<>();
-        featureList.add(wsPolicyFeature);
+        featureList.add(wsPolicyFeature(wsPluginPropertyManager, ctx));
         if ("true".equalsIgnoreCase(wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_LOGGING_FEATURE_PROPERTY_NAME))) {
-            featureList.add(loggingFeature);
+            featureList.add(loggingFeature());
         }
         return featureList;
     }
 
-    @Bean
-    @Qualifier(POLICY_FEATURE_BEAN_NAME)
-    public WSPolicyFeature wsPolicyFeature(AbstractDCPluginPropertyManager wsPluginPropertyManager, ApplicationContext ctx) {
+    private static WSPolicyFeature wsPolicyFeature(AbstractDCPluginPropertyManager wsPluginPropertyManager, ApplicationContext ctx) {
         String policyLocation = wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_SECURITY_POLICY);
         Resource resource = ctx.getResource(policyLocation);
         if (resource.exists()) {
@@ -158,9 +149,7 @@ public abstract class DCPluginConfiguration {
         }
     }
 
-    @Bean
-    @Qualifier(CXF_LOGGING_FEATURE_BEAN_NAME)
-    public LoggingFeature loggingFeature() {
+    private static LoggingFeature loggingFeature() {
         LOGGER.debug("CXFLoggingFeature is activated");
         LoggingFeature loggingFeature = new LoggingFeature();
         loggingFeature.setPrettyLogging(true);

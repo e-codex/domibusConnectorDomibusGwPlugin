@@ -66,8 +66,8 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
     public EndpointImpl pushBackendInterfaceEndpoint(@Qualifier(Bus.DEFAULT_BUS_ID) Bus bus,
                                                      DomibusConnectorGatewaySubmissionWebService backendWebService,
                                                      AuthenticationService authenticationService,
-                                                     AbstractDCPluginPropertyManager wsPluginPropertyManager,
-                                                     @Qualifier(DC_PUSH_PLUGIN_CXF_FEATURES) List<Feature> featureList
+                                                     AbstractDCPluginPropertyManager wsPluginPropertyManager
+
     ) {
         EndpointImpl endpoint = new EndpointImpl(bus, backendWebService);
 
@@ -75,8 +75,9 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
         endpoint.setEndpointName(DomibusConnectorGatewaySubmissionWSService.DomibusConnectorGatewaySubmissionWebService);
         endpoint.setWsdlLocation(DomibusConnectorGatewaySubmissionWSService.WSDL_LOCATION.toString());
 
-        LOGGER.debug("Activating the following features for DC-Plugin PushPlugin Endpoint: [{}]", featureList);
-        endpoint.setFeatures(featureList);
+        List<Feature> features = getFeatureList(ctx, wsPluginPropertyManager);
+        LOGGER.debug("Activating the following features for DC-Plugin PushPlugin Endpoint: [{}]", features);
+        endpoint.setFeatures(features);
 
         HashMap<String, Object> wssProperties = getWssProperties(ctx, wsPluginPropertyManager);
         LOGGER.debug("Setting properties for DC PushPlugin: [{}]", wssProperties);
@@ -95,12 +96,12 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
     //Creating Client Proxy for Push Plugin
     @Bean
     public DomibusConnectorGatewayDeliveryWebService domibusConnectorGatewayDeliveryWebService(
-            @Qualifier(DC_PUSH_PLUGIN_CXF_FEATURES) List<Feature> featureList,
             AbstractDCPluginPropertyManager wsPluginPropertyManager
     ) {
         JaxWsProxyFactoryBean jaxWsProxyFactoryBean = new JaxWsProxyFactoryBean();
         jaxWsProxyFactoryBean.setServiceClass(DomibusConnectorGatewayDeliveryWebService.class);
 
+        List<Feature> featureList = getFeatureList(ctx, wsPluginPropertyManager);
         LOGGER.debug("Activating the following features for DC-Plugin ClientProxy: [{}]", featureList);
         jaxWsProxyFactoryBean.getFeatures().addAll(featureList);
         jaxWsProxyFactoryBean.setServiceName(DomibusConnectorGatewayDeliveryWSService.SERVICE);
