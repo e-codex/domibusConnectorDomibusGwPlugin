@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>eu.domibus.connector.plugin</groupId>
         <artifactId>domibus-connector-plugin-parent</artifactId>
-        <version>4.4.0-ALPHA4-SNAPSHOT</version>
+        <version>4.4.0-ALPHA4</version>
     </parent>
     <artifactId>gw-with-plugin</artifactId>
     <packaging>pom</packaging>
@@ -80,27 +78,24 @@
         <dependency>
             <groupId>eu.domibus.connector</groupId>
             <artifactId>domibusConnectorTestData</artifactId>
-            <scope>test</scope>
             <version>${domibus.connector.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-
                     <!-- download domibus AS4 gw -->
                     <execution>
                         <id>copy-domibus</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
-                        <phase>process-resources</phase>
                         <configuration>
-
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw</outputDirectory>
@@ -495,10 +490,10 @@
                 <executions>
                     <execution>
                         <id>create-distribution-package</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
-                        <phase>package</phase>
                         <configuration>
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
