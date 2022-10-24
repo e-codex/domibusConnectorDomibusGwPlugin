@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <db:configuration xmlns:db="http://domibus.eu/configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://domibus.eu/configuration file:/C:/development/git-repos/domibus/Domibus-MSH/domibus-configuration.xsd"
-                  party="${gw.id}">
+                  party="${gw.self}">
     <mpcs>
         <mpc name="defaultMpc" qualifiedName="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/defaultMPC"
              enabled="true" default="true" retention_downloaded="0" retention_undownloaded="60"/>
@@ -21,12 +21,12 @@
             </partyIdTypes>
 
             <party name="gw01"
-                   endpoint="http://ecx-gateway-lab01.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh"
+                   endpoint="${gw01.url}"
                    allowChunking="false">
                 <identifier partyId="gw01" partyIdType="eevidence"/>
             </party>
             <party name="gw02"
-                   endpoint="http://ecx-gateway-lab02.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh"
+                   endpoint="${gw02.url}"
                    allowChunking="false">
                 <identifier partyId="gw02" partyIdType="eevidence"/>
             </party>
@@ -191,7 +191,7 @@
                               defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
                               receptionAwareness="receptionAwareness" errorHandling="eCODEXErrorHandling"
                               compressPayloads="false"/>
-            <legConfiguration name="ExampleService1Action2"
+            <legConfiguration name="ExampleService1LegAction2"
                               service="ExampleService1"
                               action="action2"
                               defaultMpc="defaultMpc" reliability="AS4Reliability" security="eDeliveryAS4Policy"
@@ -685,6 +685,42 @@
             </responderParties>
             <legs>
                 <leg name="ConTESTLegConTESTActionTestForm"/>
+                <leg name="ConTESTLegeCODEXEvidenceSubmissionAcceptanceRejection"/>
+                <leg name="ConTESTLegeCODEXEvidenceRelayREMMDAcceptanceRejection"/>
+                <leg name="ConTESTLegeCODEXEvidenceDeliveryNonDeliveryToRecipient"/>
+                <leg name="ConTESTLegeCODEXEvidenceRetrievalNonRetrievalToRecipient"/>
+            </legs>
+        </process>
+        <process name="ExampleProcess" agreement="agreementEmpty" mep="oneway" binding="push"
+                 initiatorRole="defaultInitiatorRole" responderRole="defaultResponderRole">
+            <initiatorParties>
+
+                <initiatorParty name="gw01"/>
+                <initiatorParty name="gw02"/>
+                <initiatorParty name="gw03"/>
+                <initiatorParty name="gw04"/>
+                <initiatorParty name="gw05"/>
+                <initiatorParty name="gw06"/>
+                <initiatorParty name="gw07"/>
+                <initiatorParty name="gw08"/>
+                <initiatorParty name="gw09"/>
+            </initiatorParties>
+            <responderParties>
+
+
+                <responderParty name="gw01"/>
+                <responderParty name="gw02"/>
+                <responderParty name="gw03"/>
+                <responderParty name="gw04"/>
+                <responderParty name="gw05"/>
+                <responderParty name="gw06"/>
+                <responderParty name="gw07"/>
+                <responderParty name="gw08"/>
+                <responderParty name="gw09"/>
+            </responderParties>
+            <legs>
+                <leg name="ExampleService1LegAction1"/>
+                <leg name="ExampleService1LegAction2"/>
                 <leg name="ConTESTLegeCODEXEvidenceSubmissionAcceptanceRejection"/>
                 <leg name="ConTESTLegeCODEXEvidenceRelayREMMDAcceptanceRejection"/>
                 <leg name="ConTESTLegeCODEXEvidenceDeliveryNonDeliveryToRecipient"/>

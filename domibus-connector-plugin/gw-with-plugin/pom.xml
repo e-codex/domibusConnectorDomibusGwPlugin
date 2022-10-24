@@ -81,6 +81,12 @@
             <artifactId>cxf-rt-wsdl</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>eu.domibus.connector</groupId>
+            <artifactId>domibusConnectorTestData</artifactId>
+            <scope>test</scope>
+            <version>${domibus.connector.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -189,22 +195,6 @@
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/test-classes</outputDirectory>
                             <artifactItems>
-<!--                                <artifactItem>-->
-<!--                                    <overWrite>true</overWrite>-->
-<!--                                    <groupId>eu.ecodex.labbox</groupId>-->
-<!--                                    <artifactId>ecodex-lab-box-config</artifactId>-->
-<!--                                    <classifier>connectortestkeystores</classifier>-->
-<!--                                    <version>2022.09.1</version>-->
-<!--                                    <type>zip</type>-->
-<!--                                </artifactItem>-->
-<!--                                <artifactItem>-->
-<!--                                    <overWrite>true</overWrite>-->
-<!--                                    <groupId>eu.ecodex.labbox</groupId>-->
-<!--                                    <artifactId>ecodex-lab-box-config</artifactId>-->
-<!--                                    <classifier>gwtestkeystores</classifier>-->
-<!--                                    <version>2022.09.1</version>-->
-<!--                                    <type>zip</type>-->
-<!--                                </artifactItem>-->
                                 <artifactItem>
                                     <overWrite>true</overWrite>
                                     <groupId>${project.groupId}</groupId>
@@ -257,8 +247,6 @@
                             <excludeTransitive>true</excludeTransitive>
                             <includeScope>compile</includeScope>
                             <includeArtifactIds>gw-tomcat-db-init-lifecycle-hook</includeArtifactIds>
-<!--                            <excludeArtifactIds>domibus-connector-pull-plugin,domibus-connector-push-plugin-->
-<!--                            </excludeArtifactIds>-->
                         </configuration>
                     </execution>
                     <!-- download mysql driver -->
@@ -511,12 +499,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <descriptors>
-                        <descriptor>src/main/assembly/assembly-gw-with-plugin.xml</descriptor>
-                    </descriptors>
-                </configuration>
                 <executions>
                     <execution>
                         <id>create-distribution-package</id>
@@ -524,6 +506,25 @@
                             <goal>single</goal>
                         </goals>
                         <phase>package</phase>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assembly-gw-with-plugin.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-pull-distribution-package</id>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <appendAssemblyId>true</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assembly-gw-with-pull-plugin.xml</descriptor>
+                            </descriptors>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -535,7 +536,6 @@
                     <skip>false</skip>
                     <buildStrategy>jib</buildStrategy>
                     <pushRegistry>${image.registry}</pushRegistry>
-                    <!--                    <pushRegistry>default-route-openshift-image-registry.apps.a2.cp.cna.at/ju-eu-ejustice-eqs</pushRegistry>-->
                     <pullRegistry>${image.registry}</pullRegistry>
                     <images>
                         <image>

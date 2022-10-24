@@ -20,7 +20,7 @@ public class PullPluginEnabledCondition implements Condition {
         final Environment environment = conditionContext.getEnvironment();
         String dcPullPluginEnabled = environment.getProperty(DC_PULL_PLUGIN_ENABLED_PROPERTY_NAME);
         boolean isEnabled = "true".equalsIgnoreCase(dcPullPluginEnabled);
-        LOGGER.debug("PullPluginEnabledCondition is [{}]", isEnabled);
+        LOGGER.trace("PullPluginEnabledCondition is [{}]", isEnabled);
         return isEnabled;
     }
 

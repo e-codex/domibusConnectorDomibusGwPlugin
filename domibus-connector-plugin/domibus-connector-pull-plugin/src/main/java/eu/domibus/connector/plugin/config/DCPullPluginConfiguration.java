@@ -5,6 +5,8 @@ import eu.domibus.connector.plugin.config.property.DCPullPluginPropertyManager;
 import eu.domibus.connector.plugin.ws.AuthenticationService;
 import eu.domibus.connector.plugin.ws.DomibusConnectorPullWebservice;
 import eu.domibus.connector.ws.gateway.submission.webservice.DomibusConnectorGatewaySubmissionWSService;
+import eu.domibus.connector.ws.gateway.webservice.DomibusConnectorGatewayWSService;
+import eu.domibus.connector.ws.gateway.webservice.DomibusConnectorGatewayWebService;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
 import org.apache.cxf.Bus;
@@ -62,9 +64,9 @@ public class DCPullPluginConfiguration extends DCPluginConfiguration {
     ) {
         EndpointImpl endpoint = new EndpointImpl(bus, backendWebService); //NOSONAR
 
-        endpoint.setServiceName(DomibusConnectorGatewaySubmissionWSService.SERVICE);
-        endpoint.setEndpointName(DomibusConnectorGatewaySubmissionWSService.DomibusConnectorGatewaySubmissionWebService);
-        endpoint.setWsdlLocation(DomibusConnectorGatewaySubmissionWSService.WSDL_LOCATION.toString());
+        endpoint.setServiceName(DomibusConnectorGatewayWSService.SERVICE);
+        endpoint.setEndpointName(DomibusConnectorGatewayWSService.DomibusConnectorGatewayWebService);
+        endpoint.setWsdlLocation(DomibusConnectorGatewayWSService.WSDL_LOCATION.toString());
 
         List<Feature> featureList = getFeatureList(ctx, wsPluginPropertyManager);
         LOGGER.debug("Activating the following features for DC-Plugin PullPlugin: [{}]", featureList);

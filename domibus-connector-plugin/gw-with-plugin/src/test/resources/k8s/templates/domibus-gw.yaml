@@ -50,6 +50,10 @@ spec:
               value: gw${lab.id}
             - name: GW_ID
               value: gw${lab.id}
+            - name: GW01_URL
+              value: http://ecx-gateway-lab01.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh
+            - name: GW02_URL
+              value: http://ecx-gateway-lab02.ju-eu-ejustice-eqs.svc.cluster.local:8080/domibus/services/msh
           image: ${gateway.image}
           imagePullPolicy: Always
           readinessProbe:
