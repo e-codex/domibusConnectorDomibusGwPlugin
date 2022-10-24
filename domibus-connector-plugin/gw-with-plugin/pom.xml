@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>eu.domibus.connector.plugin</groupId>
@@ -75,21 +77,30 @@
             <artifactId>cxf-rt-wsdl</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>eu.domibus.connector</groupId>
+            <artifactId>domibusConnectorTestData</artifactId>
+            <scope>test</scope>
+            <version>${domibus.connector.version}</version>
+        </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
+
                     <!-- download domibus AS4 gw -->
                     <execution>
                         <id>copy-domibus</id>
-                        <phase>process-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
+                        <phase>process-resources</phase>
                         <configuration>
+
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw</outputDirectory>
@@ -484,10 +495,29 @@
                 <executions>
                     <execution>
                         <id>create-distribution-package</id>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assembly-gw-with-plugin.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-pull-distribution-package</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
+                        <configuration>
+                            <appendAssemblyId>true</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assembly-gw-with-pull-plugin.xml</descriptor>
+                            </descriptors>
+                        </configuration>
                     </execution>
                 </executions>
                 <configuration>
@@ -504,7 +534,6 @@
                     <skip>false</skip>
                     <buildStrategy>jib</buildStrategy>
                     <pushRegistry>${image.registry}</pushRegistry>
-                    <!--                    <pushRegistry>default-route-openshift-image-registry.apps.a2.cp.cna.at/ju-eu-ejustice-eqs</pushRegistry>-->
                     <pullRegistry>${image.registry}</pullRegistry>
                     <images>
                         <image>

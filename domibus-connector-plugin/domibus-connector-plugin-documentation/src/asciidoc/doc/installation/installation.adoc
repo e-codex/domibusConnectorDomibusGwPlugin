@@ -16,13 +16,7 @@ endif::mvnbasedir[]
 
 = Plugin installation Guide
 
-== Known Issues
-
-CAUTION: The current 4.4.x-GW5 Plugin cannot use WS-security.
-
-So the only security policy which can be used is classpath:/wsdl/no-security.policy.xml. This means
-any message is transported as a simple soap message. So you have to use transport layer security (TLS)
-to protect the message exchange between GW and connector.
+CAUTION: The pull plugin does not work in combination with push and pull plugin.
 
 == Preconditions
 

@@ -11,3 +11,5 @@ CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.config.location=${DOMIBUS_CONFIG_LOCAT
 CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.work.location=${DOMIBUS_WORK_LOCATION}"
 CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.entityManagerFactory.jpaProperty.hibernate.dialect=${DOMIBUS_DATASOURCE_HIBERNATE_DIALECT}"
 CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.security.key.private.alias=${GW_PRIVATE_KEY_ALIAS}"
+
+#CATALINA_OPTS="${CATALINA_OPTS} -Dgw01.url=http://localhost:8080/domibus/services/msh"

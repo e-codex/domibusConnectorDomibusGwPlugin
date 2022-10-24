@@ -2,10 +2,7 @@ package eu.domibus.connector.plugin.transformer;
 
 import static eu.domibus.connector.plugin.domain.DomibusConnectorMessage.XML_MIME_TYPE;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import javax.activation.DataHandler;
 
@@ -104,6 +101,7 @@ public class DomibusConnectorMessageSubmissionTransformer implements MessageSubm
 
 	void transformMessageDetails(Submission submission, DomibusConnectorMessageType message) {
 		DomibusConnectorMessageDetailsType messageDetails = message.getMessageDetails();
+		Objects.requireNonNull(messageDetails, "Message Details are not allowed to be null!");
 		submission.setRefToMessageId(messageDetails.getRefToMessageId());
 		transformParties(submission, messageDetails);
 		transformCollaborationInfo(submission, messageDetails);

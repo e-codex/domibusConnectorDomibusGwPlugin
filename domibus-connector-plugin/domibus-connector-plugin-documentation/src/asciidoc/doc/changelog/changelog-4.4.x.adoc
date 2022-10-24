@@ -17,3 +17,8 @@
 
 * Only Push-Plugin has been tested yet
 * Pull Plugin might not work yet
+
+==== ALPHA4
+
+* Fix some issues with pull plugin
+* extended pull plugin tests
