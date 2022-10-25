@@ -13,11 +13,13 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>domibus-connector-push-plugin</artifactId>
             <version>${project.version}</version>
+            <classifier>shaded</classifier>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>domibus-connector-pull-plugin</artifactId>
             <version>${project.version}</version>
+            <classifier>shaded</classifier>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
