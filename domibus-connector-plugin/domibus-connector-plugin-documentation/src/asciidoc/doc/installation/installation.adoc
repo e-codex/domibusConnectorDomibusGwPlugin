@@ -56,29 +56,20 @@ cp $PLUGIN-DISTRIBUTION/plugins/lib/domibus-connector-[push|pull]-plugin.jar $DO
 
 === Configuring certificates
 
-TODO: describe locations of certificate stores...link to java key store explorer + key generation tutorial.
-
-
-=== Configuring the plugin
-
-//Add the following properties to your domibus.properties file:
+// TODO: describe locations of certificate stores...link to java key store explorer + key generation tutorial.
 //
-//[source, properties]
-//----
-//include::{mvnbasedir}/domibus-connector-plugin/src/main/resources/config/dc-plugin-default.properties[lines=1..-1]
-//----
-
-Location
-
-**Push-Plugin** Property names
-
-**Pull-Plugin** Property names
-
-
-TIP: As an alternative the properties can also be put into a file under ${domibus.config.location}/plugins/config/dc-plugin.properties. The plugin will also lookup properties their.
-Choose either one of the 2 approaches, otherwise the behaviour is undefined.
-
-WARNING: Please remember to update the properties according to your environment.
+//
+// Location
+//
+// **Push-Plugin** Property names
+//
+// **Pull-Plugin** Property names
+//
+//
+// TIP: As an alternative the properties can also be put into a file under ${domibus.config.location}/plugins/config/dc-plugin.properties. The plugin will also lookup properties their.
+// Choose either one of the 2 approaches, otherwise the behaviour is undefined.
+//
+// WARNING: Please remember to update the properties according to your environment.
 
 === Pull Plugin Configuration
 include::{basepath}/doc/installation/pull-plugin-installation.adoc[leveloffset=+2]
@@ -96,10 +87,11 @@ TIP: Consult the link:https://ec.europa.eu/cefdigital/wiki/download/attachments/
 .Message Filter View
 image:MessageFilterView.png[Message Filter]
 
-Also check if the Plugin is listed under $DOMIBUS-URL/services
+Also check if the Plugin is available under
 
-.Soap Services overview
-image:soap_services.png[Soap Services]
+* push-plugin: $DOMIBUS-URL/services/dcpushplugin?wsdl
+* pull-plugin: $DOMIBUS-URL/services/dcpullplugin?wsdl
+
 
 WARNING: Please make sure, that ONLY the MSHWebservice is available from the internet. Otherwise you are exposing internal webservices to the outside world.
 

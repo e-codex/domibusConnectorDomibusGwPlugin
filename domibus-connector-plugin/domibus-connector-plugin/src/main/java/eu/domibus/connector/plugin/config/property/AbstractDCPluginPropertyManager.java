@@ -39,15 +39,10 @@ public abstract class AbstractDCPluginPropertyManager extends DomibusPropertyExt
     public static final String DC_PUSH_PLUGIN_CXF_PUBLISH_URL = "dcplugin.push.publish.url";
     public static final String DC_PULL_PLUGIN_CXF_PUBLISH_URL = "dcplugin.pull.publish.url";
 
-    public static final String DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_NAME_PROPERTY_NAME = "dcplugin.push.notifications.queue";
-    public static final String DC_PULL_PLUGIN_NOTIFICATIONS_QUEUE_NAME_PROPERTY_NAME = "dcplugin.pull.notifications.queue";
-    public static final String DEFAULT_DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_NAME = "domibus.dcplugin.push.notifications.queue";
-    public static final String DEFAULT_DC_PULL_PLUGIN_NOTIFICATIONS_QUEUE_NAME = "domibus.dcplugin.pull.notifications.queue";
-    private final Map<String, DomibusPropertyMetadataDTO> knownProperties;
 
-//    protected String getPropertiesFileName() {
-//        return "dc-plugin.properties";
-//    }
+
+//    public static final String DEFAULT_DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_NAME = "domibus.dcplugin.push.notifications.queue";
+    private final Map<String, DomibusPropertyMetadataDTO> knownProperties;
 
     public AbstractDCPluginPropertyManager(List<DomibusPropertyMetadataDTO> properties, String moduleName) {
         List<DomibusPropertyMetadataDTO> allProperties = Arrays.asList(

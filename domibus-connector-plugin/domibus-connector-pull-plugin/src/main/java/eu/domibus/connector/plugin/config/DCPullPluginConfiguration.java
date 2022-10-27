@@ -30,10 +30,6 @@ public class DCPullPluginConfiguration extends DCPluginConfiguration {
     public static final String MODULE_NAME = "DC_PULL_PLUGIN" ;
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DCPullPluginConfiguration.class);
 
-    public static final String DC_PUSH_PLUGIN_CXF_FEATURE = "pullPluginFeatures";
-    public static final String DC_PUSH_PLUGIN_JAXWS_PROPERTIES_BEAN_NAME = "pullPluginJaxwsProperties";
-
-
     @PostConstruct
     public static void postConstruct() {
         LOGGER.info("Push Plugin is enabled");
@@ -41,7 +37,7 @@ public class DCPullPluginConfiguration extends DCPluginConfiguration {
 
 
     @Bean
-    public AbstractDCPluginPropertyManager dcPluginPropertyManager() {
+    public DCPullPluginPropertyManager dcPluginPropertyManager() {
         return new DCPullPluginPropertyManager();
     }
 
@@ -59,7 +55,7 @@ public class DCPullPluginConfiguration extends DCPluginConfiguration {
     public EndpointImpl pushBackendInterfaceEndpoint(@Qualifier(Bus.DEFAULT_BUS_ID) Bus bus,
                                                      DomibusConnectorPullWebservice backendWebService,
                                                      AuthenticationService authenticationService,
-                                                     AbstractDCPluginPropertyManager wsPluginPropertyManager,
+                                                     DCPullPluginPropertyManager wsPluginPropertyManager,
                                                      ApplicationContext ctx
     ) {
         EndpointImpl endpoint = new EndpointImpl(bus, backendWebService); //NOSONAR

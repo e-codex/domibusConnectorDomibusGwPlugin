@@ -1,5 +1,6 @@
 package eu.domibus.connector.plugin.config;
 
+import eu.domibus.connector.plugin.config.property.DCPushPluginPropertyManager;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.plugin.environment.TomcatCondition;
@@ -9,8 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
-import static eu.domibus.connector.plugin.config.DCPluginConfiguration.DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_BEAN;
-import static eu.domibus.connector.plugin.config.property.AbstractDCPluginPropertyManager.DEFAULT_DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_NAME;
+import static eu.domibus.connector.plugin.config.DCPushPluginConfiguration.DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_BEAN;
 
 /**
  * Class responsible for the configuration of the plugin for Tomcat
@@ -24,8 +24,8 @@ public class DCPushPluginTomcatConfiguration {
 
     @Bean
     @Qualifier(DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_BEAN)
-    public ActiveMQQueue pushPluginMessagesQueue() {
-        return new ActiveMQQueue(DEFAULT_DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_NAME);
+    public ActiveMQQueue pushPluginMessagesQueue(DCPushPluginPropertyManager propertyManager) {
+        return new ActiveMQQueue(propertyManager.getKnownPropertyValue(DCPushPluginPropertyManager.DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_NAME_PROPERTY_NAME));
     }
 
 }

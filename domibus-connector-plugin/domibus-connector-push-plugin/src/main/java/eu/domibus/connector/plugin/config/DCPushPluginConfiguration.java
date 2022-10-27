@@ -37,7 +37,9 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
 
     public static final String DC_PUSH_PLUGIN_CXF_FEATURES = "pushPluginCxfFeaturesBean";
 
-;
+    public static final String DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_BEAN = "dcPushPluginMessageQueueBean";
+    public static final String DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_JNDI = "jms/domibus.dcpushplugin.notifications";
+
     @Autowired
     ApplicationContext ctx;
 
@@ -53,7 +55,7 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
     }
 
     @Bean
-    public AbstractDCPluginPropertyManager dcPluginPropertyManager() {
+    public DCPushPluginPropertyManager dcPluginPropertyManager() {
         return new DCPushPluginPropertyManager();
     }
 
@@ -122,11 +124,12 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
     @Bean("asyncPushWebserviceNotification")
     public PluginAsyncNotificationConfiguration pushPluginAsyncNotificationConfiguration( @Qualifier(DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_BEAN) javax.jms.Queue notifyBackendWebServiceQueue,
                                                                                       DomibusConnectorPushWebservice backendConnector,
+                                                                                      DCPushPluginPropertyManager dcPushPluginPropertyManager,
                                                                                       Environment environment) {
         PluginAsyncNotificationConfiguration pluginAsyncNotificationConfiguration
                 = new PluginAsyncNotificationConfiguration(backendConnector, notifyBackendWebServiceQueue);
         if (DomibusEnvironmentUtil.INSTANCE.isApplicationServer(environment)) {
-            String queueNotificationJndi = DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_JNDI;
+            String queueNotificationJndi = dcPushPluginPropertyManager.getKnownPropertyValue(DCPushPluginPropertyManager.DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_NAME_PROPERTY_NAME);
             LOGGER.debug("Domibus is running inside an application server. Setting the queue name to [{}]", queueNotificationJndi);
             pluginAsyncNotificationConfiguration.setQueueName(queueNotificationJndi);
         }

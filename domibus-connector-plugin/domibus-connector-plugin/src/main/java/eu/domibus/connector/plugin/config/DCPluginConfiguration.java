@@ -32,11 +32,9 @@ public abstract class DCPluginConfiguration {
     public static final String POLICY_FEATURE_BEAN_NAME = "policyFeatureBean";
     public static final String CXF_LOGGING_FEATURE_BEAN_NAME = "cxfLoggingFeatureBean";
 
-    public static final String DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_BEAN = "dcPushPluginMessageQueueBean";
-    public static final String DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_JNDI = "jms/domibus.dcpushplugin.notifications";
+
 
     public static final String DC_PULL_PLUGIN_NOTIFICATIONS_QUEUE_BEAN = "dcPullPluginMessageQueueBean";
-    public static final String DC_PULL_PLUGIN_NOTIFICATIONS_QUEUE_JNDI = "jms/domibus.dcpullplugin.notifications";
 
 
     public static void putIfNotNull(AbstractDCPluginPropertyManager wsPluginPropertyManager, Properties props, String s, String cxfKeyStoreType) {

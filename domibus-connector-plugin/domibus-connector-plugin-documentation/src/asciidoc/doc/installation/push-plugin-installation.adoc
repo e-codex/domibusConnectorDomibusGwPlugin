@@ -14,13 +14,35 @@ ifndef::mvnbasedir[]
 endif::mvnbasedir[]
 
 
+=== Configuring Properties
+
+The plugin can be configured with numeros parameters. The following *default properties* contains all available properties. The *example properties* contains a list of properties you should change!
+
+*default properties*
+
+[source, properties]
+----
+include::{mvnbasedir}/domibus-connector-plugin/src/main/resources/config/dc-plugin-default.properties[]
+----
+
+*example properties*
+[source, properties]
+----
+include::{mvnbasedir}/gw-with-plugin/src/main/config/domibus/conf/domibus/plugins/config/dc-push-plugin.properties[]
+----
+
+
 === Configuring Queues
 
 The domibus-connector-plugin requires an additional queue. You have to configure it at your Message-Broker. If you are running the gateway with the embedded Message-Broker you have to add the queue definition into the activemq.xml file. The file is located at $DOMIBUS-CONFIG-LOCATION/internal/activemq.xml
 
 Add the following lines next to the other queue definitions (this will create the queue):
 
+// include::{mvnbasedir}/pom.xml[]
+
+
+
 [source, xml]
 ----
-<queue id="dcpluginNotificationsQueue" physicalName="${dcplugin.notifications.queue}" />
+include::{mvnbasedir}/gw-with-plugin/src/main/config/domibus/conf/domibus/internal/activemq.xml[tag=push_queue]
 ----
