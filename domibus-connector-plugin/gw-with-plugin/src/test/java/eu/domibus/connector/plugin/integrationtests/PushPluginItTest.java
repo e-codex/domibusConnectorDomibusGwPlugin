@@ -58,11 +58,12 @@ public class PushPluginItTest {
         jaxWsProxyFactoryBean.setProperties(properties);
         jaxWsProxyFactoryBean.setAddress(cxfDeliveryAddr);
 
-        DomibusConnectorMessageType t = new DomibusConnectorMessageType();
+        DomibusConnectorMessageType epoMessage = getDomibusConnectorMessageType();
 
         DomibusConnectorGatewaySubmissionWebService client =  (DomibusConnectorGatewaySubmissionWebService) jaxWsProxyFactoryBean.create();
-        client.submitMessage(t);
+        client.submitMessage(epoMessage);
 
+        //TODO: open client to listen...
 
     }
 
@@ -90,20 +91,7 @@ public class PushPluginItTest {
         jaxWsProxyFactoryBean.setAddress(cxfDeliveryAddr);
 
 
-        DomibusConnectorMessageType epoMessage = TransitionCreator.createEpoMessage();
-        epoMessage.getMessageDetails().getFromParty().setPartyId("gw01");
-        epoMessage.getMessageDetails().getFromParty().setPartyIdType("urn:oasis:names:tc:ebcore:partyid-type:eevidence");
-        epoMessage.getMessageDetails().getFromParty().setRole("http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator");
-        epoMessage.getMessageDetails().getToParty().setPartyId("gw01");
-        epoMessage.getMessageDetails().getToParty().setPartyIdType("urn:oasis:names:tc:ebcore:partyid-type:eevidence");
-        epoMessage.getMessageDetails().getToParty().setRole("http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/responder");
-        epoMessage.getMessageDetails().getService().setService("service1");
-        epoMessage.getMessageDetails().getService().setServiceType("urn:e-codex:services:");
-        epoMessage.getMessageDetails().getAction().setAction("action1");
-
-
-
-
+        DomibusConnectorMessageType epoMessage = getDomibusConnectorMessageType();
 
 
         //submit message to GW
@@ -122,6 +110,20 @@ public class PushPluginItTest {
         assertThat(listPendingMessageIdsResponse.getMessageIds()).hasSize(1);
 
 
+    }
+
+    private static DomibusConnectorMessageType getDomibusConnectorMessageType() {
+        DomibusConnectorMessageType epoMessage = TransitionCreator.createEpoMessage();
+        epoMessage.getMessageDetails().getFromParty().setPartyId("gw01");
+        epoMessage.getMessageDetails().getFromParty().setPartyIdType("urn:oasis:names:tc:ebcore:partyid-type:eevidence");
+        epoMessage.getMessageDetails().getFromParty().setRole("http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator");
+        epoMessage.getMessageDetails().getToParty().setPartyId("gw01");
+        epoMessage.getMessageDetails().getToParty().setPartyIdType("urn:oasis:names:tc:ebcore:partyid-type:eevidence");
+        epoMessage.getMessageDetails().getToParty().setRole("http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/responder");
+        epoMessage.getMessageDetails().getService().setService("service1");
+        epoMessage.getMessageDetails().getService().setServiceType("urn:e-codex:services:");
+        epoMessage.getMessageDetails().getAction().setAction("action1");
+        return epoMessage;
     }
 
 
