@@ -14,6 +14,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 
@@ -23,26 +25,34 @@ public class DomibusDbInitListener implements LifecycleListener {
 
     public static final String DOMIBUS_DATABASE_URL = "domibus.datasource.url";
 
+    public static final String JAR_RESOURCE_LOCATION = "/gw-liquibase-db-init.jar";
+
     @Override
     public void lifecycleEvent(LifecycleEvent event) {
 
         Lifecycle lifecycle = event.getLifecycle();
         LifecycleState state = lifecycle.getState();
 
+        String tempDir = System.getProperty("java.io.tmpdir");
+
         if (Lifecycle.BEFORE_START_EVENT.equals(event.getType())) {
             LOGGER.info("Running DB init");
 
             ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader(); //save classloader
 
-            try (InputStream is = getClass().getResourceAsStream("/gw-liquibase-db-init.jar")) {
+            try (InputStream is = getClass().getResourceAsStream(JAR_RESOURCE_LOCATION)) {
+                if (is == null) {
+                    throw new IllegalArgumentException("Input stream of " + JAR_RESOURCE_LOCATION + " cannot be null!");
+                }
 
-
-                File tempFile = File.createTempFile("gw-liquibase-db-init", ".jar");
-                try (FileOutputStream fos = new FileOutputStream(tempFile);) {
+                Path tempFile = Paths.get(tempDir)
+                        .resolve("gw-liquibase-db-init")
+                        .resolve(".jar");
+                try (FileOutputStream fos = new FileOutputStream(tempFile.toFile());) {
                     IOUtils.copy(is, fos);
                 }
 
-                Archive a = new JarFileArchive(tempFile);
+                Archive a = new JarFileArchive(tempFile.toFile());
                 MyJarLauncher myJarLauncher = new MyJarLauncher(a);
                 myJarLauncher.launch(new String[]{"--spring.config.location=${catalina.home}/conf/domibus/domibus.properties"});
 
@@ -59,9 +69,9 @@ public class DomibusDbInitListener implements LifecycleListener {
 
     }
 
-    private static void gracefullyDelete(File tempFile) {
+    private static void gracefullyDelete(Path tempFile) {
         try {
-            Files.delete(tempFile.toPath());
+            Files.delete(tempFile);
         } catch (IOException ioe) {
             //ignore..
             LOGGER.warning("Failed to delete: " + ioe.getMessage());
