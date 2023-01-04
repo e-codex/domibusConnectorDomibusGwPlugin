@@ -26,9 +26,6 @@ RUN groupadd --system domibus && useradd --system -g domibus domibus && chown -R
 
 
 RUN echo "#!/bin/bash" >> /app/run.sh && \
-#    echo "mkdir -p /app/temp/webapps && mkdir -p /app/temp/tomcat && mkdir -p /app/temp/conf/Catalina" >> /app/run.sh && \
-#    echo "ln -s /app/domibus/deployments/domibus.war /app/temp/webapps/domibus.war" >> /app/run.sh && \
-#    echo "java -jar /app/tools/gw-liquibase-db-init.jar" >> /app/run.sh && \
     echo "exec /app/domibus/bin/catalina.sh \$@" >> /app/run.sh
 RUN chmod +x /app/run.sh
 RUN chmod +x /app/domibus/bin/*.sh

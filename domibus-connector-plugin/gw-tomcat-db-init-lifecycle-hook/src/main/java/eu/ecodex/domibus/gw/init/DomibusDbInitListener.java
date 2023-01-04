@@ -50,6 +50,10 @@ public class DomibusDbInitListener implements LifecycleListener {
                         .resolve(".jar");
                 try (FileOutputStream fos = new FileOutputStream(tempFile.toFile());) {
                     IOUtils.copy(is, fos);
+                } catch (IOException ioe) {
+                    LOGGER.severe("Failed to write to " + tempFile + " " + ioe.getMessage());
+                    ioe.printStackTrace();
+                    System.exit(1);
                 }
 
                 Archive a = new JarFileArchive(tempFile.toFile());
