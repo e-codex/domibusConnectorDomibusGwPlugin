@@ -157,7 +157,7 @@
                                 <artifactItem>
                                     <overWrite>true</overWrite>
                                     <groupId>${project.groupId}</groupId>
-                                    <artifactId>domibus-connector-plugin</artifactId>
+                                    <artifactId>domibus-connector-plugin-common</artifactId>
                                     <classifier>gw-gwlink-stores</classifier>
                                     <version>${project.version}</version>
                                     <type>zip</type>
@@ -195,7 +195,7 @@
                                 <artifactItem>
                                     <overWrite>true</overWrite>
                                     <groupId>${project.groupId}</groupId>
-                                    <artifactId>domibus-connector-plugin</artifactId>
+                                    <artifactId>domibus-connector-plugin-common</artifactId>
                                     <classifier>gw-gwlink-stores</classifier>
                                     <version>${project.version}</version>
                                     <type>zip</type>
@@ -203,7 +203,7 @@
                                 <artifactItem>
                                     <overWrite>true</overWrite>
                                     <groupId>${project.groupId}</groupId>
-                                    <artifactId>domibus-connector-plugin</artifactId>
+                                    <artifactId>domibus-connector-plugin-common</artifactId>
                                     <classifier>connector-gwlink-stores</classifier>
                                     <version>${project.version}</version>
                                     <type>zip</type>
