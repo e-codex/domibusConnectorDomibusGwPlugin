@@ -7,7 +7,7 @@
     <packaging>pom</packaging>
     <description>Parent project for all domibus gw plugins</description>
     <modules>
-        <module>domibus-connector-plugin</module>
+        <module>domibus-connector-plugin-common</module>
         <module>domibus-connector-plugin-distribution</module>
         <module>domibus-connector-plugin-documentation</module>
         <module>gw-with-plugin</module>

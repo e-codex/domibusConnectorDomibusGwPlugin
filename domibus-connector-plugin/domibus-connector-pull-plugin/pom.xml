@@ -10,7 +10,7 @@
     <dependencies>
         <dependency>
             <groupId>eu.domibus.connector.plugin</groupId>
-            <artifactId>domibus-connector-plugin</artifactId>
+            <artifactId>domibus-connector-plugin-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
