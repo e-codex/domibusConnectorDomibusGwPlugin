@@ -46,8 +46,8 @@ public class DomibusDbInitListener implements LifecycleListener {
                 }
 
                 Path tempFile = Paths.get(tempDir)
-                        .resolve("gw-liquibase-db-init")
-                        .resolve(".jar");
+                        .resolve("gw-liquibase-db-init.jar");
+
                 try (FileOutputStream fos = new FileOutputStream(tempFile.toFile());) {
                     IOUtils.copy(is, fos);
                 } catch (IOException ioe) {
