@@ -21,20 +21,28 @@ NOTE: This matrix ist a list of tested combinations. If you have a up and runnin
 == Current Test-Matrix
 
 |===
-| Plugin Version | Java | GW-Webserver | Gateway | Connector (standalone)
+| Plugin Version | Java | GW-Webserver | Gateway | Connector (standalone) | Thanks To
 
 | 4.4.0 / PUSH
 | Java 8, AdoptJDK
 | Tomcat 9
 | 5.0
 | 4.4.5
+|
 
-
-| 4.4.0 / PULL
-| Java 8, AdoptJDK
+| 4.4.0 / PUSH
+|
 | Tomcat 9
-| 5.0
-| 4.4.5
+| 5.x
+| 4.4.x
+| Spain
+
+
+// | 4.4.0 / PULL
+// | Java 8, AdoptJDK
+// | Tomcat 9
+// | 5.0
+// | 4.4.5
 
 |===
 
