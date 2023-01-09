@@ -22,7 +22,7 @@ The plugin can be configured with numeros parameters. The following *default pro
 
 [source, properties]
 ----
-include::{mvnbasedir}/domibus-connector-plugin/src/main/resources/config/dc-plugin-default.properties[]
+include::{mvnbasedir}/domibus-connector-plugin-common/src/main/resources/config/dc-plugin-default.properties[]
 ----
 
 *example properties*

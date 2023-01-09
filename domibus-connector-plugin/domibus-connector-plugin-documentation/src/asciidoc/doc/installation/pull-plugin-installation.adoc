@@ -19,5 +19,5 @@ Please create the following table for PULL-Mode. You have to set the Column ID_P
 
 [source, sql]
 ----
-include::{mvnbasedir}/domibus-connector-plugin/src/main/resources/sql/create-dc-message-log-table.sql[]
+include::{mvnbasedir}/domibus-connector-plugin-common/src/main/resources/sql/create-dc-message-log-table.sql[]
 ----
