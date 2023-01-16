@@ -245,25 +245,23 @@ public class DCPluginConfiguration {
     ) {
         Properties props = new Properties();
 
-
         props.put("org.apache.wss4j.crypto.provider", "org.apache.wss4j.common.crypto.Merlin");
         putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.type", wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_TYPE));
-        props.put("org.apache.wss4j.crypto.merlin.keystore.file", checkLocation(ctx, wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PATH_PROPERTY_NAME)));
+        putIfNotNull(wsPluginPropertyManager, props,"org.apache.wss4j.crypto.merlin.keystore.file", checkLocation(ctx, wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PATH_PROPERTY_NAME)));
         putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.password", wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PASSWORD));
         putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.alias", wsPluginPropertyManager.getKnownPropertyValue(CXF_PRIVATE_KEY_ALIAS));
         putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.private.password", wsPluginPropertyManager.getKnownPropertyValue(CXF_PRIVATE_KEY_PASSWORD));
 
         checkKeyStore(CXF_KEY_STORE, wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_TYPE), wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PATH_PROPERTY_NAME), wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PASSWORD));
 
-
         putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.truststore.type", wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_TYPE_PROPERTY_NAME));
 
         String trustStoreLocation = wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PATH_PROPERTY_NAME);
 
-        checkKeyStore(CXF_TRUST_STORE, "JKS", trustStoreLocation, wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME));
+        checkKeyStore(CXF_TRUST_STORE, wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_TYPE_PROPERTY_NAME), trustStoreLocation, wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME));
 
         trustStoreLocation = checkLocation(ctx, trustStoreLocation);
-        props.put("org.apache.wss4j.crypto.merlin.truststore.file", trustStoreLocation);
+        putIfNotNull(wsPluginPropertyManager, props,"org.apache.wss4j.crypto.merlin.truststore.file", trustStoreLocation);
         putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.truststore.password", wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME));
 
         return props;
@@ -292,7 +290,7 @@ public class DCPluginConfiguration {
 
     private void checkKeyStore(String propName, String storeType, String location, String password) {
         if (storeType == null) {
-            throw new IllegalArgumentException(String.format("Property: [%s] is invalid: storeType is not allowed to be empty!", propName));
+            throw new IllegalArgumentException(String.format("Property: [%s.type] is invalid: storeType is not allowed to be empty!", propName));
         }
         try {
             KeyStore ks = KeyStore.getInstance(storeType);
@@ -301,7 +299,7 @@ public class DCPluginConfiguration {
 
 
         } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
-            String error = String.format("Property: [%s] is invalid:Failed to load KeyStore from location [%s]", propName, location);
+            String error = String.format("Property: [%s.*] is invalid:Failed to load KeyStore from location [%s]", propName, location);
             throw new RuntimeException(error, e);
         }
     }
