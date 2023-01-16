@@ -29,7 +29,7 @@
   </distributionManagement>
   <properties>
     <cxf.version>3.3.8</cxf.version>
-    <domibus.connector.version>4.3.0-DEV-SNAPSHOT</domibus.connector.version>
+    <domibus.connector.version>4.3.0</domibus.connector.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <asciidoctor.maven.plugin.version>2.1.0</asciidoctor.maven.plugin.version>
     <asciidoctorj.pdf.version>1.5.4</asciidoctorj.pdf.version>
