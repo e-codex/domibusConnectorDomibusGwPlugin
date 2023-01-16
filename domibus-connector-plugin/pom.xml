@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.domibus.connector.plugin</groupId>
   <artifactId>domibus-connector-plugin</artifactId>
-  <version>4.2.1-SNAPSHOT</version>
+  <version>4.2.1</version>
   <packaging>pom</packaging>
   <description>Parent project for all domibus gw plugins</description>
   <modules>
@@ -99,6 +99,13 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>3.9.1</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.asciidoctor</groupId>
+              <artifactId>asciidoctor-maven-plugin</artifactId>
+              <version>1.5.6</version>
+            </dependency>
+          </dependencies>
           <configuration>
             <skip>true</skip>
             <asciidoc>
@@ -109,13 +116,6 @@
               </attributes>
             </asciidoc>
           </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>org.asciidoctor</groupId>
-              <artifactId>asciidoctor-maven-plugin</artifactId>
-              <version>1.5.6</version>
-            </dependency>
-          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -124,22 +124,35 @@
         <groupId>org.asciidoctor</groupId>
         <artifactId>asciidoctor-maven-plugin</artifactId>
         <version>${asciidoctor.maven.plugin.version}</version>
-        <configuration>
-          <sourceDirectory>src/site/asciidoc</sourceDirectory>
-          <backend>html5</backend>
-          <attributes>
-            <source-highlighter>coderay</source-highlighter>
-            <imagesdir>./images</imagesdir>
-            <toc>left</toc>
-            <icons>font</icons>
-            <sectanchors>true</sectanchors>
-            <!-- set the idprefix to blank -->
-            <idprefix></idprefix>
-            <idseparator>-</idseparator>
-            <docinfo1>true</docinfo1>
-            <project-version>${project.version}</project-version>
-          </attributes>
-        </configuration>
+        <executions>
+          <execution>
+            <id>asciidoc-to-html</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>generate-pdf-doc</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+            <configuration>
+              <backend>pdf</backend>
+              <sourceDocumentName>installation.adoc</sourceDocumentName>
+              <attributes>
+                <source-highlighter>coderay</source-highlighter>
+                <icons>font</icons>
+                <pagenums></pagenums>
+                <toc></toc>
+                <idprefix></idprefix>
+                <idseparator>-</idseparator>
+                <imagesdir>./images</imagesdir>
+              </attributes>
+            </configuration>
+          </execution>
+        </executions>
         <dependencies>
           <dependency>
             <groupId>org.asciidoctor</groupId>
@@ -159,39 +172,25 @@
             <version>${asciidoctorj.version}</version>
           </dependency>
         </dependencies>
-        <executions>
-          <execution>
-            <id>asciidoc-to-html</id>
-            <goals>
-              <goal>process-asciidoc</goal>
-            </goals>
-            <phase>generate-resources</phase>
-          </execution>
-          <execution>
-            <id>generate-pdf-doc</id>
-            <goals>
-              <goal>process-asciidoc</goal>
-            </goals>
-            <phase>generate-resources</phase>
-            <configuration>
-              <backend>pdf</backend>
-              <sourceDocumentName>installation.adoc</sourceDocumentName>
-              <attributes>
-                <source-highlighter>coderay</source-highlighter>
-                <icons>font</icons>
-                <pagenums></pagenums>
-                <toc></toc>
-                <idprefix></idprefix>
-                <idseparator>-</idseparator>
-                <imagesdir>./images</imagesdir>
-              </attributes>
-            </configuration>
-          </execution>
-        </executions>
+        <configuration>
+          <sourceDirectory>src/site/asciidoc</sourceDirectory>
+          <backend>html5</backend>
+          <attributes>
+            <source-highlighter>coderay</source-highlighter>
+            <imagesdir>./images</imagesdir>
+            <toc>left</toc>
+            <icons>font</icons>
+            <sectanchors>true</sectanchors>
+            <!-- set the idprefix to blank -->
+            <idprefix></idprefix>
+            <idseparator>-</idseparator>
+            <docinfo1>true</docinfo1>
+            <project-version>${project.version}</project-version>
+          </attributes>
+        </configuration>
       </plugin>
     </plugins>
   </build>
-
   <!--  <reporting>-->
   <!--    <plugins>-->
   <!--      <plugin>-->
@@ -207,5 +206,4 @@
   <!--      </plugin>-->
   <!--    </plugins>-->
   <!--  </reporting>-->
-
 </project>
