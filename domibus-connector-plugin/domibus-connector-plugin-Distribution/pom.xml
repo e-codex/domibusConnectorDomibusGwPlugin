@@ -4,7 +4,7 @@
   <parent>
     <groupId>eu.domibus.connector.plugin</groupId>
     <artifactId>domibus-connector-plugin</artifactId>
-    <version>4.2.1-beta1</version>
+    <version>4.2.1-SNAPSHOT</version>
   </parent>
   <artifactId>domibus-connector-plugin-Distribution</artifactId>
   <packaging>pom</packaging>

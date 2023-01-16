@@ -247,16 +247,16 @@ public class DCPluginConfiguration {
 
 
         props.put("org.apache.wss4j.crypto.provider", "org.apache.wss4j.common.crypto.Merlin");
-        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.type", CXF_KEY_STORE_TYPE);
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.type", wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_TYPE));
         props.put("org.apache.wss4j.crypto.merlin.keystore.file", checkLocation(ctx, wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PATH_PROPERTY_NAME)));
-        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.password", CXF_KEY_STORE_PASSWORD);
-        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.alias", CXF_PRIVATE_KEY_ALIAS);
-        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.private.password", CXF_PRIVATE_KEY_PASSWORD);
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.password", wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PASSWORD));
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.alias", wsPluginPropertyManager.getKnownPropertyValue(CXF_PRIVATE_KEY_ALIAS));
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.private.password", wsPluginPropertyManager.getKnownPropertyValue(CXF_PRIVATE_KEY_PASSWORD));
 
         checkKeyStore(CXF_KEY_STORE, wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_TYPE), wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PATH_PROPERTY_NAME), wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PASSWORD));
 
 
-        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.truststore.type", CXF_TRUST_STORE_TYPE_PROPERTY_NAME);
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.truststore.type", wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_TYPE_PROPERTY_NAME));
 
         String trustStoreLocation = wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PATH_PROPERTY_NAME);
 
@@ -264,7 +264,7 @@ public class DCPluginConfiguration {
 
         trustStoreLocation = checkLocation(ctx, trustStoreLocation);
         props.put("org.apache.wss4j.crypto.merlin.truststore.file", trustStoreLocation);
-        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.truststore.password", CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME);
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.truststore.password", wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME));
 
         return props;
     }
