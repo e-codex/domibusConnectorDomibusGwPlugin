@@ -27,15 +27,19 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
 import javax.jms.Queue;
 import java.io.IOException;
-import java.net.URI;
+import java.net.URL;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -84,6 +88,8 @@ public class DCPluginConfiguration {
 //    public static final String DC_PLUGIN_PW_PROPERTY_NAME = "dcplugin.auth.password";
 
 
+    @Value("file:///${domibus.config.location}/plugins/config/dc-plugin.properties")
+    private String dcPluginExternalPropertiesFile;
 
     public static class IsPullPluginCondition implements Condition {
         @Override
@@ -99,17 +105,8 @@ public class DCPluginConfiguration {
         }
     }
 
-    public static class IsCxfLoggingFeatureEnabled implements Condition {
-        @Override
-        public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-            return "true".equalsIgnoreCase(context.getEnvironment().getProperty(CXF_LOGGING_FEATURE_PROPERTY_NAME));
-        }
-    }
-
-
     @Autowired
     ApplicationContext ctx;
-
 
     @Bean("backendPullPluginWebservice")
     @Conditional(IsPullPluginCondition.class)
@@ -288,24 +285,26 @@ public class DCPluginConfiguration {
         if (storeConfig.locationString == null) {
             throw new IllegalArgumentException(String.format("Property: [%s.file] is invalid: storeType is not allowed to be empty!", propName));
         }
+
         try {
-            storeConfig.location = checkLocation(ctx, storeConfig.locationString);
             KeyStore ks = KeyStore.getInstance(storeConfig.storeType);
-            ks.load(storeConfig.location.toURL().openStream(), storeConfig.password.toCharArray());
+            storeConfig.location = checkLocation(ctx, storeConfig.locationString);
+            ks.load(storeConfig.location.openStream(), storeConfig.password.toCharArray());
             return storeConfig;
         } catch (IllegalArgumentException | KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
-            String error = String.format("Property: [%s.*] is invalid:Failed to load KeyStore from location [%s] (URI [%s])", propName, storeConfig.locationString, storeConfig.location);
+            String error = String.format("Property: [%s.*] is invalid: Failed to load KeyStore from location [%s] (URL [%s]) due ", propName, storeConfig.locationString, storeConfig.location, e.getMessage());
             throw new RuntimeException(error, e);
         }
     }
 
-    private URI checkLocation(ApplicationContext ctx, String storeLocation) {
+    private URL checkLocation(ApplicationContext ctx, String storeLocation) {
         Resource resource = ctx.getResource(storeLocation);
         if (resource.exists()) {
             try {
-                return resource.getURI();
+                return resource.getURL();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                String error = String.format("IOException occurred while getting URL from [%s]", storeLocation);
+                throw new IllegalArgumentException(error, e);
             }
         }
         throw new IllegalArgumentException(String.format("A resource with name [%s] does not exist!", storeLocation));
@@ -313,7 +312,7 @@ public class DCPluginConfiguration {
 
     private static class StoreConfig {
         String locationString;
-        URI location;
+        URL location;
         String storeType;
         String password;
     }

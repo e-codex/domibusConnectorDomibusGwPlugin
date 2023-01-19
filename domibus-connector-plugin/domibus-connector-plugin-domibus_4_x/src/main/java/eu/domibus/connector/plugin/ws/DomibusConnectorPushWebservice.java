@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 
 public class DomibusConnectorPushWebservice extends AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> implements DomibusConnectorGatewaySubmissionWebService {
 
-	public static final String PLUGIN_NAME = "dc-push";
+	public static final String PLUGIN_NAME = "DC_PUSH_PLUGIN";
 
 	private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DomibusConnectorPushWebservice.class);
 
