@@ -25,7 +25,7 @@ public class DCPluginPropertyManager extends DomibusPropertyExtServiceDelegateAb
                 new DomibusPropertyMetadataDTO(DCPluginConfiguration.CXF_ENCRYPT_ALIAS, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(DCPluginConfiguration.CXF_KEY_STORE_PASSWORD, Type.PASSWORD, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(DCPluginConfiguration.CXF_KEY_STORE_PATH_PROPERTY_NAME, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
-                new DomibusPropertyMetadataDTO(DCPluginConfiguration.CXF_KEY_STORE_TYPE, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
+                new DomibusPropertyMetadataDTO(DCPluginConfiguration.CXF_KEY_STORE_TYPE_PROPERTY_NAME, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(DCPluginConfiguration.CXF_PRIVATE_KEY_ALIAS, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(DCPluginConfiguration.CXF_PRIVATE_KEY_PASSWORD, Type.PASSWORD, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(DCPluginConfiguration.CXF_TRUST_STORE_TYPE_PROPERTY_NAME, Type.STRING, DCPluginConfiguration.MODULE_NAME, Usage.GLOBAL),

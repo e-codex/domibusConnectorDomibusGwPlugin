@@ -35,6 +35,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 
 import javax.jms.Queue;
 import java.io.IOException;
+import java.net.URI;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -55,7 +56,7 @@ public class DCPluginConfiguration {
     public static final String CXF_KEY_STORE_PATH_PROPERTY_NAME = "connector.delivery.key-store.file";
     public static final String CXF_KEY_STORE_PASSWORD = "connector.delivery.key-store.password";
     public static final String CXF_KEY_STORE = "connector.delivery.key-store";
-    public static final String CXF_KEY_STORE_TYPE = "connector.delivery.key-store.type";
+    public static final String CXF_KEY_STORE_TYPE_PROPERTY_NAME = "connector.delivery.key-store.type";
     public static final String CXF_PRIVATE_KEY_ALIAS = "connector.delivery.private-key.alias";
     public static final String CXF_PRIVATE_KEY_PASSWORD = "connector.delivery.private-key.password";
     public static final String CXF_ENCRYPT_ALIAS = "connector.delivery.encrypt-alias";
@@ -246,62 +247,75 @@ public class DCPluginConfiguration {
         Properties props = new Properties();
 
         props.put("org.apache.wss4j.crypto.provider", "org.apache.wss4j.common.crypto.Merlin");
-        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.type", wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_TYPE));
-        putIfNotNull(wsPluginPropertyManager, props,"org.apache.wss4j.crypto.merlin.keystore.file", checkLocation(ctx, wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PATH_PROPERTY_NAME)));
-        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.password", wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PASSWORD));
-        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.alias", wsPluginPropertyManager.getKnownPropertyValue(CXF_PRIVATE_KEY_ALIAS));
-        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.private.password", wsPluginPropertyManager.getKnownPropertyValue(CXF_PRIVATE_KEY_PASSWORD));
 
-        checkKeyStore(CXF_KEY_STORE, wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_TYPE), wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PATH_PROPERTY_NAME), wsPluginPropertyManager.getKnownPropertyValue(CXF_KEY_STORE_PASSWORD));
+        StoreConfig keyStore = checkKeyStore(wsPluginPropertyManager, CXF_KEY_STORE);
+        props.put("org.apache.wss4j.crypto.merlin.keystore.type", keyStore.storeType);
+        props.put("org.apache.wss4j.crypto.merlin.keystore.file", keyStore.location.toString());
+        props.put("org.apache.wss4j.crypto.merlin.keystore.password", keyStore.password);
 
-        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.truststore.type", wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_TYPE_PROPERTY_NAME));
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.alias", CXF_PRIVATE_KEY_ALIAS);
+        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.keystore.private.password", CXF_PRIVATE_KEY_PASSWORD);
 
-        String trustStoreLocation = wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PATH_PROPERTY_NAME);
-
-        checkKeyStore(CXF_TRUST_STORE, wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_TYPE_PROPERTY_NAME), trustStoreLocation, wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME));
-
-        trustStoreLocation = checkLocation(ctx, trustStoreLocation);
-        putIfNotNull(wsPluginPropertyManager, props,"org.apache.wss4j.crypto.merlin.truststore.file", trustStoreLocation);
-        putIfNotNull(wsPluginPropertyManager, props, "org.apache.wss4j.crypto.merlin.truststore.password", wsPluginPropertyManager.getKnownPropertyValue(CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME));
+        StoreConfig trustStore = checkKeyStore(wsPluginPropertyManager, CXF_TRUST_STORE);
+        props.put("org.apache.wss4j.crypto.merlin.truststore.type", trustStore.storeType);
+        props.put("org.apache.wss4j.crypto.merlin.truststore.file", trustStore.location.toString());
+        props.put("org.apache.wss4j.crypto.merlin.truststore.password", trustStore.password);
 
         return props;
     }
 
-    private void putIfNotNull(DCPluginPropertyManager wsPluginPropertyManager, Properties props, String s, String cxfKeyStoreType) {
-        String knownPropertyValue = wsPluginPropertyManager.getKnownPropertyValue(cxfKeyStoreType);
+    private void putIfNotNull(DCPluginPropertyManager wsPluginPropertyManager, Properties props, String s, String propertyName) {
+        String knownPropertyValue = wsPluginPropertyManager.getKnownPropertyValue(propertyName);
         if (knownPropertyValue == null) {
             throw new IllegalArgumentException(String.format("The property %s is null - this is not allowed!", s));
         }
         props.put(s, knownPropertyValue);
     }
 
-    private String checkLocation(ApplicationContext ctx, String storeLocation) {
+    private StoreConfig checkKeyStore(DCPluginPropertyManager wsPluginPropertyManager, String propName) {
+        StoreConfig storeConfig = new StoreConfig();
+
+        storeConfig.locationString = wsPluginPropertyManager.getKnownPropertyValue(propName + ".file");
+        storeConfig.storeType = wsPluginPropertyManager.getKnownPropertyValue(propName + ".type");
+        storeConfig.password = wsPluginPropertyManager.getKnownPropertyValue(propName + ".password");
+
+        if (storeConfig.storeType == null) {
+            throw new IllegalArgumentException(String.format("Property: [%s.type] is invalid: storeType is not allowed to be empty!", propName));
+        }
+        if (storeConfig.password == null) {
+            throw new IllegalArgumentException(String.format("Property: [%s.password] is invalid: storeType is not allowed to be empty!", propName));
+        }
+        if (storeConfig.locationString == null) {
+            throw new IllegalArgumentException(String.format("Property: [%s.file] is invalid: storeType is not allowed to be empty!", propName));
+        }
+        try {
+            storeConfig.location = checkLocation(ctx, storeConfig.locationString);
+            KeyStore ks = KeyStore.getInstance(storeConfig.storeType);
+            ks.load(storeConfig.location.toURL().openStream(), storeConfig.password.toCharArray());
+            return storeConfig;
+        } catch (IllegalArgumentException | KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
+            String error = String.format("Property: [%s.*] is invalid:Failed to load KeyStore from location [%s] (URI [%s])", propName, storeConfig.locationString, storeConfig.location);
+            throw new RuntimeException(error, e);
+        }
+    }
+
+    private URI checkLocation(ApplicationContext ctx, String storeLocation) {
         Resource resource = ctx.getResource(storeLocation);
         if (resource.exists()) {
             try {
-                storeLocation = resource.getURI().toString();
+                return resource.getURI();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-        return storeLocation;
+        throw new IllegalArgumentException(String.format("A resource with name [%s] does not exist!", storeLocation));
     }
 
-
-    private void checkKeyStore(String propName, String storeType, String location, String password) {
-        if (storeType == null) {
-            throw new IllegalArgumentException(String.format("Property: [%s.type] is invalid: storeType is not allowed to be empty!", propName));
-        }
-        try {
-            KeyStore ks = KeyStore.getInstance(storeType);
-            Resource resource = ctx.getResource(location);
-            ks.load(resource.getInputStream(), password.toCharArray());
-
-
-        } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
-            String error = String.format("Property: [%s.*] is invalid:Failed to load KeyStore from location [%s]", propName, location);
-            throw new RuntimeException(error, e);
-        }
+    private static class StoreConfig {
+        String locationString;
+        URI location;
+        String storeType;
+        String password;
     }
 
     @Bean(DC_PLUGIN_CXF_FEATURE)

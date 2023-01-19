@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 
 public class DomibusConnectorPullWebservice extends AbstractBackendConnector<DomibusConnectorMessage, DomibusConnectorMessage> implements DomibusConnectorGatewayWebService {
 
-    public static final String PLUGIN_NAME = "DC_PULL_PLUGIN";
+    public static final String PLUGIN_NAME = "dc_pull_plugin";
 
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DomibusConnectorPullWebservice.class);
 
