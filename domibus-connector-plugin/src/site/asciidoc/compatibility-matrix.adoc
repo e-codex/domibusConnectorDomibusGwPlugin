@@ -1,0 +1,9 @@
+= Compatibility-Matrix
+
+
+The current 4.2.x plugin has been build against the following APIs:
+
+* DomibusConnector API: 4.3.0 (DomibusConnectorAPI is compatible within 4.2.x, 4.3.x, 4.4.x)
+* DomibusPlugin API 4.2
+
+For DomibusPlugin API 5.0 move to 4.4.x plugin

@@ -74,13 +74,13 @@ TIP: Consult the link:https://ec.europa.eu/cefdigital/wiki/download/attachments/
 
 image:MessageFilterView.png[Message Filter]
 
-Also check if the Plugin is listed under $DOMIBUS-URL/services
+Also check if the Plugin Service Definition is reachable under $DOMIBUS-URL/services/dcplugin?wsdl
 
-image:soap_services.png[Soap Services]
+image:screenshot_service_wsdl.png[Soap Service Wsdl]
 
-WARNING: Please make sure, that ONLY the MSHWebservice is available from the internet. Otherwise you are exposing internal webservices to the outside world.
+WARNING: dcplugin can be overriden by the property 'connector.delivery.service.publish=/dcplugin' (leads to $DOMIBUS-URL/services/dcplugin). This means if you change this value the service would be published under a different url!
 
 
-
+include::compatibility-matrix.adoc[leveloffset=+2]
 
 include::test-matrix.adoc[leveloffset=+2]

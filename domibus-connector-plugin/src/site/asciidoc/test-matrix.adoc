@@ -19,5 +19,10 @@ The current 4.2.x plugin has been tested with the following components:
 | 4.3.0
 | Mode-Push
 
+| Java 10, AdoptJDK
+| Tomcat 9
+| 4.2.1
+| 4.4.5
+| Mode-Push
 
 |===
