@@ -41,35 +41,27 @@ This installation manual is for version: **{project-version}**.
 
 == Installing the plugin on domibus
 
+
+=== Jar File
+
 The plugin comes packaged as a jar file. This jar file has to be
 put into the domibus plugin lib folder, so domibus wil find it
 during startup:
 
 [source, bash]
 ----
-cp $PLUGIN-DISTRIBUTION/plugins/lib/domibus-connector-[push|pull]-plugin.jar $DOMIBUS-CONFIG-LOCATION/conf/plugins/lib/domibus-connector-[push|pull]-plugin.jar
+cp $PLUGIN-DISTRIBUTION/plugins/lib/domibus-connector-[push|pull]-plugin.jar $DOMIBUS-CONFIG-LOCATION/plugins/lib/domibus-connector-[push|pull]-plugin.jar
 ----
 
+=== Properties
 
+Create a property file under $DOMIBUS-CONFIG-LOCATION/plugins/config/dc-[push|pull]-plugin.properties
+
+And overwrite the default properties in this file.
 
 
 
 === Configuring certificates
-
-// TODO: describe locations of certificate stores...link to java key store explorer + key generation tutorial.
-//
-//
-// Location
-//
-// **Push-Plugin** Property names
-//
-// **Pull-Plugin** Property names
-//
-//
-// TIP: As an alternative the properties can also be put into a file under ${domibus.config.location}/plugins/config/dc-plugin.properties. The plugin will also lookup properties their.
-// Choose either one of the 2 approaches, otherwise the behaviour is undefined.
-//
-// WARNING: Please remember to update the properties according to your environment.
 
 === Pull Plugin Configuration
 include::{basepath}/doc/installation/pull-plugin-installation.adoc[leveloffset=+2]
