@@ -474,6 +474,12 @@
                                                 <fileSet>
                                                     <!--                                                    <outputDirectory>./</outputDirectory>-->
                                                     <directory>target/gw/domibus/</directory>
+                                                    <excludes>
+                                                        <excludes>
+                                                            <exclude>conf/domibus/plugins/lib/domibus-connector-pull-plugin-${project.version}-shaded.jar</exclude>
+                                                            <exclude>conf/domibus/plugins/config/dc-pull-plugin.properties</exclude>
+                                                        </excludes>
+                                                    </excludes>
                                                 </fileSet>
                                             </fileSets>
                                         </layer>
@@ -514,19 +520,19 @@
                             </descriptors>
                         </configuration>
                     </execution>
-<!--                    <execution>-->
-<!--                        <id>create-push-distribution-package</id>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>single</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <appendAssemblyId>true</appendAssemblyId>-->
-<!--                            <descriptors>-->
-<!--                                <descriptor>src/main/assembly/assembly-gw-with-push-plugin.xml</descriptor>-->
-<!--                            </descriptors>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
+                    <execution>
+                        <id>create-push-distribution-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <appendAssemblyId>true</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assembly-gw-with-push-plugin.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
                 </executions>
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
