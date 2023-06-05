@@ -14,3 +14,15 @@ set "CATALINA_OPTS=%CATALINA_OPTS% -Dgw07.url=http://localhost:8070/domibus/serv
 set "CATALINA_OPTS=%CATALINA_OPTS% -Dgw08.url=http://localhost:8080/domibus/services/msh"
 set "CATALINA_OPTS=%CATALINA_OPTS% -Dgw09.url=http://localhost:8090/domibus/services/msh"
 set "CATALINA_OPTS=%CATALINA_OPTS% -Dgw10.url=http://localhost:8100/domibus/services/msh"
+
+REM 1199
+set "CATALINA_OPTS=%CATALINA_OPTS% -DactiveMQ.connectorPort=1199"
+REM tcp://localhost:61616"
+set "CATALINA_OPTS=%CATALINA_OPTS% -DactiveMQ.transportConnector.uri=tcp://localhost:61616"
+
+REM tomcat server port
+set "CATALINA_OPTS=%CATALINA_OPTS% -Dtomcat.port.http=8080"
+REM tomcat shutdown port
+set "CATALINA_OPTS=%CATALINA_OPTS% -Dtomcat.port.shutdown=8009"
+
+set "CATALINA_OPTS=%CATALINA_OPTS%  -Dorg.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.EnvironmentPropertySource"

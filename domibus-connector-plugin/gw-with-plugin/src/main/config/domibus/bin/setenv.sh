@@ -11,6 +11,10 @@ CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.config.location='${DOMIBUS_CONFIG_LOCA
 CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.work.location='${DOMIBUS_WORK_LOCATION}'"
 CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.entityManagerFactory.jpaProperty.hibernate.dialect='${DOMIBUS_DATASOURCE_HIBERNATE_DIALECT}'"
 CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.security.key.private.alias='${GW_PRIVATE_KEY_ALIAS}'"
+#1199
+CATALINA_OPTS="${CATALINA_OPTS} -DactiveMQ.connectorPort='1199"
+#tcp://localhost:61616"
+CATALINA_OPTS="${CATALINA_OPTS} -DactiveMQ.transportConnector.uri='tcp://localhost:61616'"
 CATALINA_OPTS="${CATALINA_OPTS} -Dgw.self='${GW_SELF}'"
 CATALINA_OPTS="${CATALINA_OPTS} -Dlab.id='${LAB_ID}'"
 CATALINA_OPTS="${CATALINA_OPTS} -Dgw01.url='${GW01_URL}'"
@@ -24,6 +28,14 @@ CATALINA_OPTS="${CATALINA_OPTS} -Dgw08.url='${GW08_URL}'"
 CATALINA_OPTS="${CATALINA_OPTS} -Dgw09.url='${GW09_URL}'"
 CATALINA_OPTS="${CATALINA_OPTS} -Dgw10.url='${GW10_URL}'"
 CATALINA_OPTS="${CATALINA_OPTS} -Dconnector.delivery.service.address='${CONNECTOR_DELIVERY_SERVICE_ADDRESS}'"
+#tomcat server port
+CATALINA_OPTS="${CATALINA_OPTS} -Dtomcat.port.http=8080"
+#tomcat shutdown port
+CATALINA_OPTS="${CATALINA_OPTS} -Dtomcat.port.shutdown=8009"
+
+CATALINA_OPTS="${CATALINA_OPTS} -Dorg.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.EnvironmentPropertySource"
+
+
 
 
 
