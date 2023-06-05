@@ -10,12 +10,9 @@
             <directory>target/gw/domibus</directory>
             <outputDirectory>domibus</outputDirectory>
             <excludes>
-                <exclude>domibus/conf/domibus/plugins/lib/domibus-connector-push-plugin-${project.version}-shaded.jar</exclude>
+                <exclude>conf/domibus/plugins/lib/domibus-connector-push-plugin-${project.version}-shaded.jar</exclude>
+                <exclude>conf/domibus/plugins/config/dc-push-plugin.properties</exclude>
             </excludes>
-        </fileSet>
-        <fileSet>
-            <directory>src/main/pull-config/domibus</directory>
-            <outputDirectory>domibus</outputDirectory>
         </fileSet>
     </fileSets>
 

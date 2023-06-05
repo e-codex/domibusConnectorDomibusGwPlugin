@@ -103,7 +103,7 @@
                                 <artifactItem>
                                     <overWrite>true</overWrite>
                                     <groupId>eu.domibus</groupId>
-                                    <artifactId>domibus-distribution</artifactId>
+                                    <artifactId>domibus-msh-distribution</artifactId>
                                     <classifier>tomcat-full</classifier>
                                     <version>${domibus-gw.version}</version>
                                     <type>zip</type>
@@ -127,7 +127,7 @@
                                 <artifactItem>
                                     <overWrite>true</overWrite>
                                     <groupId>eu.domibus</groupId>
-                                    <artifactId>domibus-distribution</artifactId>
+                                    <artifactId>domibus-msh-distribution</artifactId>
                                     <classifier>tomcat-war</classifier>
                                     <version>${domibus-gw.version}</version>
                                     <type>zip</type>
