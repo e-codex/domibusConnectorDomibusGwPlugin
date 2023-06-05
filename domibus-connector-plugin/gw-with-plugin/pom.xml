@@ -514,6 +514,19 @@
                             </descriptors>
                         </configuration>
                     </execution>
+<!--                    <execution>-->
+<!--                        <id>create-push-distribution-package</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>single</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <appendAssemblyId>true</appendAssemblyId>-->
+<!--                            <descriptors>-->
+<!--                                <descriptor>src/main/assembly/assembly-gw-with-push-plugin.xml</descriptor>-->
+<!--                            </descriptors>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
                 </executions>
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
