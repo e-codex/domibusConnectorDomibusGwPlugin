@@ -1,0 +1,10 @@
+
+
+== 4.5.x
+
+=== 4.5.0
+
+Contains all Features from 4.4.x. The version number has been increased to avoid problem with a wrongfully
+deployed artifact with the version of 4.4.0!
+
+

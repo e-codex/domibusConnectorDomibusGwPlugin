@@ -23,7 +23,7 @@ NOTE: This matrix ist a list of tested combinations. If you have a up and runnin
 |===
 | Plugin Version | Java | GW-Webserver | Gateway | Connector (standalone) | Thanks To
 
-| 4.4.0 / PUSH
+| 4.5.0 / PUSH
 | Java 8, AdoptJDK
 | Tomcat 9
 | 5.0

@@ -22,6 +22,8 @@ include::{basepath}/doc/changelog/changelog-4.3.x.adoc[]
 
 include::{basepath}/doc/changelog/changelog-4.4.x.adoc[]
 
+include::{basepath}/doc/changelog/changelog-4.5.x.adoc[]
+
 
 
 

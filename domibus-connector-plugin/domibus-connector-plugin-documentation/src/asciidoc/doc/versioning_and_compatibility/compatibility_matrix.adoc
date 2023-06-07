@@ -19,7 +19,7 @@ For a more details consult the link:test-matrix[].
 | Gateway Plugin-API | Connector API
 
 | 5.0
-| 4.4.x
+| 4.5.x
 
 |===
 
