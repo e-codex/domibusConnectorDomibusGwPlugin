@@ -474,10 +474,8 @@
                                                 <fileSet>
                                                     <!--                                                    <outputDirectory>./</outputDirectory>-->
                                                     <directory>target/gw/domibus/</directory>
-                                                    <excludes>
-                                                        <exclude>conf/domibus/plugins/lib/domibus-connector-pull-plugin-${project.version}-shaded.jar</exclude>
-                                                        <exclude>conf/domibus/plugins/config/dc-pull-plugin.properties</exclude>
-                                                    </excludes>
+                                                    <exclude>conf/domibus/plugins/lib/domibus-connector-pull-plugin-${project.version}-shaded.jar,conf/domibus/plugins/config/dc-pull-plugin.properties</exclude>
+
                                                 </fileSet>
                                             </fileSets>
                                         </layer>
