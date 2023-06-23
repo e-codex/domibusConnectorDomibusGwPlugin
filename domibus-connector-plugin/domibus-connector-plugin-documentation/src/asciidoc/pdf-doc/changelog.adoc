@@ -1,0 +1,11 @@
+ifndef::rootpath[]
+:rootpath: ../
+endif::rootpath[]
+
+
+:doctype: book
+:title: domibusConnectorPlugin - Changelog : domibusConnectorPlugin-{project-version}
+
+include::../doc/changelog/changelog.adoc[]
+
+

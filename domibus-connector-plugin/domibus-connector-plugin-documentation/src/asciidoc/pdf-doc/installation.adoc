@@ -11,3 +11,5 @@ endif::rootpath[]
 //:title-logo-image: ../resources/images/logo_ecodex_0.png
 
 include::../doc/installation/installation.adoc[]
+
+
