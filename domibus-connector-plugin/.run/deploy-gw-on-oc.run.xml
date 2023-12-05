@@ -10,7 +10,7 @@
               <entry key="HTTPS_PROXY" value="" />
             </map>
           </option>
-          <option name="jreName" value="temurin-11" />
+          <option name="jreName" value="temurin-17 (SCCM)" />
           <option name="mavenProperties">
             <map />
           </option>
@@ -22,6 +22,7 @@
       </option>
       <option name="myRunnerParameters">
         <MavenRunnerParameters>
+          <option name="cmdOptions" />
           <option name="profiles">
             <set />
           </option>
@@ -38,6 +39,9 @@
           <option name="pomFileName" />
           <option name="profilesMap">
             <map />
+          </option>
+          <option name="projectsCmdOptionValues">
+            <list />
           </option>
           <option name="resolveToWorkspace" value="false" />
           <option name="workingDirPath" value="$PROJECT_DIR$" />
