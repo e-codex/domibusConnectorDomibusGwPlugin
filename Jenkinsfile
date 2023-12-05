@@ -3,9 +3,6 @@
 import at.gv.brz.justiz3.jenkins.JU30BuildConfig
 import at.gv.brz.jueu.job.JuEuJobConfiguration
 
-# Some change
-# Additional change
-
 
 def buildConfig = new JU30BuildConfig()
 def euJobConfig = new JuEuJobConfiguration()
