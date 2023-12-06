@@ -11,7 +11,7 @@ buildConfig.mailTo = "stephan.spindler@brz.gv.at"
 buildConfig.mavenSettingsId = "ecodex-maven-settings"
 
 buildConfig.sonarQubeTokenId = "JUEUECODEX_SonarQubeToken"
-buildConfig.sonarqubeProjectKey = "jueucx:domibusConnectorPlugin"
+//buildConfig.sonarqubeProjectKey = "jueucx:domibusConnectorPlugin"
 
 genericPipeline(buildConfig, euJobConfig)
 

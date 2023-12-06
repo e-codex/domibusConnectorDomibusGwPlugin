@@ -1,5 +1,5 @@
-FROM java:openjdk-8-ubi8
-ENV CATALINA_HOME=/app/domibus
+FROM tomcat:10
+#ENV CATALINA_HOME=/app/domibus
 ENV DOMIBUS_CONFIG_LOCATION=/app/domibus/conf/domibus
 ENV DOMIBUS_WORK_LOCATION=/app/domibus/work
 ENV CATALINA_TMPDIR=/app/domibus/temp

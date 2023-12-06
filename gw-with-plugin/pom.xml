@@ -90,7 +90,7 @@
                 <executions>
                     <!-- download domibus AS4 gw -->
                     <execution>
-                        <id>copy-domibus</id>
+                        <id>copy-domibus-tomcat</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>unpack</goal>
@@ -107,7 +107,8 @@
                                     <classifier>tomcat-full</classifier>
                                     <version>${domibus-gw.version}</version>
                                     <type>zip</type>
-                                    <excludes>domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**,domibus/webapps/**</excludes>
+                                    <excludes>domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**,domibus/webapps/**,domibus/**</excludes>
+                                    <includes>domibus/conf/**</includes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -176,22 +177,6 @@
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/test-classes</outputDirectory>
                             <artifactItems>
-                                <!--                                <artifactItem>-->
-                                <!--                                    <overWrite>true</overWrite>-->
-                                <!--                                    <groupId>eu.ecodex.labbox</groupId>-->
-                                <!--                                    <artifactId>ecodex-lab-box-config</artifactId>-->
-                                <!--                                    <classifier>connectortestkeystores</classifier>-->
-                                <!--                                    <version>2022.09.1</version>-->
-                                <!--                                    <type>zip</type>-->
-                                <!--                                </artifactItem>-->
-                                <!--                                <artifactItem>-->
-                                <!--                                    <overWrite>true</overWrite>-->
-                                <!--                                    <groupId>eu.ecodex.labbox</groupId>-->
-                                <!--                                    <artifactId>ecodex-lab-box-config</artifactId>-->
-                                <!--                                    <classifier>gwtestkeystores</classifier>-->
-                                <!--                                    <version>2022.09.1</version>-->
-                                <!--                                    <type>zip</type>-->
-                                <!--                                </artifactItem>-->
                                 <artifactItem>
                                     <overWrite>true</overWrite>
                                     <groupId>${project.groupId}</groupId>
