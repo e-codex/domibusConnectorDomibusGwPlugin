@@ -8,6 +8,7 @@ def buildConfig = new JU30BuildConfig()
 def euJobConfig = new JuEuConfiguration()
 
 buildConfig.mailTo = "stephan.spindler@brz.gv.at"
+buildConfig.mavenSettingsId = "ecodex-maven-settings"
 
 genericPipeline(buildConfig, euJobConfig)
 
