@@ -7,6 +7,8 @@ import at.gv.brz.jueu.job.JuEuConfiguration
 def buildConfig = new JU30BuildConfig()
 def euJobConfig = new JuEuConfiguration()
 
+buildConfig.mailTo = "stephan.spindler@brz.gv.at"
+
 genericPipeline(buildConfig, euJobConfig)
 
 
