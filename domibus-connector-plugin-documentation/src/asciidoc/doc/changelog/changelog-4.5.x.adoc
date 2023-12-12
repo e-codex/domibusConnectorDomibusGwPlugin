@@ -7,4 +7,10 @@
 Contains all Features from 4.4.x. The version number has been increased to avoid problem with a wrongfully
 deployed artifact with the version of 4.4.0!
 
+=== 4.5.1
+
+* Add Dockerbuild for gw with push plugin
+* Update to gw 5.1.1 for gw-with-plugin-* artifacts
+
+
 

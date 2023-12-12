@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>eu.domibus</groupId>
-            <artifactId>domibus-db</artifactId>
+            <artifactId>domibus-msh-db</artifactId>
             <version>${domibus-gw.version}</version>
             <scope>compile</scope>
         </dependency>

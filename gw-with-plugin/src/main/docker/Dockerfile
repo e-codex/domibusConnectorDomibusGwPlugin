@@ -1,8 +1,9 @@
-FROM tomcat:10
-#ENV CATALINA_HOME=/app/domibus
-ENV DOMIBUS_CONFIG_LOCATION=/app/domibus/conf/domibus
+FROM tomcat:10-jdk17
+
+
+ENV DOMIBUS_CONFIG_LOCATION=${CATALINA_HOME}/conf/domibus/
 ENV DOMIBUS_WORK_LOCATION=/app/domibus/work
-ENV CATALINA_TMPDIR=/app/domibus/temp
+
 
 ENV DOMIBUS_DATASOURCE_URL='jdbc:h2:file:/app/domibus/work/database;AUTO_SERVER=TRUE;MODE=LEGACY;NON_KEYWORDS=KEY,VALUE'
 ENV DOMIBUS_DATASOURCE_DRIVER_CLASS_NAME=org.h2.Driver
@@ -12,27 +13,17 @@ ENV DOMIBUS_DATASOURCE_HIBERNATE_DIALECT=org.hibernate.dialect.H2Dialect
 
 ENV GW_PRIVATE_KEY_ALIAS=''
 
-COPY app /app/
-USER root
 
-#RUN mkdir /app/data && mkdir /app/data/work && \
-#    mkdir /app/logs && rm -rf /app/domibus/logs && ln -s /app/logs /app/domibus/logs && \
-#    mkdir /app/temp && rm -rf /app/domibus/temp && mkdir /app/temp/temp && ln -s /app/temp/temp /app/domibus/temp && \
-#    ln -s /app/temp/webapps /app/domibus/webapps
-#    mkdir -p /app/temp/tomcat && ln -s /app/temp/tomcat /app/domibus/work
-#    ln -s /app/temp/conf/Catalina /app/domibus/conf/Catalina
+COPY domibus/conf/Catalina/localhost/domibus.xml ${CATALINA_HOME}/conf/Catalina/localhost/domibus.xml
+COPY domibus/bin/setenv.sh ${CATALINA_HOME}/bin
+COPY domibus/deployments ${CATALINA_HOME}/deployments
+COPY domibus/conf/domibus/ ${DOMIBUS_CONFIG_LOCATION}
+COPY domibus/additional-libs ${CATALINA_HOME}/additional-libs
+COPY domibus/lib/mariadb-java-client.jar ${CATALINA_HOME}/lib
+COPY domibus/lib/gw-tomcat-db-init-lifecycle-hook.jar ${CATALINA_HOME}/lib
+COPY domibus/lib/mysql-connector-java.jar ${CATALINA_HOME}/lib
+COPY domibus/lib/tomcat-lifecyclelistener.jar ${CATALINA_HOME}/lib
 
-RUN groupadd --system domibus && useradd --system -g domibus domibus && chown -R domibus:domibus /app
 
+VOLUME /app/domibus/conf /app/domibus/work /usr/local/tomcat/temp /usr/local/tomcat/logs
 
-RUN echo "#!/bin/bash" >> /app/run.sh && \
-    echo "exec /app/domibus/bin/catalina.sh \$@" >> /app/run.sh
-RUN chmod +x /app/run.sh
-RUN chmod +x /app/domibus/bin/*.sh
-
-WORKDIR /app
-USER domibus
-EXPOSE 8080
-VOLUME /app/domibus/work /app/domibus/logs /app/domibus/temp
-
-CMD ["/bin/sh","/app/run.sh", "run"]

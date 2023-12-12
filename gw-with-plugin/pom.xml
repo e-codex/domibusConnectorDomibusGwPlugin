@@ -88,6 +88,30 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
+                    <!-- download domibus AS4 gw for podman -->
+<!--                    <execution>-->
+<!--                        <id>copy-domibus-tomcat-podman</id>-->
+<!--                        <phase>process-resources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>unpack</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <overWriteSnapshots>true</overWriteSnapshots>-->
+<!--                            <overWriteReleases>true</overWriteReleases>-->
+<!--                            <outputDirectory>target/podman</outputDirectory>-->
+<!--                            <artifactItems>-->
+<!--                                <artifactItem>-->
+<!--                                    <overWrite>true</overWrite>-->
+<!--                                    <groupId>eu.domibus</groupId>-->
+<!--                                    <artifactId>domibus-distribution</artifactId>-->
+<!--                                    <classifier>tomcat-full</classifier>-->
+<!--                                    <version>${domibus-gw.version}</version>-->
+<!--                                    <type>zip</type>-->
+<!--                                    <includes>domibus/conf/domibus/*,domibus/conf/domibus/internal/*</includes>-->
+<!--                                </artifactItem>-->
+<!--                            </artifactItems>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
                     <!-- download domibus AS4 gw -->
                     <execution>
                         <id>copy-domibus-tomcat</id>
@@ -103,12 +127,11 @@
                                 <artifactItem>
                                     <overWrite>true</overWrite>
                                     <groupId>eu.domibus</groupId>
-                                    <artifactId>domibus-distribution</artifactId>
+                                    <artifactId>domibus-msh-distribution</artifactId>
                                     <classifier>tomcat-full</classifier>
                                     <version>${domibus-gw.version}</version>
                                     <type>zip</type>
-                                    <excludes>domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**,domibus/webapps/**,domibus/**</excludes>
-                                    <includes>domibus/conf/**</includes>
+                                    <excludes>domibus/conf/domibus/plugins/**,domibus/conf/domibus/domains/**,domibus/webapps/**</excludes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -128,7 +151,7 @@
                                 <artifactItem>
                                     <overWrite>true</overWrite>
                                     <groupId>eu.domibus</groupId>
-                                    <artifactId>domibus-distribution</artifactId>
+                                    <artifactId>domibus-msh-distribution</artifactId>
                                     <classifier>tomcat-war</classifier>
                                     <version>${domibus-gw.version}</version>
                                     <type>zip</type>
@@ -204,6 +227,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
+                            <stripVersion>true</stripVersion>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/conf/domibus/plugins/lib/</outputDirectory>
@@ -220,6 +244,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
+                            <stripVersion>true</stripVersion>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/lib/</outputDirectory>
@@ -241,6 +266,7 @@
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/lib</outputDirectory>
+                            <stripVersion>true</stripVersion>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -262,6 +288,7 @@
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/lib</outputDirectory>
+                            <stripVersion>true</stripVersion>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -283,6 +310,7 @@
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/lib</outputDirectory>
+                            <stripVersion>true</stripVersion>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -290,11 +318,11 @@
                                     <artifactId>h2</artifactId>
                                     <version>2.1.212</version>
                                 </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.hsqldb</groupId>
-                                    <artifactId>hsqldb</artifactId>
-                                    <version>${hsqldb.version}</version>
-                                </artifactItem>
+<!--                                <artifactItem>-->
+<!--                                    <groupId>org.hsqldb</groupId>-->
+<!--                                    <artifactId>hsqldb</artifactId>-->
+<!--                                    <version>${hsqldb.version}</version>-->
+<!--                                </artifactItem>-->
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -312,6 +340,7 @@
                             <excludeTransitive>true</excludeTransitive>
                             <!--                            <includeScope>compile</includeScope>-->
                             <includeArtifactIds>gw-extension</includeArtifactIds>
+                            <stripVersion>true</stripVersion>
                         </configuration>
                     </execution>
                     <!-- download tomcat lifecycle listener -->
@@ -325,6 +354,7 @@
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteReleases>true</overWriteReleases>
                             <outputDirectory>target/gw/domibus/lib</outputDirectory>
+                            <stripVersion>true</stripVersion>
                             <artifactItems>
                                 <artifactItem>
                                     <overWrite>true</overWrite>
@@ -399,14 +429,7 @@
                                 <memory>1Gi</memory>
                             </limits>
                         </openshiftBuildConfig>
-                        <labels>
-                            <all>
-                                <propert>
-                                    <name>labboxid</name>
-                                    <value>04</value>
-                                </propert>
-                            </all>
-                        </labels>
+
                         <!--                            <env>-->
                         <!--                                <GW_PRIVATE_KEY_ALIAS>gw${lab.id}</GW_PRIVATE_KEY_ALIAS>-->
                         <!--                            </env>-->

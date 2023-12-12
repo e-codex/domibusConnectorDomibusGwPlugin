@@ -40,32 +40,32 @@ public class DomibusDbInitListener implements LifecycleListener {
 
             ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader(); //save classloader
 
+            Path tempFile = Paths.get(tempDir)
+                    .resolve("gw-liquibase-db-init.jar");
             try (InputStream is = getClass().getResourceAsStream(JAR_RESOURCE_LOCATION)) {
                 if (is == null) {
                     throw new IllegalArgumentException("Input stream of " + JAR_RESOURCE_LOCATION + " cannot be null!");
                 }
 
-                Path tempFile = Paths.get(tempDir)
-                        .resolve("gw-liquibase-db-init.jar");
-
                 try (FileOutputStream fos = new FileOutputStream(tempFile.toFile());) {
                     IOUtils.copy(is, fos);
                 } catch (IOException ioe) {
                     LOGGER.severe("Failed to write to " + tempFile + " " + ioe.getMessage());
-                    ioe.printStackTrace();
+                    //ioe.printStackTrace();
                     System.exit(1);
                 }
 
-                Archive a = new JarFileArchive(tempFile.toFile());
-                MyJarLauncher myJarLauncher = new MyJarLauncher(a);
-                myJarLauncher.launch(new String[]{"--spring.config.location=${catalina.home}/conf/domibus/domibus.properties"});
+                try (Archive a = new JarFileArchive(tempFile.toFile()); ) {
+                    MyJarLauncher myJarLauncher = new MyJarLauncher(a);
+                    myJarLauncher.launch(new String[]{"--spring.config.location=${catalina.home}/conf/domibus/domibus.properties"});
+                }
 
-                gracefullyDelete(tempFile);
             } catch (Exception e) {
                 LOGGER.severe(e.getMessage());
-                e.printStackTrace();
+                //e.printStackTrace();
                 System.exit(1);
             }
+            gracefullyDelete(tempFile);
 
             Thread.currentThread().setContextClassLoader(contextClassLoader); //restore classloader
 
@@ -78,7 +78,6 @@ public class DomibusDbInitListener implements LifecycleListener {
             Files.delete(tempFile);
         } catch (IOException ioe) {
             //ignore..
-            LOGGER.warning("Failed to delete: " + ioe.getMessage());
         }
     }
 

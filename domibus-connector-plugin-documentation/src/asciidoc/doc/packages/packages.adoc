@@ -1,0 +1,9 @@
+= Packages
+
+The whole project contains the following packages/modules:
+
+* domibus-connector-plugin-common
+* domibus-connector-plugin-distribution
+* domibus-connector-plugin-documentation
+* domibus-connector-push-plugin
+* domibus-connector-pull-plugin
