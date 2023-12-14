@@ -1,22 +1,27 @@
 package eu.domibus.connector.plugin.config;
 
-import eu.domibus.connector.plugin.config.property.AbstractDCPluginPropertyManager;
 import eu.domibus.connector.plugin.config.property.DCPushPluginPropertyManager;
+import eu.domibus.connector.plugin.transformer.DCMessageTransformer;
 import eu.domibus.connector.plugin.ws.AuthenticationService;
 import eu.domibus.connector.plugin.ws.DomibusConnectorPushWebservice;
 import eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWSService;
 import eu.domibus.connector.ws.gateway.delivery.webservice.DomibusConnectorGatewayDeliveryWebService;
 import eu.domibus.connector.ws.gateway.submission.webservice.DomibusConnectorGatewaySubmissionWSService;
 import eu.domibus.connector.ws.gateway.submission.webservice.DomibusConnectorGatewaySubmissionWebService;
+import eu.domibus.ext.services.DomainContextExtService;
+import eu.domibus.ext.services.DomibusConfigurationExtService;
+import eu.domibus.ext.services.DomibusPropertyExtServiceDelegateAbstract;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.plugin.environment.DomibusEnvironmentUtil;
+import eu.domibus.plugin.initialize.PluginInitializer;
 import eu.domibus.plugin.notification.PluginAsyncNotificationConfiguration;
 import org.apache.cxf.Bus;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -24,12 +29,10 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 
 @Configuration
-@Conditional(PushPluginEnabledCondition.class)
 public class DCPushPluginConfiguration extends DCPluginConfiguration {
 
     public static final String MODULE_NAME = "DC_PUSH_PLUGIN";
@@ -39,23 +42,19 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
 
     public static final String DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_BEAN = "dcPushPluginMessageQueueBean";
     public static final String DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_JNDI = "jms/domibus.dcpushplugin.notifications";
-
-    @Autowired
-    ApplicationContext ctx;
-
-    @PostConstruct
-    public static void postConstruct() {
-        LOGGER.info("Push Plugin is enabled");
-    }
+    public static final String PUSH_BACKEND_WEBSERVICE_ENDPOINT_BEAN_NAME = "pushBackendWebserviceEndpoint";
 
 
     @Bean
-    public DomibusConnectorPushWebservice domibusConnectorPushWebservice() {
-        return new DomibusConnectorPushWebservice();
+    public DomibusConnectorPushWebservice domibusConnectorPushWebservice(DCMessageTransformer messageTransformer,
+                                                                         DCPushPluginPropertyManager wsPluginPropertyManager,
+                                                                         ObjectProvider<DomibusConnectorGatewayDeliveryWebService> deliveryClientObjectFactory,
+                                                                         @Qualifier("pushPluginInitializer") PluginInitializer pluginInitializer) {
+        return new DomibusConnectorPushWebservice(messageTransformer, wsPluginPropertyManager, deliveryClientObjectFactory, pluginInitializer);
     }
 
     @Bean
-    public DCPushPluginPropertyManager dcPluginPropertyManager() {
+    public DCPushPluginPropertyManager dcPushPluginPropertyManager() {
         return new DCPushPluginPropertyManager();
     }
 
@@ -64,11 +63,12 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
      * Create endpoint for Push
      *  SubmissionWebservice
      */
-    @Bean("pushBackendWebserviceEndpoint")
+    @Bean(PUSH_BACKEND_WEBSERVICE_ENDPOINT_BEAN_NAME)
     public EndpointImpl pushBackendInterfaceEndpoint(@Qualifier(Bus.DEFAULT_BUS_ID) Bus bus,
+                                                     ApplicationContext ctx,
                                                      DomibusConnectorGatewaySubmissionWebService backendWebService,
-                                                     AuthenticationService authenticationService,
-                                                     AbstractDCPluginPropertyManager wsPluginPropertyManager
+                                                     @Qualifier("pushPluginAuthenticationService") AuthenticationService authenticationService,
+                                                     DCPushPluginPropertyManager wsPluginPropertyManager
 
     ) {
         EndpointImpl endpoint = new EndpointImpl(bus, backendWebService);
@@ -81,24 +81,27 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
         LOGGER.debug("Activating the following features for DC-Plugin PushPlugin Endpoint: [{}]", features);
         endpoint.setFeatures(features);
 
-        HashMap<String, Object> wssProperties = getWssProperties(ctx, wsPluginPropertyManager);
+        HashMap<String, Object> wssProperties = getWssProperties(ctx, wsPluginPropertyManager, "useReqSigCert");
         LOGGER.debug("Setting properties for DC PushPlugin: [{}]", wssProperties);
         endpoint.setProperties(wssProperties);
 
         if (authenticationService != null) {
             endpoint.getInInterceptors().add(authenticationService);
         }
-        String publishUrl = wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.DC_PUSH_PLUGIN_CXF_PUBLISH_URL);
-        LOGGER.info("Publish URL for DC PushPlugin is: [{}]", publishUrl);
-        endpoint.publish(publishUrl);
+//        String publishUrl = wsPluginPropertyManager.getKnownPropertyValue(DCPushPluginPropertyManager.DC_PUSH_PLUGIN_CXF_PUBLISH_URL);
+//        LOGGER.info("Publish URL for DC PushPlugin is: [{}]", publishUrl);
+//        endpoint.publish(publishUrl);
         return endpoint;
     }
 
 
     //Creating Client Proxy for Push Plugin
     @Bean
-    public DomibusConnectorGatewayDeliveryWebService domibusConnectorGatewayDeliveryWebService(
-            AbstractDCPluginPropertyManager wsPluginPropertyManager
+    public ObjectFactory<DomibusConnectorGatewayDeliveryWebService> domibusConnectorGatewayDeliveryWebService(
+            DCPushPluginPropertyManager wsPluginPropertyManager,
+            ApplicationContext ctx,
+            DomibusConfigurationExtService domibusConfigurationExtService,
+            DomainContextExtService domainContextExtService
     ) {
         JaxWsProxyFactoryBean jaxWsProxyFactoryBean = new JaxWsProxyFactoryBean();
         jaxWsProxyFactoryBean.setServiceClass(DomibusConnectorGatewayDeliveryWebService.class);
@@ -110,15 +113,29 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
         jaxWsProxyFactoryBean.setEndpointName(DomibusConnectorGatewayDeliveryWSService.DomibusConnectorGatewayDeliveryWebService);
         jaxWsProxyFactoryBean.setWsdlLocation(DomibusConnectorGatewayDeliveryWSService.WSDL_LOCATION.toString());
 
-        String cxfDeliveryAddr = wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_DELIVERY_ENDPOINT_ADDRESS);
-        LOGGER.info("Sending push messages to [{}]", cxfDeliveryAddr);
 
-        HashMap<String, Object> wssProperties = getWssProperties(ctx, wsPluginPropertyManager);
-        LOGGER.debug("Setting properties [{}] for DC-Plugin ClientProxy", wssProperties);
-        jaxWsProxyFactoryBean.setProperties(wssProperties);
-        jaxWsProxyFactoryBean.setAddress(cxfDeliveryAddr);
+        return () -> {
+            String cxfDeliveryAddr = "";
+            String alias = "";
+            if (domibusConfigurationExtService.isMultiTenantAware()) {
+                String domainCode = domainContextExtService.getCurrentDomainSafely().getCode();
+                cxfDeliveryAddr = wsPluginPropertyManager.getKnownPropertyValue(domainCode, DCPushPluginPropertyManager.CXF_DELIVERY_ENDPOINT_ADDRESS);
+                alias = wsPluginPropertyManager.getKnownPropertyValue(domainCode, DCPushPluginPropertyManager.CXF_ENCRYPT_ALIAS);
+            } else {
+                cxfDeliveryAddr = wsPluginPropertyManager.getKnownPropertyValue(DCPushPluginPropertyManager.CXF_DELIVERY_ENDPOINT_ADDRESS);
+                alias = wsPluginPropertyManager.getKnownPropertyValue(DCPushPluginPropertyManager.CXF_ENCRYPT_ALIAS);
+            }
 
-        return (DomibusConnectorGatewayDeliveryWebService) jaxWsProxyFactoryBean.create();
+            LOGGER.info("Sending push messages to [{}]", cxfDeliveryAddr);
+            LOGGER.info("Using encryption alias [{}]", alias);
+
+
+            HashMap<String, Object> wssProperties = getWssProperties(ctx, wsPluginPropertyManager, alias);
+            LOGGER.debug("Setting properties [{}] for DC-Plugin ClientProxy", wssProperties);
+            jaxWsProxyFactoryBean.setProperties(wssProperties);
+            jaxWsProxyFactoryBean.setAddress(cxfDeliveryAddr);
+            return (DomibusConnectorGatewayDeliveryWebService) jaxWsProxyFactoryBean.create();
+        };
     }
 
     @Bean("asyncPushWebserviceNotification")
@@ -136,6 +153,18 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
         return pluginAsyncNotificationConfiguration;
     }
 
+    @Bean("pushPluginInitializer")
+    public PluginInitializer pluginInitializer(DCPushPluginPropertyManager wsPluginPropertyManager,
+                                               @Qualifier(PUSH_BACKEND_WEBSERVICE_ENDPOINT_BEAN_NAME) EndpointImpl endpoint
+                                               ) {
+        return new DCPluginInitializer(DomibusConnectorPushWebservice.PLUGIN_NAME, wsPluginPropertyManager, endpoint);
+    }
+
+    @Bean("pushPluginAuthenticationService")
+    public AuthenticationService certAuthenticationService(DCPushPluginPropertyManager wsPluginPropertyManager,
+                                                           ApplicationContext ctx) {
+        return new AuthenticationService(wsPluginPropertyManager, ctx);
+    }
 
 
 

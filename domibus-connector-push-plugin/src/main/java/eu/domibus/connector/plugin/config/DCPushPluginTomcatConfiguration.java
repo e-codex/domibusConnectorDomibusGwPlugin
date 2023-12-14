@@ -16,7 +16,7 @@ import static eu.domibus.connector.plugin.config.DCPushPluginConfiguration.DC_PU
  * Class responsible for the configuration of the plugin for Tomcat
  *
  */
-@Conditional({TomcatCondition.class, PushPluginEnabledCondition.class})
+@Conditional({TomcatCondition.class})
 @Configuration
 public class DCPushPluginTomcatConfiguration {
 

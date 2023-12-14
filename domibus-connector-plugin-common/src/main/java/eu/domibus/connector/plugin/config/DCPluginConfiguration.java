@@ -70,11 +70,12 @@ public abstract class DCPluginConfiguration {
 
     public static HashMap<String, Object> getWssProperties(
             ApplicationContext ctx,
-            AbstractDCPluginPropertyManager wsPluginPropertyManager
+            AbstractDCPluginPropertyManager wsPluginPropertyManager,
+            String encryptionUsername
     ) {
         HashMap<String, Object> props = new HashMap<>();
 
-        String encryptionUsername = wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_ENCRYPT_ALIAS);
+//        String encryptionUsername = wsPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_ENCRYPT_ALIAS);
 
         props.put("mtom-enabled", true);
 

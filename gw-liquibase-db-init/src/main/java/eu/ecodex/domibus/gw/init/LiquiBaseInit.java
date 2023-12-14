@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 public class LiquiBaseInit {
 
     public static void main(String[] args) {
+//        System.setProperty("liquibase.secureParsing", "false");
         new SpringApplicationBuilder()
                 .properties("spring.liquibase.change-log=classpath:initdb.xml", "spring.sql.init.mode=embedded")
                 .sources(LiquiBaseInit.class)

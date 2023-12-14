@@ -4,9 +4,11 @@ import eu.domibus.common.DeliverMessageEvent;
 import eu.domibus.connector.domain.transition.DomibsConnectorAcknowledgementType;
 import eu.domibus.connector.domain.transition.DomibusConnectorMessageType;
 import eu.domibus.connector.plugin.config.property.AbstractDCPluginPropertyManager;
+import eu.domibus.connector.plugin.config.property.DCPullPluginPropertyManager;
 import eu.domibus.connector.plugin.dao.DCMessageLogDao;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
 import eu.domibus.connector.plugin.entity.DCMessageLogEntity;
+import eu.domibus.connector.plugin.transformer.DCMessageTransformer;
 import eu.domibus.connector.ws.gateway.webservice.DomibusConnectorGatewayWebService;
 import eu.domibus.connector.ws.gateway.webservice.GetMessageByIdRequest;
 import eu.domibus.connector.ws.gateway.webservice.ListPendingMessageIdsRequest;
@@ -17,7 +19,8 @@ import eu.domibus.ext.services.DomibusConfigurationExtService;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.messaging.MessageNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import eu.domibus.plugin.initialize.PluginInitializer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,26 +28,35 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DomibusConnectorPullWebservice extends AbstractDcPluginBackendConnector implements DomibusConnectorGatewayWebService {
+import static eu.domibus.connector.plugin.config.DCPullPluginConfiguration.MODULE_NAME;
+import static eu.domibus.connector.plugin.config.DCPullPluginConfiguration.PULL_PLUGIN_INITIALIZER;
 
-    public static final String PLUGIN_NAME = "DC_PULL_PLUGIN";
+public class DomibusConnectorPullWebservice extends AbstractDcPluginBackendConnector implements DomibusConnectorGatewayWebService {
 
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(DomibusConnectorPullWebservice.class);
 
-    @Autowired
-    DCMessageLogDao dcMessageLogDao;
 
-    @Autowired
-    AbstractDCPluginPropertyManager wsPluginPropertyManager;
+    private final DCMessageLogDao dcMessageLogDao;
 
-    @Autowired
-    protected DomibusConfigurationExtService domibusConfigurationExtService;
+    private final DCPullPluginPropertyManager wsPluginPropertyManager;
 
-    @Autowired
-    private DomainContextExtService domainContextExtService;
+    private final  DomibusConfigurationExtService domibusConfigurationExtService;
 
-    public DomibusConnectorPullWebservice() {
-        super(PLUGIN_NAME);
+    private final DomainContextExtService domainContextExtService;
+
+
+    public DomibusConnectorPullWebservice(DCMessageTransformer messageTransformer,
+                                          DCMessageLogDao dcMessageLogDao,
+                                          DCPullPluginPropertyManager wsPluginPropertyManager,
+                                          DomibusConfigurationExtService domibusConfigurationExtService,
+                                          DomainContextExtService domainContextExtService,
+                                          @Qualifier(PULL_PLUGIN_INITIALIZER) PluginInitializer pluginInitializer
+                                          ) {
+        super(MODULE_NAME, wsPluginPropertyManager, messageTransformer, pluginInitializer);
+        this.dcMessageLogDao = dcMessageLogDao;
+        this.wsPluginPropertyManager = wsPluginPropertyManager;
+        this.domibusConfigurationExtService = domibusConfigurationExtService;
+        this.domainContextExtService = domainContextExtService;
     }
 
 

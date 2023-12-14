@@ -2,15 +2,19 @@ package eu.domibus.connector.plugin.ws;
 
 import eu.domibus.common.*;
 import eu.domibus.connector.domain.transition.ObjectFactory;
+import eu.domibus.connector.plugin.config.property.AbstractDCPluginPropertyManager;
 import eu.domibus.connector.plugin.domain.DomibusConnectorMessage;
+import eu.domibus.connector.plugin.transformer.DCMessageTransformer;
 import eu.domibus.connector.plugin.transformer.DomibusConnectorMessageRetrievalTransformer;
 import eu.domibus.connector.plugin.transformer.DomibusConnectorMessageSubmissionTransformer;
+import eu.domibus.ext.services.DomibusPropertyManagerExt;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
+import eu.domibus.messaging.PluginMessageListenerContainer;
 import eu.domibus.plugin.AbstractBackendConnector;
+import eu.domibus.plugin.initialize.PluginInitializer;
 import eu.domibus.plugin.transformer.MessageRetrievalTransformer;
 import eu.domibus.plugin.transformer.MessageSubmissionTransformer;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,20 +23,50 @@ public abstract class AbstractDcPluginBackendConnector extends AbstractBackendCo
 
     private static final DomibusLogger LOGGER = DomibusLoggerFactory.getLogger(AbstractDcPluginBackendConnector.class);
 
-    public AbstractDcPluginBackendConnector(String pluginName) {
+    private final DomibusConnectorMessageSubmissionTransformer messageSubmissionTransformer;
+
+    private final DomibusConnectorMessageRetrievalTransformer messageRetrievalTransformer;
+
+    protected static final ObjectFactory objectFactory = new ObjectFactory();
+    private final AbstractDCPluginPropertyManager propertyManager;
+    private final PluginInitializer pluginInitializer;
+
+    public AbstractDcPluginBackendConnector(String pluginName, AbstractDCPluginPropertyManager propertyManager,
+                                            DCMessageTransformer messageTransformer,
+                                            PluginInitializer pluginInitializer) {
         super(pluginName);
+        this.messageSubmissionTransformer = messageTransformer.getMessageSubmissionTransformer();
+        this.messageRetrievalTransformer = messageTransformer.getMessageRetrievalTransformer();
+        this.propertyManager = propertyManager;
+        this.pluginInitializer = pluginInitializer;
         this.requiredNotifications = Stream
                 .of(NotificationType.MESSAGE_RECEIVED)
                 .collect(Collectors.toList());
     }
 
-    @Autowired
-    private DomibusConnectorMessageSubmissionTransformer messageSubmissionTransformer;
+    @Override
+    public PluginInitializer getPluginInitializer() {
+        return this.pluginInitializer;
+    }
+    @Override
+    public DomibusPropertyManagerExt getPropertyManager() {
+        return this.propertyManager;
+    }
 
-    @Autowired
-    private DomibusConnectorMessageRetrievalTransformer messageRetrievalTransformer;
+    @Override
+    public boolean isEnabled(String domainCode) {
+        return doIsEnabled(domainCode);
+    }
 
-    protected static final ObjectFactory objectFactory = new ObjectFactory();
+    @Override
+    public void setEnabled(String domainCode, boolean enabled) {
+        doSetEnabled(domainCode, enabled);
+    }
+
+    @Override
+    public String getDomainEnabledPropertyName() {
+        return propertyManager.getDomainEnabledPropertyName();
+    }
 
 
     @Override

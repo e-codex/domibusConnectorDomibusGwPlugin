@@ -4,7 +4,7 @@
 #JAVA_OPTS="$JAVA_OPTS -Xms4096m -Xmx4096m -Ddomibus.config.location=$CATALINA_HOME/conf/domibus"
 #
 
-if [ -z ${DOMIBUS_CONFIG_LOCATION+x} ]; then echo "" ; else CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.config.location='${DOMIBUS_CONFIG_LOCATION}'" ; fi
+if [ -z ${DOMIBUS_CONFIG_LOCATION+x} ]; then CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.config.location='${CATALINA_HOME}/conf/domibus'" ; else CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.config.location='${DOMIBUS_CONFIG_LOCATION}'" ; fi
 if [ -z ${DOMIBUS_WORK_LOCATION+x} ]; then echo "" ; else CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.work.location='${DOMIBUS_WORK_LOCATION}'" ; fi
 
 #CATALINA_OPTS="${CATALINA_OPTS} -Ddomibus.datasource.url='${DOMIBUS_DATASOURCE_URL}'"
@@ -37,5 +37,6 @@ if [ -z ${DOMIBUS_WORK_LOCATION+x} ]; then echo "" ; else CATALINA_OPTS="${CATAL
 #CATALINA_OPTS="${CATALINA_OPTS} -Dtomcat.port.shutdown=8009"
 
 CATALINA_OPTS="${CATALINA_OPTS} -Dorg.apache.tomcat.util.digester.PROPERTY_SOURCE=org.apache.tomcat.util.digester.EnvironmentPropertySource"
+CATALINA_OPTS="${CATALINA_OPTS} -Dliquibase.secureParsing=false"
 
 

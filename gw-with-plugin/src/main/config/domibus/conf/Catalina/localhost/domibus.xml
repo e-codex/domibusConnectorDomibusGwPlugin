@@ -8,6 +8,11 @@
 
     </Resources>
 
+<!--    <Parameter name="domibus.config.location" value="${catalina.home}/conf/domibus"/>-->
+<!--    <Parameter name="domibus.work.location" value="${catalina.home}/work/domibus"/>-->
+<!--    <Parameter name="domibus.config.location" value="${DOMIBUS_CONFIG_LOCATION}"/>-->
+<!--    <Parameter name="domibus.work.location" value="${DOMIBUS_WORK_LOCATION}"/>-->
+
     <Listener className="net.aschemann.tomcat.lifecycle.FailstopLifecycleListener" force="true"/>
     <Listener className="eu.ecodex.domibus.gw.init.DomibusDbInitListener"/>
 
