@@ -1,6 +1,7 @@
 package eu.domibus.connector.plugin.config;
 
 import eu.domibus.connector.plugin.config.property.DCPushPluginPropertyManager;
+import eu.domibus.connector.plugin.initialize.DCPluginInitializer;
 import eu.domibus.connector.plugin.transformer.DCMessageTransformer;
 import eu.domibus.connector.plugin.ws.AuthenticationService;
 import eu.domibus.connector.plugin.ws.DomibusConnectorPushWebservice;
@@ -10,7 +11,6 @@ import eu.domibus.connector.ws.gateway.submission.webservice.DomibusConnectorGat
 import eu.domibus.connector.ws.gateway.submission.webservice.DomibusConnectorGatewaySubmissionWebService;
 import eu.domibus.ext.services.DomainContextExtService;
 import eu.domibus.ext.services.DomibusConfigurationExtService;
-import eu.domibus.ext.services.DomibusPropertyExtServiceDelegateAbstract;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
 import eu.domibus.plugin.environment.DomibusEnvironmentUtil;
@@ -25,8 +25,8 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
 
 import java.util.HashMap;
@@ -43,13 +43,15 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
     public static final String DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_BEAN = "dcPushPluginMessageQueueBean";
     public static final String DC_PUSH_PLUGIN_NOTIFICATIONS_QUEUE_JNDI = "jms/domibus.dcpushplugin.notifications";
     public static final String PUSH_BACKEND_WEBSERVICE_ENDPOINT_BEAN_NAME = "pushBackendWebserviceEndpoint";
+    public static final String PUSH_PLUGIN_INITIALIZER_BEAN_NAME = "pushPluginInitializer";
+    public static final String PUSH_PLUGIN_AUTHENTICATION_SERVICE_BEAN_NAME = "pushPluginAuthenticationService";
 
 
     @Bean
     public DomibusConnectorPushWebservice domibusConnectorPushWebservice(DCMessageTransformer messageTransformer,
                                                                          DCPushPluginPropertyManager wsPluginPropertyManager,
                                                                          ObjectProvider<DomibusConnectorGatewayDeliveryWebService> deliveryClientObjectFactory,
-                                                                         @Qualifier("pushPluginInitializer") PluginInitializer pluginInitializer) {
+                                                                         @Lazy  @Qualifier(PUSH_PLUGIN_INITIALIZER_BEAN_NAME) PluginInitializer pluginInitializer) {
         return new DomibusConnectorPushWebservice(messageTransformer, wsPluginPropertyManager, deliveryClientObjectFactory, pluginInitializer);
     }
 
@@ -67,7 +69,7 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
     public EndpointImpl pushBackendInterfaceEndpoint(@Qualifier(Bus.DEFAULT_BUS_ID) Bus bus,
                                                      ApplicationContext ctx,
                                                      DomibusConnectorGatewaySubmissionWebService backendWebService,
-                                                     @Qualifier("pushPluginAuthenticationService") AuthenticationService authenticationService,
+                                                     @Qualifier(PUSH_PLUGIN_AUTHENTICATION_SERVICE_BEAN_NAME) AuthenticationService authenticationService,
                                                      DCPushPluginPropertyManager wsPluginPropertyManager
 
     ) {
@@ -153,14 +155,14 @@ public class DCPushPluginConfiguration extends DCPluginConfiguration {
         return pluginAsyncNotificationConfiguration;
     }
 
-    @Bean("pushPluginInitializer")
+    @Bean(PUSH_PLUGIN_INITIALIZER_BEAN_NAME)
     public PluginInitializer pluginInitializer(DCPushPluginPropertyManager wsPluginPropertyManager,
                                                @Qualifier(PUSH_BACKEND_WEBSERVICE_ENDPOINT_BEAN_NAME) EndpointImpl endpoint
                                                ) {
         return new DCPluginInitializer(DomibusConnectorPushWebservice.PLUGIN_NAME, wsPluginPropertyManager, endpoint);
     }
 
-    @Bean("pushPluginAuthenticationService")
+    @Bean(PUSH_PLUGIN_AUTHENTICATION_SERVICE_BEAN_NAME)
     public AuthenticationService certAuthenticationService(DCPushPluginPropertyManager wsPluginPropertyManager,
                                                            ApplicationContext ctx) {
         return new AuthenticationService(wsPluginPropertyManager, ctx);

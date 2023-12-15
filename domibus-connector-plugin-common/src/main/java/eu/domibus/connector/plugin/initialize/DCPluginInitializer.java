@@ -1,4 +1,4 @@
-package eu.domibus.connector.plugin.config;
+package eu.domibus.connector.plugin.initialize;
 
 import eu.domibus.connector.plugin.config.property.AbstractDCPluginPropertyManager;
 import eu.domibus.ext.services.DomibusPropertyExtServiceDelegateAbstract;

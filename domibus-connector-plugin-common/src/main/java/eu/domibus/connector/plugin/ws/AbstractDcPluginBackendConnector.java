@@ -54,6 +54,16 @@ public abstract class AbstractDcPluginBackendConnector extends AbstractBackendCo
     }
 
     @Override
+    public boolean shouldCoreManageResources() {
+        return true;
+    }
+
+    @Override
+    public PluginMessageListenerContainer getMessageListenerContainerFactory() {
+        return null;
+    }
+
+    @Override
     public boolean isEnabled(String domainCode) {
         return doIsEnabled(domainCode);
     }

@@ -1,8 +1,8 @@
 package eu.domibus.connector.plugin.config;
 
-import eu.domibus.connector.plugin.config.property.AbstractDCPluginPropertyManager;
 import eu.domibus.connector.plugin.config.property.DCPullPluginPropertyManager;
 import eu.domibus.connector.plugin.dao.DCMessageLogDao;
+import eu.domibus.connector.plugin.initialize.DCPluginInitializer;
 import eu.domibus.connector.plugin.transformer.DCMessageTransformer;
 import eu.domibus.connector.plugin.ws.AuthenticationService;
 import eu.domibus.connector.plugin.ws.DomibusConnectorPullWebservice;
@@ -11,7 +11,6 @@ import eu.domibus.ext.services.DomainContextExtService;
 import eu.domibus.ext.services.DomibusConfigurationExtService;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
-import eu.domibus.plugin.initialize.PluginInitializer;
 import org.apache.cxf.Bus;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.jaxws.EndpointImpl;
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 import java.util.List;
 import java.util.Map;
@@ -46,7 +46,7 @@ public class DCPullPluginConfiguration extends DCPluginConfiguration {
                                                                          DCPullPluginPropertyManager wsPluginPropertyManager,
                                                                          DomibusConfigurationExtService domibusConfigurationExtService,
                                                                          DomainContextExtService domainContextExtService,
-                                                                         DCPluginInitializer pluginInitializer) {
+                                                                         @Lazy @Qualifier(PULL_PLUGIN_INITIALIZER) DCPluginInitializer pluginInitializer) {
         return new DomibusConnectorPullWebservice(messageTransformer,
                 dcMessageLogDao, wsPluginPropertyManager, domibusConfigurationExtService, domainContextExtService, pluginInitializer);
     }

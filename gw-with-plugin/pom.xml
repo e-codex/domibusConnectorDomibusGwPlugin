@@ -88,30 +88,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <!-- download domibus AS4 gw for podman -->
-<!--                    <execution>-->
-<!--                        <id>copy-domibus-tomcat-podman</id>-->
-<!--                        <phase>process-resources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>unpack</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <overWriteSnapshots>true</overWriteSnapshots>-->
-<!--                            <overWriteReleases>true</overWriteReleases>-->
-<!--                            <outputDirectory>target/podman</outputDirectory>-->
-<!--                            <artifactItems>-->
-<!--                                <artifactItem>-->
-<!--                                    <overWrite>true</overWrite>-->
-<!--                                    <groupId>eu.domibus</groupId>-->
-<!--                                    <artifactId>domibus-distribution</artifactId>-->
-<!--                                    <classifier>tomcat-full</classifier>-->
-<!--                                    <version>${domibus-gw.version}</version>-->
-<!--                                    <type>zip</type>-->
-<!--                                    <includes>domibus/conf/domibus/*,domibus/conf/domibus/internal/*</includes>-->
-<!--                                </artifactItem>-->
-<!--                            </artifactItems>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
                     <!-- download domibus full tomcat -->
                     <execution>
                         <id>copy-domibus-full-tomcat</id>
@@ -452,32 +428,6 @@
                                 <memory>1Gi</memory>
                             </limits>
                         </openshiftBuildConfig>
-
-                        <!--                            <env>-->
-                        <!--                                <GW_PRIVATE_KEY_ALIAS>gw${lab.id}</GW_PRIVATE_KEY_ALIAS>-->
-                        <!--                            </env>-->
-                        <!--                            <controllerName>dpl-lab${lab.id}-ecx-gateway</controllerName> (2)-->
-                        <!--                            <imagePullPolicy>Always</imagePullPolicy>-->
-                        <!--                            <replicas>1</replicas> (5)-->
-                        <!--                            <liveness> (6)-->
-                        <!--                                <getUrl>http://:8080/domibus/services/msh</getUrl>-->
-                        <!--                                <tcpPort>8080</tcpPort>-->
-                        <!--                                <initialDelaySeconds>30</initialDelaySeconds>-->
-                        <!--                                <timeoutSeconds>300</timeoutSeconds>-->
-                        <!--                            </liveness>-->
-                        <!--                            <volumes>-->
-                        <!--                                <volume>-->
-                        <!--                                    <name>temp</name>-->
-                        <!--                                    <type>emptyDir</type>-->
-                        <!--                                    <medium>Memory</medium>-->
-                        <!--                                    <mounts>-->
-                        <!--                                        <mount>/app/domibus/work</mount>-->
-                        <!--                                        <mount>/app/domibus/logs</mount>-->
-                        <!--                                        <mount>/app/domibus/temp</mount>-->
-                        <!--                                        <mount>/app/domibus/webapps</mount>-->
-                        <!--                                    </mounts>-->
-                        <!--                                </volume>-->
-                        <!--                            </volumes>-->
                     </resources>
                     <images>
                         <image>
@@ -488,15 +438,10 @@
                                     <tag>${maven.build.timestamp}</tag>
                                 </tags>
                                 <dockerFile>Dockerfile</dockerFile>
-                                <fromExt>
-                                    <name>java:openjdk-8-ubi8</name>
-                                    <kind>ImageStreamTag</kind>
-                                    <namespace>openshift</namespace>
-                                </fromExt>
                                 <assembly>
                                     <name>test</name>
                                     <mode>dir</mode>
-                                    <targetDir>app</targetDir>
+                                    <targetDir>domibus</targetDir>
                                     <excludeFinalOutputArtifact>true</excludeFinalOutputArtifact>
                                     <layers>
                                         <layer>
@@ -504,7 +449,7 @@
                                             <fileSets>
                                                 <fileSet>
                                                     <!--                                                    <outputDirectory>./</outputDirectory>-->
-                                                    <directory>target/gw/domibus/</directory>
+                                                    <directory>target/gw/domibus</directory>
                                                 </fileSet>
                                             </fileSets>
                                         </layer>

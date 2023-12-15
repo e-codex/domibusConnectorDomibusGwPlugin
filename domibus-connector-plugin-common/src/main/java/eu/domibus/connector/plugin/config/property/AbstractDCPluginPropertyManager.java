@@ -62,8 +62,6 @@ public abstract class AbstractDCPluginPropertyManager extends DomibusPropertyExt
                 new DomibusPropertyMetadataDTO(propertyPrefix + "." + DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME, Type.COMMA_SEPARATED_LIST, moduleName, Usage.GLOBAL),
                 new DomibusPropertyMetadataDTO(propertyPrefix + "." + DC_PLUGIN_MAX_MESSAGE_LIST, Type.NUMERIC, moduleName, Usage.DOMAIN, true),
                 new DomibusPropertyMetadataDTO(propertyPrefix + "." + DC_PLUGIN_CXF_PUBLISH_URL, Type.STRING, moduleName, Usage.GLOBAL)
-
-
         );
 
         this.knownProperties = Stream.of(allProperties, properties)
@@ -77,6 +75,13 @@ public abstract class AbstractDCPluginPropertyManager extends DomibusPropertyExt
     }
 
     public String getDomainEnabledPropertyName() {
-        return dcPluginPrefix + "." + DC_PLUGIN_ENABLED;
+        return withPluginPrefix(DC_PLUGIN_ENABLED);
+    }
+
+    public String withPluginPrefix(String dcPluginUseUsernameFromPropertyName) {
+        return dcPluginPrefix + "." + dcPluginUseUsernameFromPropertyName;
+    }
+    public String getKnownPropertyValueWithPrefix(String propertyValue) {
+        return super.getKnownPropertyValue(withPluginPrefix(propertyValue));
     }
 }

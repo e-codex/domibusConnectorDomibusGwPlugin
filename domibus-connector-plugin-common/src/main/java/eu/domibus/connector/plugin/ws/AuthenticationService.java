@@ -3,6 +3,7 @@ package eu.domibus.connector.plugin.ws;
 import eu.domibus.connector.plugin.config.property.AbstractDCPluginPropertyManager;
 import eu.domibus.logging.DomibusLogger;
 import eu.domibus.logging.DomibusLoggerFactory;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
@@ -33,7 +34,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -56,21 +59,31 @@ public class AuthenticationService extends AbstractPhaseInterceptor {
                                  ApplicationContext ctx) {
         super(Phase.PRE_INVOKE);
 
-        String usernameFrom = abstractDcPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME);
-        this.usernameSource = UseUsernameFrom.valueOf(usernameFrom);
-        this.defaultUsername = abstractDcPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME);
-        if (usernameSource == UseUsernameFrom.DEFAULT && !StringUtils.hasText(defaultUsername)) {
-            throw new IllegalArgumentException(String.format("If Username Source is [%s] then default username property [%s] must not be empty", usernameSource, AbstractDCPluginPropertyManager.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME));
+        String usernameFrom = abstractDcPluginPropertyManager.getKnownPropertyValue(abstractDcPluginPropertyManager.withPluginPrefix(AbstractDCPluginPropertyManager.DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME));
+        if (usernameFrom == null || !ArrayUtils.contains(Arrays.stream(UseUsernameFrom.values()).map(Objects::toString).toArray(), usernameFrom)) {
+            throw new IllegalArgumentException(String.format("The property [%s] with value [%s] is not valid, please use on of these values: [%s]",
+                    abstractDcPluginPropertyManager.withPluginPrefix(AbstractDCPluginPropertyManager.DC_PLUGIN_USE_USERNAME_FROM_PROPERTY_NAME),
+                    usernameFrom,
+                    Stream.of(UseUsernameFrom.values()).map(Objects::toString).collect(Collectors.joining(","))
+            ));
         }
-        String roles = abstractDcPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME);
+        this.usernameSource = UseUsernameFrom.valueOf(usernameFrom);
+        this.defaultUsername = abstractDcPluginPropertyManager.getKnownPropertyValue(abstractDcPluginPropertyManager.withPluginPrefix(AbstractDCPluginPropertyManager.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME));
+        if (usernameSource == UseUsernameFrom.DEFAULT && !StringUtils.hasText(defaultUsername)) {
+            throw new IllegalArgumentException(String.format("If Username Source is [%s] then default username property [%s] must not be empty", usernameSource, abstractDcPluginPropertyManager.withPluginPrefix(AbstractDCPluginPropertyManager.DC_PLUGIN_DEFAULT_USER_PROPERTY_NAME)));
+        }
+        String roles = abstractDcPluginPropertyManager.getKnownPropertyValueWithPrefix(AbstractDCPluginPropertyManager.DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME);
+        if (!StringUtils.hasText(roles)) {
+            throw new IllegalArgumentException(String.format("The property [%s] is empty!", abstractDcPluginPropertyManager.withPluginPrefix(AbstractDCPluginPropertyManager.DC_PLUGIN_DEFAULT_ROLES_PROPERTY_NAME)));
+        }
         this.defaultRoles = Stream.of(roles.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
         if (usernameSource == UseUsernameFrom.ALIAS) {
-            String storeType = abstractDcPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_TRUST_STORE_TYPE_PROPERTY_NAME);
-            String location = abstractDcPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_TRUST_STORE_PATH_PROPERTY_NAME);
-            String password = abstractDcPluginPropertyManager.getKnownPropertyValue(AbstractDCPluginPropertyManager.CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME);
+            String storeType = abstractDcPluginPropertyManager.getKnownPropertyValue(abstractDcPluginPropertyManager.withPluginPrefix(AbstractDCPluginPropertyManager.CXF_TRUST_STORE_TYPE_PROPERTY_NAME));
+            String location = abstractDcPluginPropertyManager.getKnownPropertyValue(abstractDcPluginPropertyManager.withPluginPrefix(AbstractDCPluginPropertyManager.CXF_TRUST_STORE_PATH_PROPERTY_NAME));
+            String password = abstractDcPluginPropertyManager.getKnownPropertyValue(abstractDcPluginPropertyManager.withPluginPrefix(AbstractDCPluginPropertyManager.CXF_TRUST_STORE_PASSWORD_PROPERTY_NAME));
             try {
                 KeyStore ks = KeyStore.getInstance(storeType);
                 Resource resource = ctx.getResource(location);
@@ -78,7 +91,7 @@ public class AuthenticationService extends AbstractPhaseInterceptor {
                 this.keyStore = ks;
 
             } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
-                String error = String.format("Property: [%s] is invalid:Failed to load KeyStore from location [%s]", AbstractDCPluginPropertyManager.CXF_TRUST_STORE, location);
+                String error = String.format("Property: [%s] is invalid:Failed to load KeyStore from location [%s]", abstractDcPluginPropertyManager.withPluginPrefix(AbstractDCPluginPropertyManager.CXF_TRUST_STORE), location);
                 throw new RuntimeException(error, e);
             }
         } else {

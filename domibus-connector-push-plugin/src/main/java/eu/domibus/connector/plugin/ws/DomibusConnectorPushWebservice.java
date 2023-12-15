@@ -37,9 +37,6 @@ public class DomibusConnectorPushWebservice extends AbstractDcPluginBackendConne
 		this.deliveryClientObjectFactory = deliveryClientObjectFactory;
 	}
 
-
-
-
 	@Override
     public DomibsConnectorAcknowledgementType submitMessage(DomibusConnectorMessageType submitMessageRequest) {
         return new SubmitMessage(submitMessageRequest, this).invoke();
