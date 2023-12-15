@@ -12,6 +12,7 @@ buildConfig.mavenSettingsId = "ecodex-maven-settings"
 
 buildConfig.sonarQubeTokenId = "JUEUECODEX_SonarQubeToken"
 //buildConfig.sonarqubeProjectKey = "jueucx:domibusConnectorPlugin"
+buildConfig.sonarqubeProjectKey = false
 
 genericPipeline(buildConfig, euJobConfig)
 
