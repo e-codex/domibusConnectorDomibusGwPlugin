@@ -2,6 +2,7 @@
 
 import at.gv.brz.justiz3.jenkins.JU30BuildConfig
 import at.gv.brz.jueu.job.JuEuConfiguration
+import at.gv.brz.jueu.job.config.JuEuOcBuildConfig
 
 
 def buildConfig = new JU30BuildConfig()
@@ -13,6 +14,13 @@ buildConfig.mavenSettingsId = "ecodex-maven-settings"
 buildConfig.sonarQubeTokenId = "JUEUECODEX_SonarQubeToken"
 //buildConfig.sonarqubeProjectKey = "jueucx:domibusConnectorPlugin"
 buildConfig.sonarqubeProjectKey = false
+
+JuEuOcBuildConfig ocBuildConfig = new JuEuOcBuildConfig()
+ocBuildConfig.containerBuildName = "dc-domibus-gw"
+ocBuildConfig.projectDirectory = "gw-with-plugin/target/gw"
+ocBuildConfig.dockerFile = "gw-with-plugin/src/main/docker/Dockerfile"
+
+euJobConfig.ocBuildConfigs.add(ocBuildConfig)
 
 genericPipeline(buildConfig, euJobConfig)
 
