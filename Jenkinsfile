@@ -1,8 +1,8 @@
 @Library(['jueulib@feature/build_oc_pipeline', 'ju30lib@main']) _
 
 import at.gv.brz.justiz3.jenkins.JU30BuildConfig
-import at.gv.brz.jueu.job.JuEuConfiguration
-import at.gv.brz.jueu.job.config.JuEuOcBuildConfig
+import at.gv.brz.jueu.config.JuEuConfiguration
+import at.gv.brz.jueu.config.JuEuOcBuildConfig
 
 
 def buildConfig = new JU30BuildConfig()
