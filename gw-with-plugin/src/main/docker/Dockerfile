@@ -1,4 +1,5 @@
-FROM tomcat:9-jdk17
+#FROM tomcat:9-jdk17
+FROM centralrepo.apps.a3.cp.cna.at/brz-ju-images-poc-docker/jueu/tomcat:9-jdk17
 
 
 ENV DOMIBUS_CONFIG_LOCATION=${CATALINA_HOME}/conf/domibus/
