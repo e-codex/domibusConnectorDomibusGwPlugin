@@ -1,6 +1,5 @@
 package eu.domibus.init;
 
-import com.sun.tools.javac.util.List;
 import eu.domibus.api.property.DomibusPropertyProvider;
 import eu.domibus.api.user.plugin.AuthenticationEntity;
 import eu.domibus.api.user.plugin.PluginUserService;
@@ -18,6 +17,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class InitPluginUser {
@@ -65,7 +66,7 @@ public class InitPluginUser {
             e.setAuthRoles("ROLE_ADMIN");
             e.setActive(true);
 
-            pluginUserService.updateUsers(List.of(e), new ArrayList<>(), new ArrayList<>());
+            pluginUserService.updateUsers(Stream.of(e).collect(Collectors.toList()), new ArrayList<>(), new ArrayList<>());
             LOG.info("Default Plugin User has been created");
 
         } else {
